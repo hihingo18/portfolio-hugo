@@ -2,26 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { ExternalLinkIcon } from "@/components/icons/UIIcons";
 import type { Project } from "@/types";
-
-const ExternalLinkIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-    <g clipPath="url(#ext-clip)">
-      <path
-        d="M14 9.5V14.5C14 14.7761 13.7761 15 13.5 15H3.5C3.22386 15 3 14.7761 3 14.5V4.5C3 4.22386 3.22386 4 3.5 4H8.5M11 3H15M15 3V7M15 3L8 10"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </g>
-    <defs>
-      <clipPath id="ext-clip">
-        <rect fill="white" height="18" width="18" />
-      </clipPath>
-    </defs>
-  </svg>
-);
 
 interface ProjectCardProps {
   project: Project;
@@ -62,7 +44,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Project info overlay */}
-      <div className="absolute bottom-0 left-0 right-0 px-[25px] pt-4 pb-[20px]">
+      <div className="absolute bottom-0 left-0 right-0 px-6 pt-4 pb-5">
         {/* External link */}
         {project.link && (
           <a
@@ -78,7 +60,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         )}
         {/* Link label */}
         {project.link && (
-          <p className="font-light text-[16px] text-black mb-1 leading-[1.2]">
+          <p className="font-light text-base text-black mb-1 leading-[1.2]">
             Link to the platform
           </p>
         )}

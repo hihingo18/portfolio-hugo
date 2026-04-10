@@ -10,7 +10,7 @@ export default function Container({ children, className, id }: ContainerProps) {
   return (
     <section
       id={id}
-      className={cn("px-[80px] py-[80px] w-full", className)}
+      className={cn("px-20 py-20 w-full", className)}
     >
       {children}
     </section>

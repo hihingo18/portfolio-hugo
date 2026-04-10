@@ -57,16 +57,16 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Left panel — fixed 400px */}
-      <div className="fixed top-0 left-0 w-[400px] h-screen z-30 bg-white border-r border-[#f1f1f1]">
+      {/* Left panel — responsive: 22vw, capped between 280px–400px */}
+      <div className="fixed top-0 left-0 w-[22vw] min-w-[280px] max-w-[400px] h-screen z-30 bg-white border-r border-[#f1f1f1]">
         <Sidebar
           activeSection={activeSection}
           onNavClick={handleNavClick}
         />
       </div>
 
-      {/* Spacer — keeps document flow so right panel doesn't slide under sidebar */}
-      <div className="w-[400px] flex-shrink-0" />
+      {/* Spacer — mirrors sidebar width để giữ document flow */}
+      <div className="w-[22vw] min-w-[280px] max-w-[400px] flex-shrink-0" />
 
       {/* Right panel — 1520px scrollable content */}
       <main className="flex-1 min-h-screen">

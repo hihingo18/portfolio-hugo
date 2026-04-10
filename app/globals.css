@@ -1,54 +1,37 @@
+/* 1. Fonts — phải trước @import "tailwindcss" */
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Fira+Sans:ital,wght@0,100;0,300;0,400;1,300;1,400&display=swap');
 
+/* 2. Tailwind v4 — bắt buộc, load preflight + utilities + theme */
 @import "tailwindcss";
 
-/* ─── Design tokens ─── */
-:root {
-  --blue:       #020073;
-  --orange:     #FF6B35;
-  --bg:         #F6F9F7;
-  --text:       #1A1A1A;
-  --muted:      #777777;
-  --faint:      #BBBBBB;
-  --border:     #E0E0E0;
-  --divider:    #f1f1f1;
-  --sidebar-w:  400px;
+/* 3. Custom fonts + animations — Tailwind tự generate các utility class */
+@theme {
+  --font-sora: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-fira: 'Fira Sans', sans-serif;
+  --animate-gradient: gradient-animation 5s ease infinite;
+  --animate-gradient-slow: gradient-animation 7s ease infinite;
 }
 
-/* ─── Reset & base ─── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Keyframes cho animated gradient square (ref: briceclain.com .orange) */
+@keyframes gradient-animation {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* 4. Base overrides — trong @layer base để không conflict với utilities */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sora);
+    overflow-x: hidden;
+  }
 }
 
-body {
-  font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  background: #ffffff;
-  color: var(--text);
-  overflow-x: hidden;
-}
-
-/* ─── Scrollbar ─── */
-::-webkit-scrollbar         { width: 5px; }
-::-webkit-scrollbar-track   { background: transparent; }
-::-webkit-scrollbar-thumb   { background: var(--border); border-radius: 3px; }
-
-/* ─── Cursor blink for any typewriter ─── */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
-}
-.cursor-blink { animation: blink 1s step-end infinite; }
-
-/* ─── Utility ─── */
-.font-sora       { font-family: 'Sora', sans-serif; }
-.font-fira       { font-family: 'Fira Sans', sans-serif; }
+/* 4. Scrollbar — không conflict với utilities */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 3px; }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, FormEvent } from "react";
+import { ArrowLeftIcon } from "@/components/icons/UIIcons";
 
 interface ContactPanelProps {
   isOpen: boolean;
@@ -34,7 +35,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
       {/* Slide-in panel */}
       <div
-        className="fixed top-0 h-screen w-[728px] bg-[#f6f9f7] z-50 flex flex-col gap-[60px] pt-[20px] pb-[40px] overflow-y-auto transition-[right] duration-500"
+        className="fixed top-0 h-screen w-182 bg-[#f6f9f7] z-50 flex flex-col gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
         style={{
           right: isOpen ? "0px" : "-760px",
           boxShadow: "-4px 0 40px rgba(0,0,0,0.10)",
@@ -43,24 +44,16 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
         {/* Return button */}
         <button
           onClick={onClose}
-          className="flex items-center gap-2 px-[20px] cursor-pointer group self-start"
+          className="flex items-center gap-2 px-5 cursor-pointer group self-start"
         >
-          <span className="flex items-center justify-center w-[34px] h-[34px] rounded-full bg-black group-hover:bg-[#020073] transition-colors duration-200">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M15 18l-6-6 6-6"
-                stroke="white"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-          <span className="font-light text-[16px] text-black">Return</span>
+            <span className="flex items-center justify-center size-8.5 rounded-full bg-black group-hover:bg-[#020073] transition-colors duration-200 text-white">
+              <ArrowLeftIcon />
+            </span>
+          <span className="font-light text-base text-black">Return</span>
         </button>
 
         {/* Contact info */}
-        <div className="px-[20px] w-full border-b border-[#808080] pb-[23px] flex flex-col gap-[21px]">
+        <div className="px-5 w-full border-b border-[#808080] pb-6 flex flex-col gap-5">
           <p className="font-bold text-[18px] text-[#808080]">Contact</p>
           <a
             href="mailto:hihingo18@gmail.com"
@@ -77,48 +70,48 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
         </div>
 
         {/* Contact form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-[24px] px-[60px]">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-15">
           {/* Email input */}
-          <div className="w-full max-w-[608px]">
+          <div className="w-full max-w-152">
             <input
               type="email"
               placeholder="Your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full bg-white rounded-[10px] border border-[#020073] px-[16px] py-[16px] text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
+              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
             />
           </div>
 
           {/* Full name input */}
-          <div className="w-full max-w-[608px]">
+          <div className="w-full max-w-152">
             <input
               type="text"
               placeholder="Your full name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full bg-white rounded-[10px] border border-[#020073] px-[16px] py-[16px] text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
+              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
             />
           </div>
 
           {/* Message textarea */}
-          <div className="w-full max-w-[608px]">
+          <div className="w-full max-w-152">
             <textarea
               placeholder="How can I help you?"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required
               rows={5}
-              className="w-full bg-white rounded-[10px] border border-[#020073] px-[16px] py-[16px] text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200 resize-none h-[132px]"
+              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200 resize-none h-33"
             />
           </div>
 
           {/* Send button */}
-          <div className="flex justify-end max-w-[608px]">
+          <div className="flex justify-end max-w-152">
             <button
               type="submit"
-              className="bg-[#020073] text-[#f6f9f7] text-[20px] px-[32px] py-[16px] rounded-[5px] cursor-pointer hover:bg-black transition-colors duration-200 font-normal"
+              className="bg-[#020073] text-[#f6f9f7] text-xl px-8 py-4 rounded cursor-pointer hover:bg-black transition-colors duration-200 font-normal"
             >
               Send
             </button>
