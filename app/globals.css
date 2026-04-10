@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Fira+Sans:ital,wght@0,100;0,300;0,400;1,300;1,400&display=swap');
+
+@import "tailwindcss";
+
+/* ─── Design tokens ─── */
+:root {
+  --blue:       #020073;
+  --orange:     #FF6B35;
+  --bg:         #F6F9F7;
+  --text:       #1A1A1A;
+  --muted:      #777777;
+  --faint:      #BBBBBB;
+  --border:     #E0E0E0;
+  --divider:    #f1f1f1;
+  --sidebar-w:  400px;
+}
+
+/* ─── Reset & base ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  background: #ffffff;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar         { width: 5px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: var(--border); border-radius: 3px; }
+
+/* ─── Cursor blink for any typewriter ─── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.cursor-blink { animation: blink 1s step-end infinite; }
+
+/* ─── Utility ─── */
+.font-sora       { font-family: 'Sora', sans-serif; }
+.font-fira       { font-family: 'Fira Sans', sans-serif; }
