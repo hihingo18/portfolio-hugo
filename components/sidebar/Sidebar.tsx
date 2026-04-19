@@ -42,12 +42,12 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
     <aside className="w-full h-full bg-white flex flex-col items-center overflow-hidden pb-8">
       {/* Avatar — scale theo % chiều rộng sidebar */}
       <div className="w-full flex items-center justify-center">
-        <div className="relative overflow-hidden rounded-full w-[80%] aspect-square">
+        <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
           <Image
             src="/images/avatar.png"
             alt="Hugo"
             fill
-            className="object-cover"
+            className=""
             priority
           />
         </div>

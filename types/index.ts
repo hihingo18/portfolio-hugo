@@ -11,14 +11,18 @@ export interface Project {
   image: string;
   link?: string;
   cardBg: string;
+  role: string;
+  stack: string;
+  description: string;
 }
 
 export interface Testimonial {
   id: string;
   name: string;
   role: string;
-  company: string;
+  company?: string;
   quote: string;
+  proofImage?: string;
 }
 
 export interface SkillGroup {

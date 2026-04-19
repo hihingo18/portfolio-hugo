@@ -36,7 +36,7 @@ export default function HeroSection({ onWorkWithMeClick, projectsRef }: HeroSect
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#f1f1f1]" />
 
       {/* "Work with me" button — ref: briceclain #boutontr */}
-      <div className="absolute top-10 right-10 z-10">
+      <div className="fixed top-10 right-10 z-50">
         <button
           onClick={onWorkWithMeClick}
           onMouseEnter={() => setWorkHovered(true)}
@@ -156,7 +156,7 @@ export default function HeroSection({ onWorkWithMeClick, projectsRef }: HeroSect
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
-          className="font-light text-sm text-black italic mb-12 max-w-135 leading-relaxed"
+          className="font-semibold text-sm text-black italic mb-12 max-w-150 leading-relaxed"
         >
           Building scalable, high-quality products with strong engineering leadership.
         </motion.p>

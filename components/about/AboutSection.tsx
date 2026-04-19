@@ -65,9 +65,9 @@ export default function AboutSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <h2 className="font-bold text-5xl text-black leading-tight tracking-[-0.01em]">
-            HUGO
-          </h2>
+          <span className="font-bold text-5xl text-black leading-tight tracking-[-0.01em]">
+            HUGO 
+          </span> <span className="text-gray-400">(formerly Hieu Ngo)</span>
           <p className="font-normal text-[16.5px] text-black mb-0">
             Hanoi, Vietnam
           </p>
@@ -81,15 +81,11 @@ export default function AboutSection() {
           transition={{ duration: 0.7, delay: 0.1 }}
           className="mt-14"
         >
-          <h3 className="font-normal text-[32px] text-black leading-tight mb-4">
-            I design and develop websites that are both elegant, intuitive,
-            and accessible.
+          <h3 className="font-normal text-3xl text-black leading-tight mb-4">
+            Lead from the front.
           </h3>
-          <p className="font-light text-[22px] text-black leading-relaxed">
-            Driven by a deep passion for engineering and system design, I specialize
-            in harmonizing clean architecture with high-performing scalable systems.
-            This ensures effective intervention on all aspects of the project, without
-            intermediaries.
+          <p className="font-light text-2xl text-black leading-relaxed">
+            With 10+ years of hands-on experience as a Technical Lead and Full-stack Developer, I take ownership from the ground up—tackling complex challenges, driving solutions, and setting clear technical direction to deliver scalable, high-quality systems.
           </p>
         </motion.div>
 
@@ -101,14 +97,11 @@ export default function AboutSection() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="mt-14"
         >
-          <h3 className="font-normal text-[32px] text-black leading-tight mb-4">
-            I also specialize in creating your brand image: logo, banner, and
-            much more.
+          <h3 className="font-normal text-3xl text-black leading-tight mb-4">
+            Build systems that scale and last.
           </h3>
-          <p className="font-light text-[22px] text-black leading-relaxed">
-            From a simple idea, a unique brand identity and an exceptional website are
-            created. My clients appreciate my versatility and the quality of my work,
-            forged by significant experience in an agency.
+          <p className="font-light text-2xl text-black leading-relaxed">
+            Specializing in .NET, microservices, and cloud architecture, I design and lead end-to-end solutions across diverse domains, ensuring performance, reliability, and seamless collaboration for global teams and long-term business growth.
           </p>
         </motion.div>
 
@@ -121,7 +114,7 @@ export default function AboutSection() {
           className="mt-3.5"
         >
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/hieu-ngo-75b4b1301/"
             target="_blank"
             rel="noopener noreferrer"
             className="font-light text-[22px] text-black underline decoration-solid hover:text-[#020073] transition-colors duration-200"
