@@ -1,19 +1,10 @@
-import type { Metadata } from "next";
 import "./globals.css";
-
-export const metadata: Metadata = {
-  title: "Hugo — Technical Leader & Full-stack Developer",
-  description:
-    "Crafting scalable, high-quality products with strong engineering leadership. Based in Hanoi, Vietnam.",
-};
+import { sora, firaSans } from "@/lib/fonts";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
+    <html lang="en" className={`${sora.variable} ${firaSans.variable}`}>
+      <head></head>
       <body>{children}</body>
     </html>
   );

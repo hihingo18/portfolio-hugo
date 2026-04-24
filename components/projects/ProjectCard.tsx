@@ -1,22 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { ExternalLinkIcon } from "@/components/icons/UIIcons";
+import { memo, useState } from "react";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
   project: Project;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+function ProjectCard({ project }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false);
+  const hasLink = project.link && project.link !== "#";
 
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={() => hasLink && setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex flex-col h-full cursor-pointer select-none"
+      className={`flex flex-col h-full select-none ${hasLink ? "cursor-pointer" : "cursor-default"}`}
       style={{
         background: project.cardBg,
         boxShadow: hovered
@@ -26,9 +26,22 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         transition: "box-shadow 0.35s ease, transform 0.35s ease",
         borderRadius: "0px",
       }}
+      role={hasLink ? "button" : undefined}
+      tabIndex={hasLink ? 0 : -1}
+      onClick={() => {
+        if (hasLink && project.link) {
+          window.open(project.link, "_blank");
+        }
+      }}
+      onKeyDown={(e) => {
+        if (hasLink && (e.key === "Enter" || e.key === " ") && project.link) {
+          e.preventDefault();
+          window.open(project.link, "_blank");
+        }
+      }}
     >
       {/* Project image */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden">
+      <div className="relative w-full aspect-4/3 overflow-hidden">
         <Image
           src={project.image}
           alt={project.name}
@@ -67,3 +80,5 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     </div>
   );
 }
+
+export default memo(ProjectCard);

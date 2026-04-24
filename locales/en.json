@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "about": "About Me"
+  },
+  "hero": {
+    "greeting": "Hello, I'm",
+    "name": "Hugo!",
+    "rolePrefix": "I'm a",
+    "role": "Technical Leader",
+    "roleConnector": "and",
+    "roleSuffix": "Full-stack developer.",
+    "tagline": "Building scalable, high-quality products with strong engineering leadership.",
+    "learnMore": "Learn more",
+    "workWithMe": ["Work", "with me"]
+  },
+  "projects": {
+    "sectionTitle": "Selected projects",
+    "items": {
+      "centerbase": {
+        "name": ".Centerbase",
+        "image": "/images/centerbase.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
+        "type": "Law Firm Management Platform",
+        "role": "Technical Leader, Full-stack Developer",
+        "stack": ".NET 9 microservices, Next.js, SQL Server, Redis, Azure, GraphQL & Kafka.",
+        "description": "Centerbase is a web-based law firm management system for handling clients, matters, billing, payments, accounting, and reporting. It streamlines legal operations with a centralized platform, improving workflow efficiency, financial tracking, and data-driven decision-making."
+      },
+      "toshiba": {
+        "name": ".Toshiba",
+        "image": "/images/toshiba.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, #fbffde 50%, rgb(255,255,255) 100%)",
+        "type": "Enterprise CMS-based Web Platform",
+        "role": "Technical Project Management",
+        "stack": "Sitecore XP/XC 10, Oracle, SharePoint, ERP API, CI/CD, Tableau.",
+        "description": "Toshiba New Portal focuses on migrating Sitecore 9.x to 10.x while preserving existing business functionalities and implementing a modernized portal. The project establishes a scalable foundation for future Sitecore Commerce and B2B portal development, enhancing integration, reporting, and overall system performance."
+      },
+      "aspire": {
+        "name": ".Aspire",
+        "image": "/images/aspire.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgb(255,255,255) 0%, #ffe6c5 50%, rgb(255,255,255) 100%)",
+        "type": "Platform / SaaS Platform",
+        "role": "Technical Leader",
+        "stack": "ASP.NET MVC 6, EF6, Azure, Redis, JavaScript, Adyen, OAG/Mulesoft APIs, Google Maps & Analytics.",
+        "description": "Aspire Lifestyles is a scalable SaaS platform built on a reusable codebase, enabling rapid development and expansion of new business modules and services. It provides a global solution for booking two-way airport transfers with fixed pricing and professional drivers, operating across 16+ countries. Additionally, a dedicated portal was developed to manage accounting operations, including invoicing, payments, and customer credit, improving financial control and operational efficiency."
+      }
+    }
+  },
+  "testimonials": {
+    "sectionTitle": "They trusted my work ⭐",
+    "subtitle": "Real feedback from customers & team",
+    "highlight": {
+      "quotes": [
+        "Hieu who mapped pretty much the entire accounting ecosystem.",
+        "⭐ Special shout outs to Hieu Ngo for keeping the project on track amidst competing priorities."
+      ],
+      "author": "Jacquie West",
+      "role": "Product Manager",
+      "company": "Centerbase"
+    },
+    "items": {
+      "jordan": {
+        "name": "Jordan McGhee",
+        "role": "CFO",
+        "company": "KSA Attorneys",
+        "quote": "The backend redesign has made our system significantly more efficient. Reporting workflows are much faster."
+      },
+      "mckeen": {
+        "name": "McKeen Smith LLC",
+        "role": "Accounting User",
+        "company": "",
+        "quote": "Transactions now load very fast, even for large datasets. This is a big improvement to user experience."
+      },
+      "john": {
+        "name": "John Thacker",
+        "role": "Engineering Manager",
+        "company": "Centerbase",
+        "quote": "I'm impressed with the solid patterns and refactoring in your latest merge requests."
+      }
+    }
+  },
+  "about": {
+    "nameNote": "(formerly Hieu Ngo)",
+    "location": "Hanoi, Vietnam",
+    "block1Title": "Lead from the front.",
+    "block1Body": "With 10+ years of hands-on experience as a Technical Lead and Full-stack Developer, I take ownership from the ground up—tackling complex challenges, driving solutions, and setting clear technical direction to deliver scalable, high-quality systems.",
+    "block2Title": "Build systems that scale and last.",
+    "block2Body": "Specializing in .NET, microservices, and cloud architecture, I design and lead end-to-end solutions across diverse domains, ensuring performance, reliability, and seamless collaboration for global teams and long-term business growth.",
+    "linkedinLabel": "Discover my journey (LinkedIn)",
+    "skills": {
+      "backend": ".Backend & Infrastructure",
+      "frontend": ".Frontend"
+    }
+  },
+  "footer": {
+    "copy": "© Hugo"
+  },
+  "contact": {
+    "return": "Return",
+    "heading": "Contact",
+    "email": "hihingo18@gmail.com",
+    "phone": "(+84) 944 548 222",
+    "emailPlaceholder": "Your email",
+    "namePlaceholder": "Your full name",
+    "messagePlaceholder": "How can I help you?",
+    "send": "Send"
+  }
+}

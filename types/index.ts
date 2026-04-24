@@ -22,15 +22,7 @@ export interface Testimonial {
   role: string;
   company?: string;
   quote: string;
-  proofImage?: string;
 }
 
-export interface SkillGroup {
-  title: string;
-  icons: SkillIcon[];
-}
-
-export interface SkillIcon {
-  name: string;
-  svg: React.ReactNode;
-}
+export type SectionId = "home" | "projects" | "trust" | "about";
+export type NavId = "home" | "projects" | "about";

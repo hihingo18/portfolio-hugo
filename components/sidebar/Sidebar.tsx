@@ -2,52 +2,83 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { HomeIcon, ProjectsIcon, AboutIcon } from "@/components/icons/NavIcons";
 import { LinkedInIcon, InstagramIcon, TikTokIcon, BehanceIcon } from "@/components/icons/SocialIcons";
+import { useLocale } from "@/context/LocaleContext";
+import { LOCALE_PREFIX_PATTERN, SOCIAL_LINKS } from "@/lib/constants";
+import { COLORS, SHADOWS } from "@/lib/theme";
+import type { Locale } from "@/lib/i18n";
+import type { NavId, SectionId } from "@/types";
 
-type NavId = "home" | "projects" | "about";
+const SIDEBAR_MEASUREMENTS = {
+  navGap: "clamp(8px, 0.8vw, 16px)",
+  navMarginTop: "clamp(12px, 2vw, 40px)",
+  navFontSize: "clamp(14px, 1.1vw, 20px)",
+  navItemHeight: "clamp(44px, 3.2vw, 60px)",
+  navItemWidth: "clamp(150px, 10.5vw, 200px)",
+  navPadding: "clamp(10px, 0.8vw, 16px)",
+  iconWidth: "clamp(26px, 1.8vw, 36px)",
+  iconMargin: "clamp(8px, 0.7vw, 14px)",
+  langFontSize: "clamp(13px, 1vw, 18px)",
+  langGap: "clamp(4px, 0.4vw, 8px)",
+  langMarginBottom: "clamp(12px, 1.5vw, 24px)",
+  socialSize: "clamp(36px, 2.4vw, 48px)",
+  socialGridGap: "clamp(4px, 0.4vw, 8px)",
+  socialPadding: "clamp(6px, 0.5vw, 10px)",
+} as const;
 
-const NAV_ITEMS: { id: NavId; label: string }[] = [
-  { id: "home", label: "Home" },
-  { id: "projects", label: "Projects" },
-  { id: "about", label: "About Me" },
-];
+const NAV_ICONS: Record<NavId, typeof HomeIcon> = {
+  home: HomeIcon,
+  projects: ProjectsIcon,
+  about: AboutIcon,
+};
+
+const SOCIAL_ICONS: Record<string, typeof InstagramIcon> = {
+  instagram: InstagramIcon,
+  linkedin: LinkedInIcon,
+  tiktok: TikTokIcon,
+  behance: BehanceIcon,
+};
+
+const NAV_ORDER: NavId[] = ["home", "projects", "about"];
+
+function buildLocalizedPath(pathname: string, locale: Locale): string {
+  if (!pathname || pathname === "/") return `/${locale}`;
+
+  if (LOCALE_PREFIX_PATTERN.test(pathname)) {
+    return pathname.replace(LOCALE_PREFIX_PATTERN, `/${locale}`);
+  }
+
+  return `/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
+}
 
 interface SidebarProps {
-  activeSection: string;
-  onNavClick: (id: string) => void;
+  activeSection: SectionId;
+  onNavClick: (id: NavId) => void;
 }
 
 export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<NavId | null>(null);
+  const { dict, locale } = useLocale();
+  const pathname = usePathname();
 
-  // Tất cả kích thước scale theo vw (18vw sidebar, min 240px → max 340px)
-  const s = {
-    navFontSize:    "clamp(14px, 1.1vw, 20px)",
-    navItemHeight:  "clamp(44px, 3.2vw, 60px)",
-    navItemWidth:   "clamp(150px, 10.5vw, 200px)",
-    navPadding:     "clamp(10px, 0.8vw, 16px)",
-    navMarginTop:   "clamp(12px, 2vw, 40px)",
-    navGap:         "clamp(8px, 0.8vw, 16px)",
-    iconWidth:      "clamp(26px, 1.8vw, 36px)",
-    iconMargin:     "clamp(8px, 0.7vw, 14px)",
-    langFontSize:   "clamp(13px, 1vw, 18px)",
-    langGap:        "clamp(4px, 0.4vw, 8px)",
-    socialSize:     "clamp(36px, 2.4vw, 48px)",
-    socialGridGap:  "clamp(4px, 0.4vw, 8px)",
+  const switchLocale = (newLocale: Locale) => {
+    if (newLocale === locale) return;
+    document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
+    window.location.href = buildLocalizedPath(pathname, newLocale);
   };
 
   return (
     <aside className="w-full h-full bg-white flex flex-col items-center overflow-hidden pb-8">
-      {/* Avatar — scale theo % chiều rộng sidebar */}
+      {/* Avatar */}
       <div className="w-full flex items-center justify-center">
         <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
           <Image
             src="/images/avatar.png"
             alt="Hugo"
             fill
-            className=""
             priority
           />
         </div>
@@ -56,59 +87,57 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       {/* Navigation */}
       <nav
         className="flex flex-col flex-1 w-full items-center"
-        style={{ gap: s.navGap, marginTop: s.navMarginTop }}
+        style={{ gap: SIDEBAR_MEASUREMENTS.navGap, marginTop: SIDEBAR_MEASUREMENTS.navMarginTop }}
       >
-        {NAV_ITEMS.map((item) => {
-          const isActive = activeSection === item.id;
-          const IconComponent =
-            item.id === "home"
-              ? HomeIcon
-              : item.id === "projects"
-              ? ProjectsIcon
-              : AboutIcon;
+        {NAV_ORDER.map((id) => {
+          const isActive = activeSection === id;
+          const IconComponent = NAV_ICONS[id];
+          const label = dict.nav[id];
 
           return (
             <div
-              key={item.id}
+              key={id}
               className="flex items-center"
-              onMouseEnter={() => setHoveredId(item.id)}
+              onMouseEnter={() => setHoveredId(id)}
               onMouseLeave={() => setHoveredId(null)}
             >
-              {/* Icon */}
               <span
-                className="flex items-center justify-center flex-shrink-0"
-                style={{ width: s.iconWidth, marginRight: s.iconMargin }}
+                className="flex items-center justify-center shrink-0"
+                style={{ width: SIDEBAR_MEASUREMENTS.iconWidth, marginRight: SIDEBAR_MEASUREMENTS.iconMargin }}
               >
                 <IconComponent active={isActive} />
               </span>
 
               <button
-                onClick={() => onNavClick(item.id)}
+                onClick={() => onNavClick(id)}
                 className={cn(
-                  "relative flex items-center cursor-pointer transition-all duration-200 rounded",
-                  isActive && (hoveredId === null || hoveredId === item.id)
-                    ? "bg-[#f6f9f7] shadow-[inset_2px_0_0_#020073]"
-                    : isActive
-                    ? "bg-[#f6f9f7]"
-                    : hoveredId === item.id
-                    ? "bg-[#f6f9f7]/50 shadow-[inset_2px_0_0_#020073]"
-                    : ""
+                  "relative flex items-center cursor-pointer transition-all duration-200 rounded"
                 )}
                 style={{
-                  height: s.navItemHeight,
-                  width: s.navItemWidth,
-                  paddingLeft: s.navPadding,
-                  paddingRight: s.navPadding,
+                  height: SIDEBAR_MEASUREMENTS.navItemHeight,
+                  width: SIDEBAR_MEASUREMENTS.navItemWidth,
+                  paddingLeft: SIDEBAR_MEASUREMENTS.navPadding,
+                  paddingRight: SIDEBAR_MEASUREMENTS.navPadding,
+                  backgroundColor:
+                    isActive || hoveredId === id
+                      ? COLORS.background
+                      : "transparent",
+                  boxShadow:
+                    isActive && (hoveredId === null || hoveredId === id)
+                      ? SHADOWS.inset
+                      : hoveredId === id && !isActive
+                      ? `inset 2px 0 0 ${COLORS.primary}`
+                      : "none",
                 }}
               >
                 <span
                   className="font-bold whitespace-nowrap"
                   style={{
-                    fontSize: s.navFontSize,
-                    color: isActive ? "#020073" : "#1A1A1A",
+                    fontSize: SIDEBAR_MEASUREMENTS.navFontSize,
+                    color: isActive ? COLORS.primary : COLORS.text,
                   }}
                 >
-                  {item.label}
+                  {label}
                 </span>
               </button>
             </div>
@@ -119,51 +148,67 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       {/* Language switcher */}
       <div
         className="flex items-center h-full mt-5"
-        style={{ gap: s.langGap, marginBottom: "clamp(12px, 1.5vw, 24px)" }}
+        style={{
+          gap: SIDEBAR_MEASUREMENTS.langGap,
+          marginBottom: SIDEBAR_MEASUREMENTS.langMarginBottom,
+        }}
       >
         <button
-          className="font-bold cursor-pointer leading-none"
-          style={{ fontSize: s.langFontSize, color: "#020073" }}
+          onClick={() => switchLocale("en")}
+          className="cursor-pointer leading-none transition-all duration-200"
+          style={{
+            fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
+            color: locale === "en" ? COLORS.primary : COLORS.text,
+            fontWeight: locale === "en" ? 700 : 300,
+          }}
         >
           EN
         </button>
         <span
           className="font-light leading-none"
-          style={{ fontSize: s.langFontSize, color: "#1A1A1A" }}
+          style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: COLORS.text }}
         >
           /
         </span>
         <button
-          className="font-light cursor-pointer transition-colors duration-200 leading-none hover:text-[#020073]"
-          style={{ fontSize: s.langFontSize, color: "#1A1A1A" }}
+          onClick={() => switchLocale("vn")}
+          className="cursor-pointer leading-none transition-all duration-200"
+          style={{
+            fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
+            color: locale === "vn" ? COLORS.primary : COLORS.text,
+            fontWeight: locale === "vn" ? 700 : 300,
+          }}
         >
           VN
         </button>
       </div>
 
-      {/* Social icons — 2×2 grid */}
+      {/* Social icons */}
       <div
         className="grid grid-cols-2 items-center justify-items-center"
-        style={{ gap: s.socialGridGap }}
+        style={{ gap: SIDEBAR_MEASUREMENTS.socialGridGap }}
       >
-        {[
-          { href: "https://instagram.com", label: "Instagram", Icon: InstagramIcon },
-          { href: "https://linkedin.com",  label: "LinkedIn",  Icon: LinkedInIcon  },
-          { href: "https://tiktok.com",    label: "TikTok",    Icon: TikTokIcon    },
-          { href: "https://behance.net",   label: "Behance",   Icon: BehanceIcon   },
-        ].map(({ href, label, Icon }) => (
+        {SOCIAL_LINKS.map(({ id, href, label }) => {
+          const Icon = SOCIAL_ICONS[id];
+
+          return (
           <a
             key={label}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center hover:opacity-60 transition-opacity duration-200"
-            style={{ width: s.socialSize, height: s.socialSize, padding: "clamp(6px, 0.5vw, 10px)" }}
+            style={{
+              width: SIDEBAR_MEASUREMENTS.socialSize,
+              height: SIDEBAR_MEASUREMENTS.socialSize,
+              padding: SIDEBAR_MEASUREMENTS.socialPadding,
+            }}
             aria-label={label}
           >
             <Icon />
           </a>
-        ))}
+          );
+        })}
       </div>
     </aside>
   );

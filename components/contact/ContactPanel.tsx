@@ -2,25 +2,97 @@
 
 import { useState, FormEvent } from "react";
 import { ArrowLeftIcon } from "@/components/icons/UIIcons";
+import { Button, Input, Textarea } from "@/components/ui";
+import { useLocale } from "@/context/LocaleContext";
+import { FORM_CONSTRAINTS } from "@/lib/constants";
+import { COLORS } from "@/lib/theme";
 
 interface ContactPanelProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
+  const { dict } = useLocale();
+  const c = dict.contact;
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  // Validation
+  const validateForm = (): boolean => {
+    if (!email || !FORM_CONSTRAINTS.email.pattern.test(email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    if (!name || name.length < FORM_CONSTRAINTS.name.minLength) {
+      setError("Name must be at least 2 characters");
+      return false;
+    }
+    if (!message || message.length < FORM_CONSTRAINTS.message.minLength) {
+      setError("Message must be at least 10 characters");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: wire up to email API when backend is ready
-    console.log("Contact form submitted:", { email, name, message });
-    setEmail("");
-    setName("");
-    setMessage("");
-    onClose();
+    setError(null);
+    setSuccessMessage(null);
+
+    // Validate
+    if (!validateForm()) {
+      return;
+    }
+
+    setStatus("loading");
+
+    try {
+      // Call API endpoint
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, name, message }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Success
+      setStatus("success");
+      setSuccessMessage(data.message || "Message sent successfully! I'll get back to you soon.");
+      
+      // Clear form
+      setEmail("");
+      setName("");
+      setMessage("");
+
+      // Close after 2 seconds
+      setTimeout(() => {
+        onClose();
+        setStatus("idle");
+        setSuccessMessage(null);
+      }, 2000);
+    } catch (err) {
+      setStatus("error");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to send message. Please try again."
+      );
+      console.error("[ContactPanel] Error:", err);
+    }
   };
 
   return (
@@ -49,72 +121,102 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
             <span className="flex items-center justify-center size-8.5 rounded-full bg-black group-hover:bg-[#020073] transition-colors duration-200 text-white">
               <ArrowLeftIcon />
             </span>
-          <span className="font-light text-base text-black">Return</span>
+          <span className="font-light text-base text-black">{c.return}</span>
         </button>
 
         {/* Contact info */}
         <div className="px-5 w-full border-b border-[#808080] pb-6 flex flex-col gap-5">
-          <p className="font-bold text-[18px] text-[#808080]">Contact</p>
+          <p className="font-bold text-[18px] text-[#808080]">{c.heading}</p>
           <a
-            href="mailto:hihingo18@gmail.com"
+            href={`mailto:${c.email}`}
             className="font-normal text-[22px] text-black hover:text-[#020073] transition-colors duration-200"
           >
-            hihingo18@gmail.com
+            {c.email}
           </a>
           <a
-            href="tel:+84944548222"
+            href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}
             className="font-normal text-[22px] text-black hover:text-[#020073] transition-colors duration-200"
           >
-            (+84) 944 548 222
+            {c.phone}
           </a>
         </div>
 
         {/* Contact form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-15">
-          {/* Email input */}
+          {/* Status Messages */}
+          {error && (
+            <div
+              className="w-full max-w-152 p-4 rounded-lg border-l-4"
+              style={{ borderColor: COLORS.error, backgroundColor: `${COLORS.error}15` }}
+            >
+              <p style={{ color: COLORS.error }} className="text-sm font-medium">
+                {error}
+              </p>
+            </div>
+          )}
+
+          {successMessage && (
+            <div
+              className="w-full max-w-152 p-4 rounded-lg border-l-4"
+              style={{ borderColor: COLORS.success, backgroundColor: `${COLORS.success}15` }}
+            >
+              <p style={{ color: COLORS.success }} className="text-sm font-medium">
+                {successMessage}
+              </p>
+            </div>
+          )}
+
           <div className="w-full max-w-152">
-            <input
+            <Input
               type="email"
-              placeholder="Your email"
+              label={c.emailPlaceholder}
+              placeholder={c.emailPlaceholder}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError(null);
+              }}
+              disabled={status === "loading"}
               required
-              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
             />
           </div>
 
-          {/* Full name input */}
           <div className="w-full max-w-152">
-            <input
+            <Input
               type="text"
-              placeholder="Your full name"
+              label={c.namePlaceholder}
+              placeholder={c.namePlaceholder}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value);
+                setError(null);
+              }}
+              disabled={status === "loading"}
               required
-              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
             />
           </div>
 
-          {/* Message textarea */}
           <div className="w-full max-w-152">
-            <textarea
-              placeholder="How can I help you?"
+            <Textarea
+              label={c.messagePlaceholder}
+              placeholder={c.messagePlaceholder}
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                setError(null);
+              }}
+              disabled={status === "loading"}
               required
               rows={5}
-              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200 resize-none h-33"
+              className="h-33"
             />
           </div>
 
           {/* Send button */}
           <div className="flex justify-end max-w-152">
-            <button
-              type="submit"
-              className="bg-[#020073] text-[#f6f9f7] text-xl px-8 py-4 rounded cursor-pointer hover:bg-black transition-colors duration-200 font-normal"
-            >
-              Send
-            </button>
+            <Button type="submit" size="lg" isLoading={status === "loading"}>
+              {status === "loading" ? "Sending..." : c.send}
+            </Button>
           </div>
         </form>
       </div>

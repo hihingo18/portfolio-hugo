@@ -1,13 +1,8 @@
-/* 1. Fonts — phải trước @import "tailwindcss" */
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=Fira+Sans:ital,wght@0,100;0,300;0,400;1,300;1,400&display=swap');
-
-/* 2. Tailwind v4 — bắt buộc, load preflight + utilities + theme */
+/* 1. Tailwind v4 — bắt buộc, load preflight + utilities + theme */
 @import "tailwindcss";
 
-/* 3. Custom fonts + animations — Tailwind tự generate các utility class */
+/* 2. Custom animations — Tailwind tự generate các utility class */
 @theme {
-  --font-sora: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-fira: 'Fira Sans', sans-serif;
   --animate-gradient: gradient-animation 5s ease infinite;
   --animate-gradient-slow: gradient-animation 7s ease infinite;
 }

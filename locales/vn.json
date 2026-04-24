@@ -1,0 +1,109 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "projects": "Dự án",
+    "about": "Về tôi"
+  },
+  "hero": {
+    "greeting": "Xin chào, tôi là",
+    "name": "Hugo!",
+    "rolePrefix": "Tôi là",
+    "role": "Technical Leader",
+    "roleConnector": "và",
+    "roleSuffix": "Full-stack developer.",
+    "tagline": "Xây dựng sản phẩm chất lượng cao, có khả năng mở rộng với năng lực lãnh đạo kỹ thuật vững chắc.",
+    "learnMore": "Khám phá thêm",
+    "workWithMe": ["Hợp tác", "cùng tôi"]
+  },
+  "projects": {
+    "sectionTitle": "Dự án tiêu biểu ★",
+    "items": {
+      "centerbase": {
+        "name": ".Centerbase",
+        "image": "/images/centerbase.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
+        "type": "Nền tảng quản lý công ty luật",
+        "role": "Technical Leader, Full-stack Developer",
+        "stack": ".NET 9 microservices, Next.js, SQL Server, Redis, Azure, GraphQL & Kafka.",
+        "description": "Centerbase là hệ thống quản lý công ty luật trực tuyến, xử lý khách hàng, vụ việc, thanh toán, kế toán và báo cáo. Nền tảng giúp tối ưu hóa quy trình pháp lý, cải thiện hiệu quả làm việc và hỗ trợ ra quyết định dựa trên dữ liệu."
+      },
+      "toshiba": {
+        "name": ".Toshiba",
+        "image": "/images/toshiba.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, #fbffde 50%, rgb(255,255,255) 100%)",
+        "type": "Nền tảng web doanh nghiệp dựa trên CMS",
+        "role": "Quản lý dự án kỹ thuật",
+        "stack": "Sitecore XP/XC 10, Oracle, SharePoint, ERP API, CI/CD, Tableau.",
+        "description": "Dự án Toshiba New Portal tập trung vào việc nâng cấp Sitecore 9.x lên 10.x, đồng thời hiện đại hóa cổng thông tin. Dự án tạo nền tảng vững chắc cho Sitecore Commerce và phát triển cổng B2B, nâng cao khả năng tích hợp và hiệu suất hệ thống."
+      },
+      "aspire": {
+        "name": ".Aspire",
+        "image": "/images/aspire.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgb(255,255,255) 0%, #ffe6c5 50%, rgb(255,255,255) 100%)",
+        "type": "Nền tảng / SaaS",
+        "role": "Technical Leader",
+        "stack": "ASP.NET MVC 6, EF6, Azure, Redis, JavaScript, Adyen, OAG/Mulesoft APIs, Google Maps & Analytics.",
+        "description": "Aspire Lifestyles là nền tảng SaaS có khả năng mở rộng, cho phép phát triển nhanh các mô-đun dịch vụ mới. Cung cấp giải pháp toàn cầu đặt xe sân bay hai chiều với giá cố định, hoạt động tại 16+ quốc gia. Cổng kế toán chuyên biệt quản lý hóa đơn, thanh toán và tín dụng khách hàng."
+      }
+    }
+  },
+  "testimonials": {
+    "sectionTitle": "Họ tin tưởng công việc của tôi ⭐",
+    "subtitle": "Phản hồi thực từ khách hàng & đồng nghiệp",
+    "highlight": {
+      "quotes": [
+        "Hieu who mapped pretty much the entire accounting ecosystem.",
+        "⭐ Special shout outs to Hieu Ngo for keeping the project on track amidst competing priorities."
+      ],
+      "author": "Jacquie West",
+      "role": "Product Manager",
+      "company": "Centerbase"
+    },
+    "items": {
+      "jordan": {
+        "name": "Jordan McGhee",
+        "role": "CFO",
+        "company": "KSA Attorneys",
+        "quote": "The backend redesign has made our system significantly more efficient. Reporting workflows are much faster."
+      },
+      "mckeen": {
+        "name": "McKeen Smith LLC",
+        "role": "Accounting User",
+        "company": "",
+        "quote": "Transactions now load very fast, even for large datasets. This is a big improvement to user experience."
+      },
+      "john": {
+        "name": "John Thacker",
+        "role": "Engineering Manager",
+        "company": "Centerbase",
+        "quote": "I'm impressed with the solid patterns and refactoring in your latest merge requests."
+      }
+    }
+  },
+  "about": {
+    "nameNote": "(tên thật: Hiếu Ngô)",
+    "location": "Hà Nội, Việt Nam",
+    "block1Title": "Dẫn đầu từ thực chiến.",
+    "block1Body": "Với hơn 10 năm kinh nghiệm thực tế với tư cách là Technical Lead và Full-stack Developer, tôi chủ động từ đầu—giải quyết các thách thức phức tạp, thúc đẩy giải pháp và định hướng kỹ thuật rõ ràng để xây dựng các hệ thống chất lượng cao, có khả năng mở rộng.",
+    "block2Title": "Xây dựng hệ thống mở rộng và bền vững.",
+    "block2Body": "Chuyên về .NET, microservices và kiến trúc cloud, tôi thiết kế và dẫn dắt các giải pháp end-to-end trên nhiều lĩnh vực, đảm bảo hiệu suất, độ tin cậy và cộng tác hiệu quả cho các nhóm toàn cầu và tăng trưởng kinh doanh dài hạn.",
+    "linkedinLabel": "Khám phá hành trình của tôi (LinkedIn)",
+    "skills": {
+      "backend": ".Backend & Hạ tầng",
+      "frontend": ".Frontend"
+    }
+  },
+  "footer": {
+    "copy": "© Hugo"
+  },
+  "contact": {
+    "return": "Quay lại",
+    "heading": "Liên hệ",
+    "email": "hihingo18@gmail.com",
+    "phone": "(+84) 944 548 222",
+    "emailPlaceholder": "Email của bạn",
+    "namePlaceholder": "Họ và tên",
+    "messagePlaceholder": "Tôi có thể giúp gì cho bạn?",
+    "send": "Gửi"
+  }
+}
