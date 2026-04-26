@@ -4,8 +4,9 @@ import { useState, FormEvent } from "react";
 import { ArrowLeftIcon } from "@/components/icons/UIIcons";
 import { Button, Input, Textarea } from "@/components/ui";
 import { useLocale } from "@/context/LocaleContext";
+import { useTheme } from "@/context/ThemeContext";
 import { FORM_CONSTRAINTS } from "@/lib/constants";
-import { COLORS } from "@/lib/theme";
+import { COLORS, DARK_COLORS } from "@/lib/theme";
 
 interface ContactPanelProps {
   isOpen: boolean;
@@ -16,8 +17,13 @@ type FormStatus = "idle" | "loading" | "success" | "error";
 
 export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
   const { dict } = useLocale();
+  const { theme } = useTheme();
   const c = dict.contact;
+  const isDark = theme === "dark";
+  const colors = isDark ? DARK_COLORS : COLORS;
   const [returnHovered, setReturnHovered] = useState(false);
+  const [emailLinkHovered, setEmailLinkHovered] = useState(false);
+  const [phoneLinkHovered, setPhoneLinkHovered] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -47,7 +53,6 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
     setError(null);
     setSuccessMessage(null);
 
-    // Validate
     if (!validateForm()) {
       return;
     }
@@ -55,7 +60,6 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
     setStatus("loading");
 
     try {
-      // Call API endpoint
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
@@ -70,16 +74,13 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
       const data = await response.json();
 
-      // Success
       setStatus("success");
       setSuccessMessage(data.message || "Message sent successfully! I'll get back to you soon.");
-      
-      // Clear form
+
       setEmail("");
       setName("");
       setMessage("");
 
-      // Close after 2 seconds
       setTimeout(() => {
         onClose();
         setStatus("idle");
@@ -96,6 +97,9 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
     }
   };
 
+  const errorColor = colors.error;
+  const successColor = colors.success;
+
   return (
     <>
       {/* Backdrop */}
@@ -108,9 +112,10 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
       {/* Slide-in panel */}
       <div
-        className="fixed top-0 h-screen w-182 bg-[#f6f9f7] z-50 flex flex-col gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
+        className="fixed top-0 h-screen w-182 z-50 flex flex-col gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
         style={{
           right: isOpen ? "0px" : "-760px",
+          backgroundColor: isDark ? "#141414" : "#f6f9f7",
           boxShadow: "-4px 0 40px rgba(0,0,0,0.10)",
         }}
       >
@@ -123,25 +128,35 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
         >
           <span
             className="flex items-center justify-center size-8.5 rounded-full text-white transition-colors duration-200"
-            style={{ backgroundColor: returnHovered ? "#020073" : "#000000" }}
+            style={{
+              backgroundColor: returnHovered
+                ? (isDark ? "#6b9fff" : "#020073")
+                : (isDark ? "#2a2a2a" : "#000000"),
+            }}
           >
             <ArrowLeftIcon />
           </span>
-          <span className="font-light text-base text-black">{c.return}</span>
+          <span className="font-light text-base text-black dark:text-gray-200">{c.return}</span>
         </button>
 
         {/* Contact info */}
-        <div className="px-5 w-full border-b border-[#808080] pb-6 flex flex-col gap-5">
-          <p className="font-bold text-[18px] text-[#808080]">{c.heading}</p>
+        <div className="px-5 w-full border-b border-[#808080] dark:border-[#3a3a3a] pb-6 flex flex-col gap-5">
+          <p className="font-bold text-[18px] text-[#808080] dark:text-[#a0a0a0]">{c.heading}</p>
           <a
             href={`mailto:${c.email}`}
-            className="font-normal text-[22px] text-black hover:text-[#020073] transition-colors duration-200"
+            onMouseEnter={() => setEmailLinkHovered(true)}
+            onMouseLeave={() => setEmailLinkHovered(false)}
+            className="font-normal text-[22px] transition-colors duration-200"
+            style={{ color: emailLinkHovered ? colors.primary : colors.text }}
           >
             {c.email}
           </a>
           <a
             href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}
-            className="font-normal text-[22px] text-black hover:text-[#020073] transition-colors duration-200"
+            onMouseEnter={() => setPhoneLinkHovered(true)}
+            onMouseLeave={() => setPhoneLinkHovered(false)}
+            className="font-normal text-[22px] transition-colors duration-200"
+            style={{ color: phoneLinkHovered ? colors.primary : colors.text }}
           >
             {c.phone}
           </a>
@@ -153,9 +168,9 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
           {error && (
             <div
               className="w-full max-w-152 p-4 rounded-lg border-l-4"
-              style={{ borderColor: COLORS.error, backgroundColor: `${COLORS.error}15` }}
+              style={{ borderColor: errorColor, backgroundColor: `${errorColor}15` }}
             >
-              <p style={{ color: COLORS.error }} className="text-sm font-medium">
+              <p style={{ color: errorColor }} className="text-sm font-medium">
                 {error}
               </p>
             </div>
@@ -164,9 +179,9 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
           {successMessage && (
             <div
               className="w-full max-w-152 p-4 rounded-lg border-l-4"
-              style={{ borderColor: COLORS.success, backgroundColor: `${COLORS.success}15` }}
+              style={{ borderColor: successColor, backgroundColor: `${successColor}15` }}
             >
-              <p style={{ color: COLORS.success }} className="text-sm font-medium">
+              <p style={{ color: successColor }} className="text-sm font-medium">
                 {successMessage}
               </p>
             </div>

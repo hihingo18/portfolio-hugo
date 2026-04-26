@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { memo, useState } from "react";
+import { useTheme } from "@/context/ThemeContext";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
@@ -10,6 +11,8 @@ interface ProjectCardProps {
 
 function ProjectCard({ project }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   const hasLink = project.link && project.link !== "#";
 
   return (
@@ -18,7 +21,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       onMouseLeave={() => setHovered(false)}
       className={`flex flex-col h-full select-none ${hasLink ? "cursor-pointer" : "cursor-default"}`}
       style={{
-        background: project.cardBg,
+        background: isDark ? "#1a1a1a" : project.cardBg,
         boxShadow: hovered
           ? "0 16px 48px rgba(0,0,0,0.10)"
           : "0 4px 16px rgba(0,0,0,0.06)",
@@ -57,23 +60,23 @@ function ProjectCard({ project }: ProjectCardProps) {
 
       {/* Project info */}
       <div className="flex-1 px-6 pt-4 pb-5 mt-4">
-        <p className="font-light text-2xl text-black leading-tight">
+        <p className="font-light text-2xl text-black dark:text-white leading-tight">
           {project.name}
         </p>
 
-        <p className="font-light text-xs text-black opacity-70 mt-1">
+        <p className="font-light text-xs text-black dark:text-gray-300 opacity-70 mt-1">
           {project.type}
         </p>
 
-        <p className="font-light text-xs text-black opacity-70 mt-1">
+        <p className="font-light text-xs text-black dark:text-gray-300 opacity-70 mt-1">
           {project.role}
         </p>
 
-        <p className="font-light text-sm text-black opacity-70 mt-5">
+        <p className="font-light text-sm text-black dark:text-gray-300 opacity-70 mt-5">
           {project.stack}
         </p>
 
-        <p className="font-light text-sm text-black opacity-70 mt-5">
+        <p className="font-light text-sm text-black dark:text-gray-300 opacity-70 mt-5">
           {project.description}
         </p>
       </div>

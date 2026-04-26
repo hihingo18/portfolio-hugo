@@ -24,7 +24,7 @@ export default function PageContent() {
   return (
     <>
       {/* Left panel */}
-      <div className="fixed top-0 left-0 w-[22vw] min-w-70 max-w-100 h-screen z-30 bg-white border-r border-[#f1f1f1]">
+      <div className="fixed top-0 left-0 w-[22vw] min-w-70 max-w-100 h-screen z-30 bg-white dark:bg-[#0f0f0f] border-r border-[#f1f1f1] dark:border-[#2a2a2a]">
         <Sidebar activeSection={activeSection} onNavClick={handleNavClick} />
       </div>
 

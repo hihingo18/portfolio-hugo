@@ -8,7 +8,7 @@
     "greeting": "Xin chào, tôi là",
     "name": "Hugo!",
     "rolePrefix": "Tôi là",
-    "role": "Technical Leader",
+    "role": "Technical Lead",
     "roleConnector": "và",
     "roleSuffix": "Full-stack developer.",
     "tagline": "Xây dựng sản phẩm chất lượng cao, có khả năng mở rộng với năng lực lãnh đạo kỹ thuật vững chắc.",
@@ -23,7 +23,7 @@
         "image": "/images/centerbase.jpg",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
         "type": "Nền tảng quản lý công ty luật",
-        "role": "Technical Leader, Full-stack Developer",
+        "role": "Technical Lead, Full-stack Developer",
         "stack": ".NET 9 microservices, Next.js, SQL Server, Redis, Azure, GraphQL & Kafka.",
         "description": "Centerbase là hệ thống quản lý công ty luật trực tuyến, xử lý khách hàng, vụ việc, thanh toán, kế toán và báo cáo. Nền tảng giúp tối ưu hóa quy trình pháp lý, cải thiện hiệu quả làm việc và hỗ trợ ra quyết định dựa trên dữ liệu."
       },
@@ -41,7 +41,7 @@
         "image": "/images/aspire.jpg",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgb(255,255,255) 0%, #ffe6c5 50%, rgb(255,255,255) 100%)",
         "type": "Nền tảng / SaaS",
-        "role": "Technical Leader",
+        "role": "Technical Lead",
         "stack": "ASP.NET MVC 6, EF6, Azure, Redis, JavaScript, Adyen, OAG/Mulesoft APIs, Google Maps & Analytics.",
         "description": "Aspire Lifestyles là nền tảng SaaS có khả năng mở rộng, cho phép phát triển nhanh các mô-đun dịch vụ mới. Cung cấp giải pháp toàn cầu đặt xe sân bay hai chiều với giá cố định, hoạt động tại 16+ quốc gia. Cổng kế toán chuyên biệt quản lý hóa đơn, thanh toán và tín dụng khách hàng."
       }

@@ -19,10 +19,10 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="w-full h-screen bg-white pt-0 pb-0 relative z-10 shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+      className="w-full h-screen bg-white dark:bg-[#0f0f0f] pt-0 pb-0 relative z-10 shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
     >
       {/* Section heading */}
-      <div className="px-20 pt-2.5 pb-0 bg-white">
+      <div className="px-20 pt-2.5 pb-0 bg-white dark:bg-[#0f0f0f]">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -30,10 +30,10 @@ export default function ProjectsSection() {
           transition={{ duration: 0.6 }}
           className="flex items-center gap-2 py-10"
         >
-          <h2 className="font-bold text-[42px] text-black tracking-[-0.01em]">
+          <h2 className="font-bold text-[42px] text-black dark:text-white tracking-[-0.01em]">
             {p.sectionTitle}
           </h2>
-          <span className="ml-1">
+          <span className="ml-1 text-black dark:text-white">
             <StarIcon />
           </span>
         </motion.div>

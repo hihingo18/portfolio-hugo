@@ -6,9 +6,11 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { HomeIcon, ProjectsIcon, AboutIcon } from "@/components/icons/NavIcons";
 import { LinkedInIcon, InstagramIcon, TikTokIcon, BehanceIcon } from "@/components/icons/SocialIcons";
+import { SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
+import { useTheme } from "@/context/ThemeContext";
 import { LOCALE_PREFIX_PATTERN, SOCIAL_LINKS } from "@/lib/constants";
-import { COLORS, SHADOWS } from "@/lib/theme";
+import { COLORS, DARK_COLORS, SHADOWS, DARK_SHADOWS } from "@/lib/theme";
 import type { Locale } from "@/lib/i18n";
 import type { NavId, SectionId } from "@/types";
 
@@ -62,7 +64,14 @@ interface SidebarProps {
 export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
   const [hoveredId, setHoveredId] = useState<NavId | null>(null);
   const { dict, locale } = useLocale();
+  const { theme, toggle } = useTheme();
   const pathname = usePathname();
+
+  const isDark = theme === "dark";
+  const colors = isDark ? DARK_COLORS : COLORS;
+  const shadows = isDark ? DARK_SHADOWS : SHADOWS;
+  const navIconActiveColor = isDark ? DARK_COLORS.primary : COLORS.primary;
+  const navIconDefaultColor = isDark ? "#e0e0e0" : "black";
 
   const switchLocale = (newLocale: Locale) => {
     if (newLocale === locale) return;
@@ -71,7 +80,10 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
   };
 
   return (
-    <aside className="w-full h-full bg-white flex flex-col items-center overflow-hidden pb-8">
+    <aside
+      className="w-full h-full flex flex-col items-center overflow-hidden pb-8"
+      style={{ backgroundColor: isDark ? "#0f0f0f" : "#ffffff" }}
+    >
       {/* Avatar */}
       <div className="w-full flex items-center justify-center">
         <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
@@ -105,7 +117,11 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
                 className="flex items-center justify-center shrink-0"
                 style={{ width: SIDEBAR_MEASUREMENTS.iconWidth, marginRight: SIDEBAR_MEASUREMENTS.iconMargin }}
               >
-                <IconComponent active={isActive} />
+                <IconComponent
+                  active={isActive}
+                  activeColor={navIconActiveColor}
+                  defaultColor={navIconDefaultColor}
+                />
               </span>
 
               <button
@@ -120,13 +136,13 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
                   paddingRight: SIDEBAR_MEASUREMENTS.navPadding,
                   backgroundColor:
                     isActive || hoveredId === id
-                      ? COLORS.background
+                      ? colors.background
                       : "transparent",
                   boxShadow:
                     isActive && (hoveredId === null || hoveredId === id)
-                      ? SHADOWS.inset
+                      ? shadows.inset
                       : hoveredId === id && !isActive
-                      ? `inset 2px 0 0 ${COLORS.primary}`
+                      ? `inset 2px 0 0 ${colors.primary}`
                       : "none",
                 }}
               >
@@ -134,7 +150,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
                   className="font-bold whitespace-nowrap"
                   style={{
                     fontSize: SIDEBAR_MEASUREMENTS.navFontSize,
-                    color: isActive ? COLORS.primary : COLORS.text,
+                    color: isActive ? colors.primary : colors.text,
                   }}
                 >
                   {label}
@@ -158,7 +174,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
           className="cursor-pointer leading-none transition-all duration-200"
           style={{
             fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-            color: locale === "en" ? COLORS.primary : COLORS.text,
+            color: locale === "en" ? colors.primary : colors.text,
             fontWeight: locale === "en" ? 700 : 300,
           }}
         >
@@ -166,7 +182,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
         </button>
         <span
           className="font-light leading-none"
-          style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: COLORS.text }}
+          style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: colors.text }}
         >
           /
         </span>
@@ -175,13 +191,23 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
           className="cursor-pointer leading-none transition-all duration-200"
           style={{
             fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-            color: locale === "vn" ? COLORS.primary : COLORS.text,
+            color: locale === "vn" ? colors.primary : colors.text,
             fontWeight: locale === "vn" ? 700 : 300,
           }}
         >
           VN
         </button>
       </div>
+
+      {/* Theme toggle */}
+      <button
+        onClick={toggle}
+        className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-3"
+        style={{ color: colors.text }}
+        aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        {isDark ? <SunIcon /> : <MoonIcon />}
+      </button>
 
       {/* Social icons */}
       <div
@@ -192,21 +218,22 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
           const Icon = SOCIAL_ICONS[id];
 
           return (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center hover:opacity-60 transition-opacity duration-200"
-            style={{
-              width: SIDEBAR_MEASUREMENTS.socialSize,
-              height: SIDEBAR_MEASUREMENTS.socialSize,
-              padding: SIDEBAR_MEASUREMENTS.socialPadding,
-            }}
-            aria-label={label}
-          >
-            <Icon />
-          </a>
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center hover:opacity-60 transition-opacity duration-200"
+              style={{
+                width: SIDEBAR_MEASUREMENTS.socialSize,
+                height: SIDEBAR_MEASUREMENTS.socialSize,
+                padding: SIDEBAR_MEASUREMENTS.socialPadding,
+                color: isDark ? "#e0e0e0" : "#000000",
+              }}
+              aria-label={label}
+            >
+              <Icon />
+            </a>
           );
         })}
       </div>

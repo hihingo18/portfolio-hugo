@@ -15,13 +15,13 @@ export async function generateMetadata({
   const { locale } = await params;
   if (locale === "vn") {
     return {
-      title: "Hugo — Technical Leader & Full-stack Developer",
+      title: "Hugo — Technical Lead & Full-stack Developer",
       description:
         "Xây dựng sản phẩm chất lượng cao, có khả năng mở rộng với năng lực lãnh đạo kỹ thuật vững chắc. Đặt tại Hà Nội, Việt Nam.",
     };
   }
   return {
-    title: "Hugo — Technical Leader & Full-stack Developer",
+    title: "Hugo — Technical Lead & Full-stack Developer",
     description:
       "Crafting scalable, high-quality products with strong engineering leadership. Based in Hanoi, Vietnam.",
   };
