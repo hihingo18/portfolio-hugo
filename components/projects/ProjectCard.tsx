@@ -14,7 +14,7 @@ function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <div
-      onMouseEnter={() => hasLink && setHovered(true)}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={`flex flex-col h-full select-none ${hasLink ? "cursor-pointer" : "cursor-default"}`}
       style={{

@@ -17,6 +17,7 @@ type FormStatus = "idle" | "loading" | "success" | "error";
 export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
   const { dict } = useLocale();
   const c = dict.contact;
+  const [returnHovered, setReturnHovered] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -116,11 +117,16 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
         {/* Return button */}
         <button
           onClick={onClose}
-          className="flex items-center gap-2 px-5 cursor-pointer group self-start"
+          onMouseEnter={() => setReturnHovered(true)}
+          onMouseLeave={() => setReturnHovered(false)}
+          className="flex items-center gap-2 px-5 cursor-pointer self-start"
         >
-            <span className="flex items-center justify-center size-8.5 rounded-full bg-black group-hover:bg-[#020073] transition-colors duration-200 text-white">
-              <ArrowLeftIcon />
-            </span>
+          <span
+            className="flex items-center justify-center size-8.5 rounded-full text-white transition-colors duration-200"
+            style={{ backgroundColor: returnHovered ? "#020073" : "#000000" }}
+          >
+            <ArrowLeftIcon />
+          </span>
           <span className="font-light text-base text-black">{c.return}</span>
         </button>
 

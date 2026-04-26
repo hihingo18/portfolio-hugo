@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useState } from "react";
 import type { Testimonial } from "@/types";
 
 interface TestimonialCardProps {
@@ -16,13 +16,20 @@ const GLASS_BG = {
 } as const;
 
 function TestimonialCard({ testimonial }: TestimonialCardProps) {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div className="relative flex-1 min-w-[260px] max-w-[320px] rounded-[12px] overflow-hidden self-stretch transition-transform duration-300 hover:-translate-y-[5px]">
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="relative flex-1 min-w-[260px] max-w-[320px] rounded-[12px] overflow-hidden self-stretch"
+      style={{
+        transform: hovered ? "translateY(-5px)" : "translateY(0)",
+        transition: "transform 0.3s ease",
+      }}
+    >
       {/* Frosted glass background */}
-      <div
-        className="absolute inset-0"
-        style={GLASS_BG}
-      />
+      <div className="absolute inset-0" style={GLASS_BG} />
       <div className="relative flex flex-col gap-[12px] h-full p-[25px] text-center">
         {/* Person info */}
         <div className="flex flex-col items-center gap-[2px]">
@@ -39,7 +46,6 @@ function TestimonialCard({ testimonial }: TestimonialCardProps) {
         <p className="font-normal text-[14.5px] text-[#333] leading-relaxed flex-1">
           &ldquo;{testimonial.quote}&rdquo;
         </p>
-
       </div>
     </div>
   );
