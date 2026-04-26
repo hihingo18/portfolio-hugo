@@ -8,9 +8,8 @@ import { HomeIcon, ProjectsIcon, AboutIcon } from "@/components/icons/NavIcons";
 import { LinkedInIcon, InstagramIcon, TikTokIcon, BehanceIcon } from "@/components/icons/SocialIcons";
 import { SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme, useColors } from "@/context/ThemeContext";
 import { LOCALE_PREFIX_PATTERN, SOCIAL_LINKS } from "@/lib/constants";
-import { COLORS, DARK_COLORS, SHADOWS, DARK_SHADOWS } from "@/lib/theme";
 import type { Locale } from "@/lib/i18n";
 import type { NavId, SectionId } from "@/types";
 
@@ -48,11 +47,9 @@ const NAV_ORDER: NavId[] = ["home", "projects", "about"];
 
 function buildLocalizedPath(pathname: string, locale: Locale): string {
   if (!pathname || pathname === "/") return `/${locale}`;
-
   if (LOCALE_PREFIX_PATTERN.test(pathname)) {
     return pathname.replace(LOCALE_PREFIX_PATTERN, `/${locale}`);
   }
-
   return `/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
 }
 
@@ -64,14 +61,9 @@ interface SidebarProps {
 export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
   const [hoveredId, setHoveredId] = useState<NavId | null>(null);
   const { dict, locale } = useLocale();
-  const { theme, toggle } = useTheme();
+  const { toggle } = useTheme();
+  const colors = useColors();
   const pathname = usePathname();
-
-  const isDark = theme === "dark";
-  const colors = isDark ? DARK_COLORS : COLORS;
-  const shadows = isDark ? DARK_SHADOWS : SHADOWS;
-  const navIconActiveColor = isDark ? DARK_COLORS.primary : COLORS.primary;
-  const navIconDefaultColor = isDark ? "#e0e0e0" : "black";
 
   const switchLocale = (newLocale: Locale) => {
     if (newLocale === locale) return;
@@ -82,17 +74,12 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
   return (
     <aside
       className="w-full h-full flex flex-col items-center overflow-hidden pb-8"
-      style={{ backgroundColor: isDark ? "#0f0f0f" : "#ffffff" }}
+      style={{ backgroundColor: colors.bgBase }}
     >
       {/* Avatar */}
       <div className="w-full flex items-center justify-center">
         <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
-          <Image
-            src="/images/avatar.png"
-            alt="Hugo"
-            fill
-            priority
-          />
+          <Image src="/images/avatar.png" alt="Hugo" fill priority />
         </div>
       </div>
 
@@ -119,30 +106,26 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
               >
                 <IconComponent
                   active={isActive}
-                  activeColor={navIconActiveColor}
-                  defaultColor={navIconDefaultColor}
+                  activeColor={colors.brandPrimary}
+                  defaultColor={colors.textBase}
                 />
               </span>
 
               <button
                 onClick={() => onNavClick(id)}
-                className={cn(
-                  "relative flex items-center cursor-pointer transition-all duration-200 rounded"
-                )}
+                className={cn("relative flex items-center cursor-pointer transition-all duration-200 rounded")}
                 style={{
                   height: SIDEBAR_MEASUREMENTS.navItemHeight,
                   width: SIDEBAR_MEASUREMENTS.navItemWidth,
                   paddingLeft: SIDEBAR_MEASUREMENTS.navPadding,
                   paddingRight: SIDEBAR_MEASUREMENTS.navPadding,
                   backgroundColor:
-                    isActive || hoveredId === id
-                      ? colors.background
-                      : "transparent",
+                    isActive || hoveredId === id ? colors.bgHover : "transparent",
                   boxShadow:
                     isActive && (hoveredId === null || hoveredId === id)
-                      ? shadows.inset
+                      ? `inset 2px 0 0 ${colors.brandPrimary}`
                       : hoveredId === id && !isActive
-                      ? `inset 2px 0 0 ${colors.primary}`
+                      ? `inset 2px 0 0 ${colors.brandPrimary}`
                       : "none",
                 }}
               >
@@ -150,7 +133,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
                   className="font-bold whitespace-nowrap"
                   style={{
                     fontSize: SIDEBAR_MEASUREMENTS.navFontSize,
-                    color: isActive ? colors.primary : colors.text,
+                    color: isActive ? colors.brandPrimary : colors.textBase,
                   }}
                 >
                   {label}
@@ -164,17 +147,14 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       {/* Language switcher */}
       <div
         className="flex items-center h-full mt-5"
-        style={{
-          gap: SIDEBAR_MEASUREMENTS.langGap,
-          marginBottom: SIDEBAR_MEASUREMENTS.langMarginBottom,
-        }}
+        style={{ gap: SIDEBAR_MEASUREMENTS.langGap, marginBottom: SIDEBAR_MEASUREMENTS.langMarginBottom }}
       >
         <button
           onClick={() => switchLocale("en")}
           className="cursor-pointer leading-none transition-all duration-200"
           style={{
             fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-            color: locale === "en" ? colors.primary : colors.text,
+            color: locale === "en" ? colors.brandPrimary : colors.textBase,
             fontWeight: locale === "en" ? 700 : 300,
           }}
         >
@@ -182,7 +162,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
         </button>
         <span
           className="font-light leading-none"
-          style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: colors.text }}
+          style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: colors.textBase }}
         >
           /
         </span>
@@ -191,7 +171,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
           className="cursor-pointer leading-none transition-all duration-200"
           style={{
             fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-            color: locale === "vn" ? colors.primary : colors.text,
+            color: locale === "vn" ? colors.brandPrimary : colors.textBase,
             fontWeight: locale === "vn" ? 700 : 300,
           }}
         >
@@ -203,10 +183,10 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       <button
         onClick={toggle}
         className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-3"
-        style={{ color: colors.text }}
-        aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+        style={{ color: colors.textBase }}
+        aria-label={colors.isDark ? "Switch to light mode" : "Switch to dark mode"}
       >
-        {isDark ? <SunIcon /> : <MoonIcon />}
+        {colors.isDark ? <SunIcon /> : <MoonIcon />}
       </button>
 
       {/* Social icons */}
@@ -216,7 +196,6 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       >
         {SOCIAL_LINKS.map(({ id, href, label }) => {
           const Icon = SOCIAL_ICONS[id];
-
           return (
             <a
               key={label}
@@ -228,7 +207,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
                 width: SIDEBAR_MEASUREMENTS.socialSize,
                 height: SIDEBAR_MEASUREMENTS.socialSize,
                 padding: SIDEBAR_MEASUREMENTS.socialPadding,
-                color: isDark ? "#e0e0e0" : "#000000",
+                color: colors.textBase,
               }}
               aria-label={label}
             >

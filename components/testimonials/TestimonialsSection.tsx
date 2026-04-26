@@ -5,13 +5,12 @@ import { motion } from "framer-motion";
 import TestimonialCard from "./TestimonialCard";
 import type { Testimonial } from "@/types";
 import { useLocale } from "@/context/LocaleContext";
-import { useTheme } from "@/context/ThemeContext";
+import { useColors } from "@/context/ThemeContext";
 
 export default function TestimonialsSection() {
   const { dict } = useLocale();
-  const { theme } = useTheme();
+  const { isDark } = useColors();
   const t = dict.testimonials;
-  const isDark = theme === "dark";
 
   const TESTIMONIALS: Testimonial[] = useMemo(
     () => [

@@ -2,18 +2,22 @@
 
 import Image from "next/image";
 import { memo, useState } from "react";
-import { useTheme } from "@/context/ThemeContext";
+import { useColors } from "@/context/ThemeContext";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
   project: Project;
 }
 
+function toDarkImagePath(src: string): string {
+  return src.replace(/\/images\/(.+)\.\w+$/, "/images/dark-$1.png");
+}
+
 function ProjectCard({ project }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false);
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark } = useColors();
   const hasLink = project.link && project.link !== "#";
+  const imageSrc = isDark ? toDarkImagePath(project.image) : project.image;
 
   return (
     <div
@@ -46,7 +50,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       {/* Project image */}
       <div className="relative w-full aspect-4/3 overflow-hidden">
         <Image
-          src={project.image}
+          src={imageSrc}
           alt={project.name}
           fill
           className="object-contain"

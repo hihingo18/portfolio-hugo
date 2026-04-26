@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
+import { getColors, type ColorTokens } from "@/lib/theme";
 
 type Theme = "light" | "dark";
 
@@ -38,4 +39,20 @@ export function useTheme(): ThemeContextValue {
   const ctx = useContext(ThemeContext);
   if (!ctx) throw new Error("useTheme must be used within ThemeProvider");
   return ctx;
+}
+
+/**
+ * Returns semantic color tokens for the current theme, plus a convenience
+ * `isDark` flag.
+ *
+ * Usage in any client component:
+ * ```tsx
+ * const colors = useColors();
+ * // colors.bgBase, colors.textBase, colors.brandPrimary, colors.isDark …
+ * ```
+ */
+export function useColors(): ColorTokens & { isDark: boolean } {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  return { ...getColors(isDark), isDark };
 }

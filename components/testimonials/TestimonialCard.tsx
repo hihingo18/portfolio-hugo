@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useState } from "react";
-import { useTheme } from "@/context/ThemeContext";
+import { useColors } from "@/context/ThemeContext";
 import type { Testimonial } from "@/types";
 
 interface TestimonialCardProps {
@@ -10,8 +10,7 @@ interface TestimonialCardProps {
 
 function TestimonialCard({ testimonial }: TestimonialCardProps) {
   const [hovered, setHovered] = useState(false);
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const { isDark } = useColors();
 
   const glassBg = isDark
     ? {

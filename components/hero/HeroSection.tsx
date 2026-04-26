@@ -4,23 +4,16 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDownIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
-import { useTheme } from "@/context/ThemeContext";
-import { COLORS, DARK_COLORS } from "@/lib/theme";
+import { useColors } from "@/context/ThemeContext";
 
 const HERO_VARIANTS = {
   container: {
     hidden: {},
-    show: {
-      transition: { staggerChildren: 0.18, delayChildren: 0.3 },
-    },
+    show: { transition: { staggerChildren: 0.18, delayChildren: 0.3 } },
   },
   line: {
     hidden: { opacity: 0, y: 32 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
   },
 } as const;
 
@@ -32,11 +25,8 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
   const [workHovered, setWorkHovered] = useState(false);
   const [learnHovered, setLearnHovered] = useState(false);
   const { dict } = useLocale();
-  const { theme } = useTheme();
+  const colors = useColors();
   const h = dict.hero;
-
-  const isDark = theme === "dark";
-  const colors = isDark ? DARK_COLORS : COLORS;
 
   const handleLearnMore = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -45,9 +35,8 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
   return (
     <section
       className="relative w-full h-screen flex flex-col overflow-hidden"
-      style={{ backgroundColor: isDark ? "#0f0f0f" : "#ffffff" }}
+      style={{ backgroundColor: colors.bgBase }}
     >
-
       {/* Work with me button */}
       <div className="fixed top-10 right-10 z-50">
         <button
@@ -61,30 +50,27 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
             paddingLeft: 20,
             paddingTop: 5,
             paddingBottom: 5,
-            backgroundColor: isDark
-              ? (workHovered ? "#5585ef" : "#6b9fff")
-              : (workHovered ? COLORS.primaryDark : COLORS.primary),
+            backgroundColor: workHovered ? colors.brandHover : colors.brandPrimary,
             transition: "background-color 100ms ease-in-out",
           }}
         >
           <div style={{ flexShrink: 0 }}>
             <div
               className="font-bold text-2xl text-left leading-10"
-              style={{ color: isDark ? "#0f0f0f" : "#ffffff" }}
+              style={{ color: colors.isDark ? colors.bgBase : colors.white }}
             >
               {h.workWithMe[0]}
             </div>
             <div
               className="font-bold text-2xl text-left leading-10"
-              style={{ color: isDark ? "#0f0f0f" : "#ffffff" }}
+              style={{ color: colors.isDark ? colors.bgBase : colors.white }}
             >
               {h.workWithMe[1]}
             </div>
           </div>
 
           <svg
-            width="159" height="16" viewBox="0 0 159 16"
-            fill="none"
+            width="159" height="16" viewBox="0 0 159 16" fill="none"
             style={{ position: "absolute", top: "50%", transform: "translateY(-50%)", left: 0 }}
           >
             <motion.path
@@ -94,7 +80,8 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
                   : "M0 8 L113 8 M97 0 L113 8 L98 16",
               }}
               transition={{ duration: 0.15, ease: "easeInOut" }}
-              stroke={isDark ? "#0f0f0f" : "white"} strokeWidth="2.5" fill="none"
+              stroke={colors.isDark ? colors.bgBase : colors.white}
+              strokeWidth="2.5" fill="none"
               strokeLinecap="butt" strokeLinejoin="round"
             />
           </svg>
@@ -118,39 +105,29 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
 
           <motion.div variants={HERO_VARIANTS.container} initial="hidden" animate="show" className="flex flex-col gap-2">
             <motion.div variants={HERO_VARIANTS.line} className="overflow-hidden">
-              <div style={{ color: colors.text }} className="text-6xl">
+              <div style={{ color: colors.textBase }} className="text-6xl">
                 <span className="text-gray-500 dark:text-gray-400 text-2xl align-middle">01</span>
                 <span className="text-gray-500 dark:text-gray-400 pl-5">&lt;</span>
                 {h.greeting}{" "}
-                <span
-                  className="leading-normal"
-                  style={{ color: isDark ? DARK_COLORS.primary : "#1e3a8a" }}
-                >
-                  {h.name}
-                </span>
+                <span className="leading-normal" style={{ color: colors.brandPrimary }}>{h.name}</span>
                 <span className="leading-normal text-gray-500 dark:text-gray-400">&gt;</span>
               </div>
             </motion.div>
 
             <motion.div variants={HERO_VARIANTS.line} className="overflow-hidden">
-              <p style={{ color: colors.text }} className="text-6xl">
+              <p style={{ color: colors.textBase }} className="text-6xl">
                 <span className="text-gray-500 dark:text-gray-400 text-2xl align-middle">02</span>
                 <span className="text-gray-500 dark:text-gray-400 pl-5">&lt;</span>
                 {h.rolePrefix}{" "}
-                <span
-                  className="leading-normal"
-                  style={{ color: isDark ? DARK_COLORS.primary : "#1e3a8a" }}
-                >
-                  {h.role}
-                </span>
+                <span className="leading-normal" style={{ color: colors.brandPrimary }}>{h.role}</span>
               </p>
             </motion.div>
 
             <motion.div variants={HERO_VARIANTS.line} className="overflow-hidden">
-              <p style={{ color: colors.text }} className="leading-snug text-6xl">
+              <p style={{ color: colors.textBase }} className="leading-snug text-6xl">
                 <span className="text-gray-500 dark:text-gray-400 text-2xl align-middle">03</span>
                 <span className="pl-15">{h.roleConnector}{" "}</span>
-                <span style={{ color: isDark ? DARK_COLORS.primary : "#1e3a8a" }}>{h.roleSuffix}</span>
+                <span style={{ color: colors.brandPrimary }}>{h.roleSuffix}</span>
                 <span className="text-gray-500 dark:text-gray-400">&gt;</span>
               </p>
             </motion.div>
@@ -163,7 +140,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
           className="font-semibold text-sm italic mb-12 max-w-150 leading-relaxed"
-          style={{ color: colors.text }}
+          style={{ color: colors.textBase }}
         >
           {h.tagline}
         </motion.p>
@@ -176,7 +153,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
           className="absolute bottom-0 left-0 right-0 flex items-center justify-center"
           style={{ padding: "40px 80px" }}
         >
-          {!isDark && (
+          {!colors.isDark ? (
             <>
               <div
                 className="animate-gradient-slow absolute inset-0"
@@ -187,12 +164,11 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
               />
               <div
                 className="absolute inset-x-0 top-0 pointer-events-none"
-                style={{ height: "80%", background: "linear-gradient(to bottom, #ffffff 0%, transparent 100%)" }}
+                style={{ height: "80%", background: `linear-gradient(to bottom, ${colors.bgBase} 0%, transparent 100%)` }}
               />
             </>
-          )}
-          {isDark && (
-            <div className="absolute inset-0" style={{ background: "#0f0f0f" }} />
+          ) : (
+            <div className="absolute inset-0" style={{ background: colors.bgBase }} />
           )}
 
           <button
@@ -203,7 +179,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
           >
             <span
               className="font-normal text-base transition-colors duration-300"
-              style={{ color: learnHovered ? colors.primary : colors.text }}
+              style={{ color: learnHovered ? colors.brandPrimary : colors.textBase }}
             >
               {h.learnMore}
             </span>
@@ -212,9 +188,9 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
               transition={{ duration: 0.25, ease: "easeOut" }}
               className="flex items-center justify-center size-9.5 rounded-full border transition-all duration-300"
               style={{
-                backgroundColor: learnHovered ? colors.primary : "transparent",
-                borderColor: learnHovered ? colors.primary : colors.text,
-                color: learnHovered ? colors.white : colors.text,
+                backgroundColor: learnHovered ? colors.brandPrimary : "transparent",
+                borderColor: learnHovered ? colors.brandPrimary : colors.textBase,
+                color: learnHovered ? colors.white : colors.textBase,
               }}
             >
               <ArrowDownIcon />

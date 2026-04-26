@@ -4,20 +4,16 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { TECH_ICONS_REGISTRY } from "@/lib/icons/tech-icons-registry";
 import { useLocale } from "@/context/LocaleContext";
-import { useTheme } from "@/context/ThemeContext";
-import { COLORS, DARK_COLORS } from "@/lib/theme";
+import { useColors } from "@/context/ThemeContext";
 
 export default function AboutSection() {
   const { dict } = useLocale();
-  const { theme } = useTheme();
+  const colors = useColors();
   const a = dict.about;
-  const isDark = theme === "dark";
-  const colors = isDark ? DARK_COLORS : COLORS;
   const [linkedinHovered, setLinkedinHovered] = useState(false);
 
   return (
     <section id="about" className="relative w-full bg-white dark:bg-[#0f0f0f]">
-
       <div className="px-20 pt-12.5 pb-20">
         <motion.div
           initial={{ opacity: 0, y: 32 }}
@@ -68,7 +64,7 @@ export default function AboutSection() {
             onMouseEnter={() => setLinkedinHovered(true)}
             onMouseLeave={() => setLinkedinHovered(false)}
             className="font-light text-[22px] underline decoration-solid transition-colors duration-200"
-            style={{ color: linkedinHovered ? colors.primary : colors.text }}
+            style={{ color: linkedinHovered ? colors.brandPrimary : colors.textBase }}
           >
             {a.linkedinLabel}
           </a>

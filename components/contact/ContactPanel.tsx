@@ -4,9 +4,8 @@ import { useState, FormEvent } from "react";
 import { ArrowLeftIcon } from "@/components/icons/UIIcons";
 import { Button, Input, Textarea } from "@/components/ui";
 import { useLocale } from "@/context/LocaleContext";
-import { useTheme } from "@/context/ThemeContext";
+import { useColors } from "@/context/ThemeContext";
 import { FORM_CONSTRAINTS } from "@/lib/constants";
-import { COLORS, DARK_COLORS } from "@/lib/theme";
 
 interface ContactPanelProps {
   isOpen: boolean;
@@ -17,10 +16,9 @@ type FormStatus = "idle" | "loading" | "success" | "error";
 
 export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
   const { dict } = useLocale();
-  const { theme } = useTheme();
+  const colors = useColors();
   const c = dict.contact;
-  const isDark = theme === "dark";
-  const colors = isDark ? DARK_COLORS : COLORS;
+
   const [returnHovered, setReturnHovered] = useState(false);
   const [emailLinkHovered, setEmailLinkHovered] = useState(false);
   const [phoneLinkHovered, setPhoneLinkHovered] = useState(false);
@@ -31,7 +29,6 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Validation
   const validateForm = (): boolean => {
     if (!email || !FORM_CONSTRAINTS.email.pattern.test(email)) {
       setError("Please enter a valid email address");
@@ -53,30 +50,21 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
     setError(null);
     setSuccessMessage(null);
 
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
     setStatus("loading");
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, name, message }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
       const data = await response.json();
-
       setStatus("success");
       setSuccessMessage(data.message || "Message sent successfully! I'll get back to you soon.");
-
       setEmail("");
       setName("");
       setMessage("");
@@ -88,17 +76,10 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
       }, 2000);
     } catch (err) {
       setStatus("error");
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to send message. Please try again."
-      );
+      setError(err instanceof Error ? err.message : "Failed to send message. Please try again.");
       console.error("[ContactPanel] Error:", err);
     }
   };
-
-  const errorColor = colors.error;
-  const successColor = colors.success;
 
   return (
     <>
@@ -115,7 +96,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
         className="fixed top-0 h-screen w-182 z-50 flex flex-col gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
         style={{
           right: isOpen ? "0px" : "-760px",
-          backgroundColor: isDark ? "#141414" : "#f6f9f7",
+          backgroundColor: colors.bgPanel,
           boxShadow: "-4px 0 40px rgba(0,0,0,0.10)",
         }}
       >
@@ -129,25 +110,28 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
           <span
             className="flex items-center justify-center size-8.5 rounded-full text-white transition-colors duration-200"
             style={{
-              backgroundColor: returnHovered
-                ? (isDark ? "#6b9fff" : "#020073")
-                : (isDark ? "#2a2a2a" : "#000000"),
+              backgroundColor: returnHovered ? colors.brandPrimary : colors.bgIconDefault,
             }}
           >
             <ArrowLeftIcon />
           </span>
-          <span className="font-light text-base text-black dark:text-gray-200">{c.return}</span>
+          <span className="font-light text-base transition-colors duration-200" style={{ color: colors.textBase }}>
+            {c.return}
+          </span>
         </button>
 
         {/* Contact info */}
-        <div className="px-5 w-full border-b border-[#808080] dark:border-[#3a3a3a] pb-6 flex flex-col gap-5">
-          <p className="font-bold text-[18px] text-[#808080] dark:text-[#a0a0a0]">{c.heading}</p>
+        <div
+          className="px-5 w-full pb-6 flex flex-col gap-5"
+          style={{ borderBottom: `1px solid ${colors.borderStrong}` }}
+        >
+          <p className="font-bold text-[18px]" style={{ color: colors.textMuted }}>{c.heading}</p>
           <a
             href={`mailto:${c.email}`}
             onMouseEnter={() => setEmailLinkHovered(true)}
             onMouseLeave={() => setEmailLinkHovered(false)}
             className="font-normal text-[22px] transition-colors duration-200"
-            style={{ color: emailLinkHovered ? colors.primary : colors.text }}
+            style={{ color: emailLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
             {c.email}
           </a>
@@ -156,7 +140,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
             onMouseEnter={() => setPhoneLinkHovered(true)}
             onMouseLeave={() => setPhoneLinkHovered(false)}
             className="font-normal text-[22px] transition-colors duration-200"
-            style={{ color: phoneLinkHovered ? colors.primary : colors.text }}
+            style={{ color: phoneLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
             {c.phone}
           </a>
@@ -164,26 +148,21 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
         {/* Contact form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-15">
-          {/* Status Messages */}
           {error && (
             <div
               className="w-full max-w-152 p-4 rounded-lg border-l-4"
-              style={{ borderColor: errorColor, backgroundColor: `${errorColor}15` }}
+              style={{ borderColor: colors.statusError, backgroundColor: `${colors.statusError}15` }}
             >
-              <p style={{ color: errorColor }} className="text-sm font-medium">
-                {error}
-              </p>
+              <p style={{ color: colors.statusError }} className="text-sm font-medium">{error}</p>
             </div>
           )}
 
           {successMessage && (
             <div
               className="w-full max-w-152 p-4 rounded-lg border-l-4"
-              style={{ borderColor: successColor, backgroundColor: `${successColor}15` }}
+              style={{ borderColor: colors.statusSuccess, backgroundColor: `${colors.statusSuccess}15` }}
             >
-              <p style={{ color: successColor }} className="text-sm font-medium">
-                {successMessage}
-              </p>
+              <p style={{ color: colors.statusSuccess }} className="text-sm font-medium">{successMessage}</p>
             </div>
           )}
 
@@ -193,10 +172,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
               label={c.emailPlaceholder}
               placeholder={c.emailPlaceholder}
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                setError(null);
-              }}
+              onChange={(e) => { setEmail(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
             />
@@ -208,10 +184,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
               label={c.namePlaceholder}
               placeholder={c.namePlaceholder}
               value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                setError(null);
-              }}
+              onChange={(e) => { setName(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
             />
@@ -222,10 +195,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
               label={c.messagePlaceholder}
               placeholder={c.messagePlaceholder}
               value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-                setError(null);
-              }}
+              onChange={(e) => { setMessage(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
               rows={5}
@@ -233,7 +203,6 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
             />
           </div>
 
-          {/* Send button */}
           <div className="flex justify-end max-w-152">
             <Button type="submit" size="lg" isLoading={status === "loading"}>
               {status === "loading" ? "Sending..." : c.send}
