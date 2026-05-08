@@ -38,7 +38,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
       style={{ backgroundColor: colors.bgBase }}
     >
       {/* Work with me button */}
-      <div className="fixed top-10 right-10 z-50">
+      <div className="fixed top-[72px] md:top-10 right-4 md:right-10 z-50">
         <button
           onClick={onWorkWithMeClick}
           onMouseEnter={() => setWorkHovered(true)}
