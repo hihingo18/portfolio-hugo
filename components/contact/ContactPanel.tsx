@@ -97,9 +97,9 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
       {/* Slide-in panel */}
       <div
-        className="fixed top-0 h-screen w-182 z-50 flex flex-col gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
+        className="fixed top-0 h-screen w-full md:w-[min(520px,100vw)] lg:w-182 z-50 flex flex-col gap-8 lg:gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
         style={{
-          right: isOpen ? "0px" : "-760px",
+          right: isOpen ? "0px" : "-110%",
           backgroundColor: colors.bgPanel,
           boxShadow: "-4px 0 40px rgba(0,0,0,0.10)",
         }}
@@ -126,15 +126,15 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
         {/* Contact info */}
         <div
-          className="px-5 w-full pb-6 flex flex-col gap-5"
+          className="px-5 w-full pb-6 flex flex-col gap-4"
           style={{ borderBottom: `1px solid ${colors.borderStrong}` }}
         >
-          <p className="font-bold text-[18px]" style={{ color: colors.textMuted }}>{c.heading}</p>
+          <p className="font-bold text-base lg:text-[18px]" style={{ color: colors.textMuted }}>{c.heading}</p>
           <a
             href={`mailto:${c.email}`}
             onMouseEnter={() => setEmailLinkHovered(true)}
             onMouseLeave={() => setEmailLinkHovered(false)}
-            className="font-normal text-[22px] transition-colors duration-200"
+            className="font-normal text-base lg:text-[22px] transition-colors duration-200"
             style={{ color: emailLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
             {c.email}
@@ -143,7 +143,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
             href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}
             onMouseEnter={() => setPhoneLinkHovered(true)}
             onMouseLeave={() => setPhoneLinkHovered(false)}
-            className="font-normal text-[22px] transition-colors duration-200"
+            className="font-normal text-base lg:text-[22px] transition-colors duration-200"
             style={{ color: phoneLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
             {c.phone}
@@ -151,7 +151,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
         </div>
 
         {/* Contact form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-15">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 px-5 md:px-8 lg:px-15">
           {error && (
             <div
               className="w-full max-w-152 p-4 rounded-lg border-l-4"
@@ -170,7 +170,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
             </div>
           )}
 
-          <div className="flex flex-col gap-2 w-full max-w-152">
+          <div className="flex flex-col gap-2 w-full">
             <Label htmlFor="contact-email" style={{ color: colors.textBase }}>{c.emailPlaceholder}</Label>
             <Input
               id="contact-email"
@@ -180,11 +180,11 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
               onChange={(e) => { setEmail(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
-              className="h-12 text-[18px] font-fira font-thin rounded-[10px] px-4"
+              className="h-10 lg:h-12 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4"
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-full max-w-152">
+          <div className="flex flex-col gap-2 w-full">
             <Label htmlFor="contact-name" style={{ color: colors.textBase }}>{c.namePlaceholder}</Label>
             <Input
               id="contact-name"
@@ -194,11 +194,11 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
               onChange={(e) => { setName(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
-              className="h-12 text-[18px] font-fira font-thin rounded-[10px] px-4"
+              className="h-10 lg:h-12 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4"
             />
           </div>
 
-          <div className="flex flex-col gap-2 w-full max-w-152">
+          <div className="flex flex-col gap-2 w-full">
             <Label htmlFor="contact-message" style={{ color: colors.textBase }}>{c.messagePlaceholder}</Label>
             <Textarea
               id="contact-message"
@@ -208,11 +208,11 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
               disabled={status === "loading"}
               required
               rows={5}
-              className={cn("h-33 text-[18px] font-fira font-thin rounded-[10px] px-4 resize-none")}
+              className={cn("h-28 lg:h-33 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4 resize-none")}
             />
           </div>
 
-          <div className="flex justify-end max-w-152">
+          <div className="flex justify-end">
             <Button
               type="submit"
               disabled={status === "loading"}
