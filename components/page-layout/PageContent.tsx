@@ -2,6 +2,8 @@
 
 import { useState, useCallback } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
+import TopBar from "@/components/sidebar/TopBar";
+import MobileDrawer from "@/components/sidebar/MobileDrawer";
 import HeroSection from "@/components/hero/HeroSection";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
@@ -16,6 +18,7 @@ const SECTION_IDS: SectionId[] = ["home", "projects", "skills", "trust", "about"
 
 export default function PageContent() {
   const [showContact, setShowContact] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
   const activeSection = useScrollSpy(SECTION_IDS);
 
   const handleNavClick = useCallback((id: NavId) => {
@@ -24,16 +27,27 @@ export default function PageContent() {
 
   return (
     <>
-      {/* Left panel */}
-      <div className="fixed top-0 left-0 w-[22vw] min-w-70 max-w-90 h-screen z-30 bg-white dark:bg-[#0f0f0f] border-r border-[#f1f1f1] dark:border-[#2a2a2a]">
+      {/* Mobile top bar — visible below md */}
+      <TopBar onMenuClick={() => setShowDrawer(true)} />
+
+      {/* Mobile drawer */}
+      <MobileDrawer
+        isOpen={showDrawer}
+        onClose={() => setShowDrawer(false)}
+        activeSection={activeSection}
+        onNavClick={handleNavClick}
+      />
+
+      {/* Left sidebar — hidden on mobile, icon-only on tablet, full on desktop */}
+      <div className="hidden md:block md:fixed md:top-0 md:left-0 md:w-16 lg:w-[22vw] lg:min-w-70 lg:max-w-90 md:h-screen md:z-30 bg-white dark:bg-[#0f0f0f] border-r border-[#f1f1f1] dark:border-[#2a2a2a]">
         <Sidebar activeSection={activeSection} onNavClick={handleNavClick} />
       </div>
 
-      {/* Spacer */}
-      <div className="w-[22vw] min-w-70 max-w-90 shrink-0" />
+      {/* Spacer matching sidebar width */}
+      <div className="hidden md:block md:w-16 lg:w-[22vw] lg:min-w-70 lg:max-w-90 shrink-0" />
 
-      {/* Right panel */}
-      <main className="flex-1 min-h-screen">
+      {/* Main content — top padding on mobile for the TopBar */}
+      <main className="flex-1 min-h-screen pt-14 md:pt-0">
         <div id="home">
           <HeroSection onWorkWithMeClick={() => setShowContact(true)} />
         </div>

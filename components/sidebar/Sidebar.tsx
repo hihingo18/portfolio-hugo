@@ -77,8 +77,8 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       className="w-full h-full flex flex-col items-center overflow-hidden pb-8"
       style={{ backgroundColor: colors.bgBase }}
     >
-      {/* Avatar */}
-      <div className="w-full flex items-center justify-center">
+      {/* Avatar — hidden on tablet, visible on desktop */}
+      <div className="hidden lg:flex w-full items-center justify-center">
         <div className="relative overflow-hidden rounded-full w-[50%] aspect-square">
           <Image src="/images/avatar.webp" alt="Hugo" fill priority />
         </div>
@@ -86,24 +86,41 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
 
       {/* Navigation */}
       <nav
-        className="flex flex-col flex-1 w-full items-center"
+        className="flex flex-col flex-1 w-full items-center px-10 lg:px-10"
         style={{ gap: SIDEBAR_MEASUREMENTS.navGap, marginTop: SIDEBAR_MEASUREMENTS.navMarginTop }}
       >
         {NAV_ORDER.map((id) => {
           const isActive = activeSection === id;
           const IconComponent = NAV_ICONS[id];
           const label = dict.nav[id];
+          const isHovered = hoveredId === id;
 
           return (
-            <div
+            <button
               key={id}
-              className="flex items-center"
+              onClick={() => onNavClick(id)}
               onMouseEnter={() => setHoveredId(id)}
               onMouseLeave={() => setHoveredId(null)}
+              className={cn(
+                "relative flex items-center justify-center lg:justify-start w-full rounded-xl cursor-pointer transition-all duration-200"
+              )}
+              style={{
+                height: SIDEBAR_MEASUREMENTS.navItemHeight,
+                paddingLeft: SIDEBAR_MEASUREMENTS.navPadding,
+                paddingRight: SIDEBAR_MEASUREMENTS.navPadding,
+                backgroundColor: isActive || isHovered ? colors.bgHover : "transparent",
+              }}
             >
+              {/* Left border indicator — desktop only */}
+              {(isActive || isHovered) && (
+                <span
+                  className="hidden lg:block absolute left-0 top-1 bottom-1 w-0.5 rounded-full"
+                  style={{ backgroundColor: colors.brandPrimary }}
+                />
+              )}
               <span
-                className="flex items-center justify-center shrink-0"
-                style={{ width: SIDEBAR_MEASUREMENTS.iconWidth, marginRight: SIDEBAR_MEASUREMENTS.iconMargin }}
+                className="shrink-0 flex items-center justify-center"
+                style={{ width: SIDEBAR_MEASUREMENTS.iconWidth }}
               >
                 <IconComponent
                   active={isActive}
@@ -111,36 +128,17 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
                   defaultColor={colors.textBase}
                 />
               </span>
-
-              <button
-                onClick={() => onNavClick(id)}
-                className={cn("relative flex items-center cursor-pointer transition-all duration-200 rounded")}
+              <span
+                className="hidden lg:block font-bold whitespace-nowrap"
                 style={{
-                  height: SIDEBAR_MEASUREMENTS.navItemHeight,
-                  width: SIDEBAR_MEASUREMENTS.navItemWidth,
-                  paddingLeft: SIDEBAR_MEASUREMENTS.navPadding,
-                  paddingRight: SIDEBAR_MEASUREMENTS.navPadding,
-                  backgroundColor:
-                    isActive || hoveredId === id ? colors.bgHover : "transparent",
-                  boxShadow:
-                    isActive && (hoveredId === null || hoveredId === id)
-                      ? `inset 2px 0 0 ${colors.brandPrimary}`
-                      : hoveredId === id && !isActive
-                      ? `inset 2px 0 0 ${colors.brandPrimary}`
-                      : "none",
+                  marginLeft: SIDEBAR_MEASUREMENTS.iconMargin,
+                  fontSize: SIDEBAR_MEASUREMENTS.navFontSize,
+                  color: isActive ? colors.brandPrimary : colors.textBase,
                 }}
               >
-                <span
-                  className="font-bold whitespace-nowrap"
-                  style={{
-                    fontSize: SIDEBAR_MEASUREMENTS.navFontSize,
-                    color: isActive ? colors.brandPrimary : colors.textBase,
-                  }}
-                >
-                  {label}
-                </span>
-              </button>
-            </div>
+                {label}
+              </span>
+            </button>
           );
         })}
       </nav>
@@ -190,9 +188,9 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
         {colors.isDark ? <SunIcon /> : <MoonIcon />}
       </button>
 
-      {/* Social icons */}
+      {/* Social icons — hidden on tablet, visible on desktop */}
       <div
-        className="grid grid-cols-2 items-center justify-items-center"
+        className="hidden lg:grid grid-cols-2 items-center justify-items-center"
         style={{ gap: SIDEBAR_MEASUREMENTS.socialGridGap }}
       >
         {SOCIAL_LINKS.map(({ id, href, label }) => {
