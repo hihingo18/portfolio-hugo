@@ -1,9 +1,6 @@
-export { Button } from "./Button";
-export type { ButtonProps } from "./Button";
-
-export { Input } from "./Input";
-export type { InputProps } from "./Input";
-
-export { Textarea } from "./Textarea";
-export type { TextareaProps } from "./Textarea";
-
+export { Button, buttonVariants } from "./button";
+export { Input } from "./input";
+export { Textarea } from "./textarea";
+export { Label } from "./label";
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardAction, CardContent } from "./card";
+export { Badge, badgeVariants } from "./badge";

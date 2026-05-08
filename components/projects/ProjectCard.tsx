@@ -4,49 +4,41 @@ import Image from "next/image";
 import Link from "next/link";
 import { memo, useState } from "react";
 import { useColors } from "@/context/ThemeContext";
+import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
   project: Project;
 }
 
-function toDarkImagePath(src: string): string {
-  return src.replace(/\/images\/(.+)\.\w+$/, "/images/dark-$1.png");
-}
-
 function ProjectCard({ project }: ProjectCardProps) {
   const [hovered, setHovered] = useState(false);
   const { isDark } = useColors();
   const hasLink = project.link && project.link !== "#";
-  const imageSrc = isDark ? toDarkImagePath(project.image) : project.image;
+  const imageSrc = isDark ? project.imageDark : project.image;
 
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={`flex flex-col h-full select-none ${hasLink ? "cursor-pointer" : "cursor-default"}`}
-      style={{
-        background: isDark ? "#1a1a1a" : project.cardBg,
-        boxShadow: hovered
-          ? "0 16px 48px rgba(0,0,0,0.10)"
-          : "0 4px 16px rgba(0,0,0,0.06)",
-        transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        transition: "box-shadow 0.35s ease, transform 0.35s ease",
-        borderRadius: "0px",
-      }}
       role={hasLink ? "button" : undefined}
       tabIndex={hasLink ? 0 : -1}
-      onClick={() => {
-        if (hasLink && project.link) {
-          window.open(project.link, "_blank");
-        }
-      }}
+      onClick={() => hasLink && project.link && window.open(project.link, "_blank")}
       onKeyDown={(e) => {
         if (hasLink && (e.key === "Enter" || e.key === " ") && project.link) {
           e.preventDefault();
           window.open(project.link, "_blank");
         }
       }}
+      className={cn(
+        "flex flex-col h-full select-none",
+        "transition-[box-shadow,transform] duration-350 ease-out",
+        hasLink ? "cursor-pointer" : "cursor-default",
+        hovered
+          ? "shadow-[0_16px_48px_rgba(0,0,0,0.10)] -translate-y-1.5"
+          : "shadow-[0_4px_16px_rgba(0,0,0,0.06)] translate-y-0"
+      )}
+      style={{ background: isDark ? "#1a1a1a" : project.cardBg }}
     >
       {/* Project image */}
       <div className="relative w-full aspect-4/3 overflow-hidden">
@@ -54,11 +46,10 @@ function ProjectCard({ project }: ProjectCardProps) {
           src={imageSrc}
           alt={project.name}
           fill
-          className="object-contain"
-          style={{
-            transform: hovered ? "scale(0.95)" : "scale(1)",
-            transition: "transform 0.5s ease",
-          }}
+          className={cn(
+            "object-contain transition-transform duration-500 ease-out",
+            hovered ? "scale-95" : "scale-100"
+          )}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>

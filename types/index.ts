@@ -9,6 +9,7 @@ export interface Project {
   name: string;
   type: string;
   image: string;
+  imageDark: string;
   link?: string;
   cardBg: string;
   role: string;

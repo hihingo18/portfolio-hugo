@@ -25,12 +25,12 @@ export default function PageContent() {
   return (
     <>
       {/* Left panel */}
-      <div className="fixed top-0 left-0 w-[22vw] min-w-70 max-w-100 h-screen z-30 bg-white dark:bg-[#0f0f0f] border-r border-[#f1f1f1] dark:border-[#2a2a2a]">
+      <div className="fixed top-0 left-0 w-[22vw] min-w-70 max-w-90 h-screen z-30 bg-white dark:bg-[#0f0f0f] border-r border-[#f1f1f1] dark:border-[#2a2a2a]">
         <Sidebar activeSection={activeSection} onNavClick={handleNavClick} />
       </div>
 
       {/* Spacer */}
-      <div className="w-[22vw] min-w-70 max-w-100 shrink-0" />
+      <div className="w-[22vw] min-w-70 max-w-90 shrink-0" />
 
       {/* Right panel */}
       <main className="flex-1 min-h-screen">

@@ -1,5 +1,7 @@
 /* 1. Tailwind v4 — bắt buộc, load preflight + utilities + theme */
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* 2. Custom animations — Tailwind tự generate các utility class */
@@ -32,3 +34,105 @@
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 3px; }
 .dark ::-webkit-scrollbar-thumb { background: #3a3a3a; }
+
+@theme inline {
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* — Brand colors matching LIGHT_TOKENS in lib/theme.ts — */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #f6f9f7;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+  --primary: #020073;
+  --primary-foreground: #ffffff;
+  --secondary: #f6f9f7;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f6f9f7;
+  --muted-foreground: #757575;
+  --accent: #f6f9f7;
+  --accent-foreground: #1a1a1a;
+  --destructive: #cc2927;
+  --border: #f1f1f1;
+  --input: #020073;
+  --ring: #020073;
+  --radius: 0.625rem;
+  --sidebar: #f6f9f7;
+  --sidebar-foreground: #1a1a1a;
+  --sidebar-primary: #020073;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f6f9f7;
+  --sidebar-accent-foreground: #1a1a1a;
+  --sidebar-border: #f1f1f1;
+  --sidebar-ring: #020073;
+}
+
+.dark {
+  /* — Brand colors matching DARK_TOKENS in lib/theme.ts — */
+  --background: #0f0f0f;
+  --foreground: #e0e0e0;
+  --card: #141414;
+  --card-foreground: #e0e0e0;
+  --popover: #141414;
+  --popover-foreground: #e0e0e0;
+  --primary: #6b9fff;
+  --primary-foreground: #0f0f0f;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #e0e0e0;
+  --muted: #1a1a1a;
+  --muted-foreground: #a0a0a0;
+  --accent: #1a1a1a;
+  --accent-foreground: #e0e0e0;
+  --destructive: #ff6b6b;
+  --border: #2a2a2a;
+  --input: #6b9fff;
+  --ring: #6b9fff;
+  --sidebar: #141414;
+  --sidebar-foreground: #e0e0e0;
+  --sidebar-primary: #6b9fff;
+  --sidebar-primary-foreground: #0f0f0f;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #e0e0e0;
+  --sidebar-border: #2a2a2a;
+  --sidebar-ring: #6b9fff;
+}
