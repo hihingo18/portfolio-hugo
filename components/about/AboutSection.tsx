@@ -1,247 +1,247 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { MapPinIcon, LayersIcon, ShieldIcon, UsersIcon } from "@/components/icons/UIIcons";
+import { useLocale } from "@/context/LocaleContext";
+import { useColors } from "@/context/ThemeContext";
 
-// --- Tech icon components using text labels styled like the Figma ---
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6, delay },
+});
 
-const TechBadge = ({
-  label,
-  color,
-  textColor = "white",
-}: {
-  label: string;
-  color: string;
-  textColor?: string;
-}) => (
-  <div
-    className="flex items-center justify-center rounded-[6px] px-3 py-2 text-[12px] font-semibold whitespace-nowrap"
-    style={{ backgroundColor: color, color: textColor, minWidth: "50px", height: "50px" }}
-    title={label}
-  >
-    {label}
-  </div>
-);
-
-// SVG-based tech icons matching Figma visual weight (50x50)
-const DotnetIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#512BD4" />
-    <text x="5" y="30" fontSize="11" fill="white" fontWeight="700" fontFamily="Arial">.NET</text>
-  </svg>
-);
-const CsharpIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#239120" />
-    <text x="12" y="33" fontSize="18" fill="white" fontWeight="700" fontFamily="Arial">C#</text>
-  </svg>
-);
-const SqlIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#CC2927" />
-    <text x="5" y="32" fontSize="12" fill="white" fontWeight="700" fontFamily="Arial">SQL</text>
-  </svg>
-);
-const KafkaIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#231F20" />
-    <text x="4" y="32" fontSize="11" fill="white" fontWeight="600" fontFamily="Arial">Kafka</text>
-  </svg>
-);
-const RedisIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#DC382D" />
-    <text x="5" y="32" fontSize="11" fill="white" fontWeight="600" fontFamily="Arial">Redis</text>
-  </svg>
-);
-const DockerIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#2496ED" />
-    <text x="3" y="32" fontSize="10" fill="white" fontWeight="600" fontFamily="Arial">Docker</text>
-  </svg>
-);
-const AzureIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#0089D6" />
-    <text x="5" y="32" fontSize="11" fill="white" fontWeight="600" fontFamily="Arial">Azure</text>
-  </svg>
-);
-
-const ReactIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#20232a" />
-    <ellipse cx="25" cy="25" rx="11" ry="4.5" stroke="#61DAFB" strokeWidth="1.8" />
-    <ellipse cx="25" cy="25" rx="11" ry="4.5" stroke="#61DAFB" strokeWidth="1.8" transform="rotate(60 25 25)" />
-    <ellipse cx="25" cy="25" rx="11" ry="4.5" stroke="#61DAFB" strokeWidth="1.8" transform="rotate(120 25 25)" />
-    <circle cx="25" cy="25" r="2.5" fill="#61DAFB" />
-  </svg>
-);
-const NextIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#000" />
-    <text x="3" y="31" fontSize="10" fill="white" fontWeight="700" fontFamily="Arial">Next.js</text>
-  </svg>
-);
-const VueIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#42B883" />
-    <text x="14" y="33" fontSize="18" fill="white" fontWeight="700" fontFamily="Arial">V</text>
-  </svg>
-);
-const AngularIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#DD0031" />
-    <text x="14" y="33" fontSize="18" fill="white" fontWeight="700" fontFamily="Arial">A</text>
-  </svg>
-);
-const SvelteIcon = () => (
-  <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
-    <rect width="50" height="50" rx="6" fill="#FF3E00" />
-    <text x="14" y="33" fontSize="18" fill="white" fontWeight="700" fontFamily="Arial">S</text>
-  </svg>
-);
-
-interface SkillItem {
-  name: string;
-  icon: React.ReactNode;
+function SectionLabel({ index, label, color }: { index: string; label: string; color: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-7">
+      <span className="font-mono text-xs" style={{ color }}>{index}</span>
+      <div className="h-px w-6" style={{ backgroundColor: color, opacity: 0.35 }} />
+      <span className="text-xs font-semibold uppercase tracking-widest" style={{ color }}>{label}</span>
+    </div>
+  );
 }
-
-interface SkillGroupData {
-  title: string;
-  icons: SkillItem[];
-}
-
-const SKILL_GROUPS: SkillGroupData[] = [
-  {
-    title: ".Backend & Infrastructure",
-    icons: [
-      { name: ".NET", icon: <DotnetIcon /> },
-      { name: "C#", icon: <CsharpIcon /> },
-      { name: "SQL", icon: <SqlIcon /> },
-      { name: "Kafka", icon: <KafkaIcon /> },
-      { name: "Redis", icon: <RedisIcon /> },
-      { name: "Docker", icon: <DockerIcon /> },
-      { name: "Azure", icon: <AzureIcon /> },
-    ],
-  },
-  {
-    title: ".Frontend",
-    icons: [
-      { name: "React", icon: <ReactIcon /> },
-      { name: "Next.js", icon: <NextIcon /> },
-      { name: "Vue", icon: <VueIcon /> },
-      { name: "Angular", icon: <AngularIcon /> },
-      { name: "Svelte", icon: <SvelteIcon /> },
-    ],
-  },
-];
 
 export default function AboutSection() {
+  const { dict } = useLocale();
+  const colors = useColors();
+  const a = dict.about;
+  const [linkedinHovered, setLinkedinHovered] = useState(false);
+
+  const gradientOverlay =
+    "linear-gradient(137deg, rgb(255,255,255) 0%, rgb(255,255,255) 33.333%, rgb(203,220,255) 66.667%, rgb(255,255,255) 100%)";
+
+  const cardStyle = colors.isDark
+    ? { border: `1px solid ${colors.borderBase}`, backgroundColor: colors.bgPanel }
+    : {
+        background: "rgba(255,255,255,0.72)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+        border: "1px solid rgba(255,255,255,0.85)",
+      };
+
+  const chipStyle = colors.isDark
+    ? { border: `1px solid ${colors.borderBase}`, color: colors.textBase, backgroundColor: colors.bgPanel }
+    : {
+        background: "rgba(255,255,255,0.7)",
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
+        border: "1px solid rgba(255,255,255,0.9)",
+        color: colors.textBase,
+      };
+
+  const fadeColor = colors.isDark ? "#0f0f0f" : "#ffffff";
+
   return (
-    <section id="about" className="relative w-full bg-white">
-      {/* Vertical divider on left */}
-      <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#f1f1f1]" />
+    <section
+      id="about"
+      className="relative w-full overflow-hidden"
+      style={!colors.isDark ? { background: gradientOverlay } : { backgroundColor: colors.bgBase }}
+    >
+      {/* top fade */}
+      <div
+        className="absolute inset-x-0 top-0 h-20 pointer-events-none z-10"
+        style={{ background: `linear-gradient(to bottom, ${fadeColor}, transparent)` }}
+      />
+      {/* bottom fade */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-20 pointer-events-none z-10"
+        style={{ background: `linear-gradient(to top, ${fadeColor}, transparent)` }}
+      />
+      <div className="px-20 pt-14 pb-24 space-y-18">
 
-      <div className="px-[80px] pt-[50px] pb-[80px]">
-        {/* Name + location */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <h2 className="font-bold text-[48px] text-black leading-tight tracking-[-0.01em]">
-            HUGO
-          </h2>
-          <p className="font-normal text-[16.5px] text-black mb-0">
-            Hanoi, Vietnam
-          </p>
+        {/* ── IDENTITY ──────────────────────────────────────── */}
+        <motion.div {...fadeUp(0)}>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+              <div>
+                <h2
+                  className="font-bold leading-none tracking-tight"
+                  style={{ fontSize: 52, color: colors.textBase }}
+                >
+                  HUGO
+                </h2>
+                <span className="text-sm font-light" style={{ color: colors.textMuted }}>
+                  {a.nameNote}
+                </span>
+              </div>
+              <div className="flex flex-col gap-1 sm:text-right">
+                <p className="font-medium text-base" style={{ color: colors.textBase }}>
+                  {a.title}
+                </p>
+                <p
+                  className="font-normal text-[13px] leading-relaxed max-w-sm sm:ml-auto"
+                  style={{ color: colors.textMuted }}
+                >
+                  {a.tagline}
+                </p>
+              </div>
+            </div>
+
+            <div className="h-px w-full" style={{ backgroundColor: colors.borderBase }} />
+
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
+              <span
+                className="flex items-center gap-1.5 text-xs"
+                style={{ color: colors.textMuted }}
+              >
+                <MapPinIcon /> {a.location}
+              </span>
+              <span className="text-xs" style={{ color: colors.textFaint }}>·</span>
+              <span className="text-xs" style={{ color: colors.textMuted }}>{a.domains}</span>
+              <span className="text-xs" style={{ color: colors.textFaint }}>·</span>
+              <span className="text-xs" style={{ color: colors.textMuted }}>{a.aesthetic}</span>
+            </div>
+          </div>
         </motion.div>
 
-        {/* First block */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="mt-[55px]"
-        >
-          <h3 className="font-normal text-[32px] text-black leading-tight mb-4">
-            I design and develop websites that are both elegant, intuitive,
-            and accessible.
-          </h3>
-          <p className="font-light text-[22px] text-black leading-relaxed">
-            Driven by a deep passion for engineering and system design, I specialize
-            in harmonizing clean architecture with high-performing scalable systems.
-            This ensures effective intervention on all aspects of the project, without
-            intermediaries.
-          </p>
+        {/* ── HOW I WORK ────────────────────────────────────── */}
+        <motion.div {...fadeUp(0.05)}>
+          <SectionLabel index="01" label={a.howIWorkTitle} color={colors.textMuted} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {/* Row 1: two equal cards */}
+            {[
+              { icon: <LayersIcon />, title: a.card1Title, body: a.card1Body },
+              { icon: <ShieldIcon />, title: a.card2Title, body: a.card2Body },
+            ].map((card, i) => (
+              <div
+                key={i}
+                className="p-6 rounded-xl flex flex-col gap-3"
+                style={cardStyle}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span style={{ color: colors.brandPrimary }}>{card.icon}</span>
+                  <h4 className="font-semibold text-[15px]" style={{ color: colors.textBase }}>
+                    {card.title}
+                  </h4>
+                </div>
+                <p className="font-normal text-[15px] leading-relaxed" style={{ color: colors.textBase }}>
+                  {card.body}
+                </p>
+              </div>
+            ))}
+
+            {/* Row 2: mentoring card + principles panel */}
+            <div
+              className="p-6 rounded-xl flex flex-col gap-3"
+              style={cardStyle}
+            >
+              <div className="flex items-center gap-2.5">
+                <span style={{ color: colors.brandPrimary }}><UsersIcon /></span>
+                <h4 className="font-semibold text-[15px]" style={{ color: colors.textBase }}>
+                  {a.card3Title}
+                </h4>
+              </div>
+              <p className="font-normal text-[15px] leading-relaxed" style={{ color: colors.textBase }}>
+                {a.card3Body}
+              </p>
+            </div>
+
+            <div
+              className="p-6 rounded-xl flex flex-col justify-between gap-4"
+              style={cardStyle}
+            >
+              <span
+                className="text-[11px] font-semibold uppercase tracking-widest"
+                style={{ color: colors.textMuted }}
+              >
+                What I value
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {a.principles.map((p, i) => (
+                  <span
+                    key={i}
+                    className="text-[13px] px-2.5 py-1 rounded-full"
+                    style={{
+                      border: `1px solid ${colors.brandPrimary}`,
+                      color: colors.brandPrimary,
+                    }}
+                  >
+                    {p}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+          </div>
         </motion.div>
 
-        {/* Second block */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="mt-[55px]"
-        >
-          <h3 className="font-normal text-[32px] text-black leading-tight mb-4">
-            I also specialize in creating your brand image: logo, banner, and
-            much more.
-          </h3>
-          <p className="font-light text-[22px] text-black leading-relaxed">
-            From a simple idea, a unique brand identity and an exceptional website are
-            created. My clients appreciate my versatility and the quality of my work,
-            forged by significant experience in an agency.
-          </p>
+        {/* ── BEYOND WORK ───────────────────────────────────── */}
+        <motion.div {...fadeUp(0.05)}>
+          <SectionLabel index="02" label={a.beyondTitle} color={colors.textMuted} />
+          <div className="flex flex-col gap-5">
+            <p
+              className="font-normal text-[15px] leading-loose max-w-xl"
+              style={{ color: colors.textBase }}
+            >
+              {a.beyondParagraph}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {a.interestChips.map((chip, i) => (
+                <span
+                  key={i}
+                  className="text-[13px] px-3 py-1 rounded-full"
+                  style={chipStyle}
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
+          </div>
         </motion.div>
 
-        {/* LinkedIn link */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-[14px]"
-        >
+        {/* ── CLOSING LINE + CTA ────────────────────────────── */}
+        <motion.div {...fadeUp(0.05)} className="flex flex-col gap-5">
+          <p
+            className="font-normal text-[14px] italic"
+            style={{ color: colors.textMuted }}
+          >
+            — {a.closingLine}
+          </p>
+
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/hieu-ngo-75b4b1301/"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-light text-[22px] text-black underline decoration-solid hover:text-[#020073] transition-colors duration-200"
+            onMouseEnter={() => setLinkedinHovered(true)}
+            onMouseLeave={() => setLinkedinHovered(false)}
+            className="inline-flex items-center gap-2 text-[14px] font-normal underline decoration-solid transition-colors duration-200"
+            style={{ color: linkedinHovered ? colors.brandPrimary : colors.textBase }}
           >
-            Discover my journey (LinkedIn)
+            {a.linkedinLabel}
+            <svg
+              width="11" height="11" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+            </svg>
           </a>
         </motion.div>
 
-        {/* Skill groups */}
-        <div className="mt-[80px] flex flex-wrap items-start gap-x-0">
-          {SKILL_GROUPS.map((group, gi) => (
-            <motion.div
-              key={group.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: gi * 0.15 }}
-              className="flex flex-col mr-[40px]"
-            >
-              <h4 className="font-bold text-[24px] text-black mb-0 leading-tight">
-                {group.title}
-              </h4>
-              <div className="flex flex-wrap gap-[14.4px] pt-[10px] pb-[14px]">
-                {group.icons.map((skill) => (
-                  <div
-                    key={skill.name}
-                    title={skill.name}
-                    className="transition-transform duration-200 hover:scale-110 cursor-default"
-                  >
-                    {skill.icon}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );

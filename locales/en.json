@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "skills": "Skills",
+    "about": "About Me"
+  },
+  "hero": {
+    "greeting": "Hello, I'm",
+    "name": "Hugo!",
+    "rolePrefix": "I'm a",
+    "role": "Technical Lead",
+    "roleConnector": "and a",
+    "roleSuffix": "Full-stack developer.",
+    "tagline": "Building scalable enterprise systems used across finance, SaaS, and global operations.",
+    "learnMore": "Learn more",
+    "workWithMe": ["Work", "with me"]
+  },
+  "projects": {
+    "sectionTitle": "Selected projects",
+    "items": {
+      "centerbase": {
+        "name": ".Centerbase",
+        "image": "/images/centerbase.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
+        "type": "Enterprise Legal Operations SaaS",
+        "role": "Technical Lead • Full-stack Developer",
+        "stack": ".NET 9 • Next.js • SQL Server • Redis • Azure • GraphQL • Kafka • Microservices",
+        "description": "Large-scale multi-tenant SaaS platform supporting legal operations, accounting and billing workflows for hundreds of US law firms. Led backend and accounting initiatives across microservices migration, reporting architecture redesign and distributed system workflows, improving accounting report performance by over 300%."
+      },
+      "toshiba": {
+        "name": ".Toshiba",
+        "image": "/images/toshiba.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, #fbffde 50%, rgb(255,255,255) 100%)",
+        "type": "Enterprise CMS-based Web Platform",
+        "role": "Technical Project Management",
+        "stack": "Sitecore XP/XC 10, Oracle, SharePoint, ERP API, CI/CD, Tableau.",
+        "description": "Toshiba New Portal focuses on migrating Sitecore 9.x to 10.x while preserving existing business functionalities and implementing a modernized portal. The project establishes a scalable foundation for future Sitecore Commerce and B2B portal development, enhancing integration, reporting, and overall system performance."
+      },
+      "aspire": {
+        "name": ".Aspire",
+        "image": "/images/aspire.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgb(255,255,255) 0%, #ffe6c5 50%, rgb(255,255,255) 100%)",
+        "type": "Platform / SaaS Platform",
+        "role": "Technical Lead",
+        "stack": "ASP.NET MVC 6, EF6, Azure, Redis, JavaScript, Adyen, OAG/Mulesoft APIs, Google Maps & Analytics.",
+        "description": "Aspire Lifestyles is a scalable SaaS platform built on a reusable codebase, enabling rapid development and expansion of new business modules and services. It provides a global solution for booking two-way airport transfers with fixed pricing and professional drivers, operating across 16+ countries. Additionally, a dedicated portal was developed to manage accounting operations, including invoicing, payments, and customer credit, improving financial control and operational efficiency."
+      }
+    }
+  },
+  "testimonials": {
+    "sectionTitle": "They trusted my work ⭐",
+    "subtitle": "Real feedback from customers & team",
+    "highlight": {
+      "quotes": [
+        "Hieu who mapped pretty much the entire accounting ecosystem.",
+        "⭐ Special shout outs to Hieu Ngo for keeping the project on track amidst competing priorities."
+      ],
+      "author": "Jacquie West",
+      "role": "Product Manager",
+      "company": "Centerbase"
+    },
+    "items": {
+      "jordan": {
+        "name": "Jordan McGhee",
+        "role": "CFO",
+        "company": "KSA Attorneys",
+        "quote": "The backend redesign has made our system significantly more efficient. Reporting workflows are much faster."
+      },
+      "mckeen": {
+        "name": "McKeen Smith LLC",
+        "role": "Accounting User",
+        "company": "",
+        "quote": "Transactions now load very fast, even for large datasets. This is a big improvement to user experience."
+      },
+      "john": {
+        "name": "John Thacker",
+        "role": "Engineering Manager",
+        "company": "Centerbase",
+        "quote": "I'm impressed with the solid patterns and refactoring in your latest merge requests."
+      }
+    }
+  },
+  "about": {
+    "nameNote": "(formerly Hieu Ngo)",
+    "location": "Hanoi, Vietnam",
+    "domains": "Finance · SaaS · Enterprise",
+    "aesthetic": "Vintage · Minimalism · Travel",
+    "title": "Technical Lead · Full-stack Developer",
+    "tagline": "Building scalable systems, stabilizing complexity and helping teams execute with clarity.",
+    "howIWorkTitle": "How I Work",
+    "card1Title": "I Work Through Structure",
+    "card1Body": "When projects become messy, my first instinct is to identify the real blocker, assess the risk level and organize the problem into manageable parts before execution.",
+    "card2Title": "Independent But Collaborative",
+    "card2Body": "I prefer researching deeply before asking for help, communicating issues early and helping teams stay aligned on priorities, scope and execution.",
+    "card3Title": "Mentoring Style",
+    "card3Body": "I guide people toward solutions rather than hand-holding every step. I value ownership, initiative and engineers who think proactively before escalating issues.",
+    "principles": ["Structure over chaos", "Early communication", "Practical execution", "Clean ownership"],
+    "beyondTitle": "Beyond Work",
+    "beyondParagraph": "Outside of engineering, I enjoy quiet and detail-oriented hobbies that reflect how I think — calm, observant and naturally drawn toward structure, aesthetics and long-term craftsmanship.",
+    "interestChips": ["Fantasy stories", "Psychology", "Manga collecting", "Aquarium & Terrarium", "Vintage aesthetics", "Solo travel", "Japan · Korea · Taiwan"],
+    "closingLine": "I enjoy turning complex and messy situations into systems people can actually work with.",
+    "linkedinLabel": "Discover my journey (LinkedIn)"
+  },
+  "skills": {
+    "sectionTitle": "My Skills",
+    "subtitle": "Technical competencies 🧠 in many areas with a key proficiency in the MERN stack 🖥️",
+    "aboutMe": "About Me",
+    "columns": {
+      "frontend": {
+        "title": "Front End",
+        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+      },
+      "backend": {
+        "title": "Back End",
+        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+      },
+      "tools": {
+        "title": "Tools",
+        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      }
+    }
+  },
+  "footer": {
+    "copy": "© Hugo"
+  },
+  "contact": {
+    "return": "Return",
+    "heading": "Contact",
+    "email": "hihingo18@gmail.com",
+    "phone": "(+84) 944 548 222",
+    "emailPlaceholder": "Your email",
+    "namePlaceholder": "Your full name",
+    "messagePlaceholder": "How can I help you?",
+    "send": "Send"
+  }
+}

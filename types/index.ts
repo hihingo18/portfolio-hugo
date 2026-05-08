@@ -11,22 +11,18 @@ export interface Project {
   image: string;
   link?: string;
   cardBg: string;
+  role: string;
+  stack: string;
+  description: string;
 }
 
 export interface Testimonial {
   id: string;
   name: string;
   role: string;
-  company: string;
+  company?: string;
   quote: string;
 }
 
-export interface SkillGroup {
-  title: string;
-  icons: SkillIcon[];
-}
-
-export interface SkillIcon {
-  name: string;
-  svg: React.ReactNode;
-}
+export type SectionId = "home" | "projects" | "skills" | "trust" | "about";
+export type NavId = "home" | "projects" | "skills" | "about";

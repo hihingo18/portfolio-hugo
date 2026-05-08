@@ -1,20 +1,22 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import { sora, firaSans } from "@/lib/fonts";
+import { cookies } from "next/headers";
+import { ThemeProvider } from "@/context/ThemeContext";
 
-export const metadata: Metadata = {
-  title: "Hugo — Technical Leader & Full-stack Developer",
-  description:
-    "Crafting scalable, high-quality products with strong engineering leadership. Based in Hanoi, Vietnam.",
-};
+type Theme = "light" | "dark";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies();
+  const theme = (cookieStore.get("theme")?.value ?? "light") as Theme;
+
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body>{children}</body>
+    <html lang="en" className={`${sora.variable} ${firaSans.variable}${theme === "dark" ? " dark" : ""}`}>
+      <head></head>
+      <body>
+        <ThemeProvider initialTheme={theme}>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "home": "Trang chủ",
+    "projects": "Dự án",
+    "skills": "Kỹ năng",
+    "about": "Về tôi"
+  },
+  "hero": {
+    "greeting": "Xin chào, tôi là",
+    "name": "Hugo!",
+    "rolePrefix": "Tôi là",
+    "role": "Technical Lead",
+    "roleConnector": "và",
+    "roleSuffix": "Full-stack developer.",
+    "tagline": "Xây dựng các hệ thống doanh nghiệp có khả năng mở rộng, được sử dụng trong lĩnh vực tài chính, SaaS và hoạt động toàn cầu.",
+    "learnMore": "Khám phá thêm",
+    "workWithMe": ["Hợp tác", "cùng tôi"]
+  },
+  "projects": {
+    "sectionTitle": "Dự án tiêu biểu ★",
+    "items": {
+      "centerbase": {
+        "name": ".Centerbase",
+        "image": "/images/centerbase.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
+        "type": "Nền tảng quản lý công ty luật",
+        "role": "Technical Lead, Full-stack Developer",
+        "stack": ".NET 9 microservices, Next.js, SQL Server, Redis, Azure, GraphQL & Kafka.",
+        "description": "Centerbase là hệ thống quản lý công ty luật trực tuyến, xử lý khách hàng, vụ việc, thanh toán, kế toán và báo cáo. Nền tảng giúp tối ưu hóa quy trình pháp lý, cải thiện hiệu quả làm việc và hỗ trợ ra quyết định dựa trên dữ liệu."
+      },
+      "toshiba": {
+        "name": ".Toshiba",
+        "image": "/images/toshiba.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, #fbffde 50%, rgb(255,255,255) 100%)",
+        "type": "Nền tảng web doanh nghiệp dựa trên CMS",
+        "role": "Quản lý dự án kỹ thuật",
+        "stack": "Sitecore XP/XC 10, Oracle, SharePoint, ERP API, CI/CD, Tableau.",
+        "description": "Dự án Toshiba New Portal tập trung vào việc nâng cấp Sitecore 9.x lên 10.x, đồng thời hiện đại hóa cổng thông tin. Dự án tạo nền tảng vững chắc cho Sitecore Commerce và phát triển cổng B2B, nâng cao khả năng tích hợp và hiệu suất hệ thống."
+      },
+      "aspire": {
+        "name": ".Aspire",
+        "image": "/images/aspire.jpg",
+        "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgb(255,255,255) 0%, #ffe6c5 50%, rgb(255,255,255) 100%)",
+        "type": "Nền tảng / SaaS",
+        "role": "Technical Lead",
+        "stack": "ASP.NET MVC 6, EF6, Azure, Redis, JavaScript, Adyen, OAG/Mulesoft APIs, Google Maps & Analytics.",
+        "description": "Aspire Lifestyles là nền tảng SaaS có khả năng mở rộng, cho phép phát triển nhanh các mô-đun dịch vụ mới. Cung cấp giải pháp toàn cầu đặt xe sân bay hai chiều với giá cố định, hoạt động tại 16+ quốc gia. Cổng kế toán chuyên biệt quản lý hóa đơn, thanh toán và tín dụng khách hàng."
+      }
+    }
+  },
+  "testimonials": {
+    "sectionTitle": "Họ tin tưởng công việc của tôi ⭐",
+    "subtitle": "Phản hồi thực từ khách hàng & đồng nghiệp",
+    "highlight": {
+      "quotes": [
+        "Hieu who mapped pretty much the entire accounting ecosystem.",
+        "⭐ Special shout outs to Hieu Ngo for keeping the project on track amidst competing priorities."
+      ],
+      "author": "Jacquie West",
+      "role": "Product Manager",
+      "company": "Centerbase"
+    },
+    "items": {
+      "jordan": {
+        "name": "Jordan McGhee",
+        "role": "CFO",
+        "company": "KSA Attorneys",
+        "quote": "The backend redesign has made our system significantly more efficient. Reporting workflows are much faster."
+      },
+      "mckeen": {
+        "name": "McKeen Smith LLC",
+        "role": "Accounting User",
+        "company": "",
+        "quote": "Transactions now load very fast, even for large datasets. This is a big improvement to user experience."
+      },
+      "john": {
+        "name": "John Thacker",
+        "role": "Engineering Manager",
+        "company": "Centerbase",
+        "quote": "I'm impressed with the solid patterns and refactoring in your latest merge requests."
+      }
+    }
+  },
+  "about": {
+    "nameNote": "(tên thật: Hiếu Ngô)",
+    "location": "Hà Nội, Việt Nam",
+    "domains": "Tài chính · SaaS · Enterprise",
+    "aesthetic": "Vintage · Tối giản · Du lịch",
+    "title": "Technical Lead · Lập trình viên Full-stack",
+    "tagline": "Xây dựng hệ thống mở rộng, ổn định sự phức tạp và giúp đội nhóm thực thi rõ ràng.",
+    "howIWorkTitle": "Cách tôi làm việc",
+    "card1Title": "Làm việc qua cấu trúc",
+    "card1Body": "Khi dự án trở nên hỗn loạn, bản năng đầu tiên của tôi là xác định blocker thực sự, đánh giá mức độ rủi ro và tổ chức vấn đề thành các phần có thể xử lý trước khi thực thi.",
+    "card2Title": "Độc lập nhưng phối hợp tốt",
+    "card2Body": "Tôi ưu tiên nghiên cứu kỹ trước khi nhờ trợ giúp, thông báo vấn đề sớm và giúp đội nhóm duy trì sự đồng thuận về ưu tiên, phạm vi và thực thi.",
+    "card3Title": "Phong cách mentoring",
+    "card3Body": "Tôi hướng dẫn mọi người đến giải pháp thay vì cầm tay từng bước. Tôi đề cao ownership, sáng kiến và những kỹ sư chủ động suy nghĩ trước khi escalate vấn đề.",
+    "principles": ["Cấu trúc hơn hỗn loạn", "Thông báo sớm", "Thực thi thực tế", "Làm chủ rõ ràng"],
+    "beyondTitle": "Ngoài công việc",
+    "beyondParagraph": "Ngoài kỹ thuật, tôi thích những sở thích yên tĩnh và tỉ mỉ phản ánh cách tôi suy nghĩ — bình tĩnh, quan sát và tự nhiên hướng đến cấu trúc, thẩm mỹ và sự thủ công lâu dài.",
+    "interestChips": ["Fantasy & manga", "Tâm lý học", "Sưu tầm manga", "Bể cá & Terrarium", "Thẩm mỹ vintage", "Du lịch một mình", "Nhật · Hàn · Đài Loan"],
+    "closingLine": "Tôi thích biến những tình huống phức tạp và hỗn độn thành các hệ thống mà mọi người thực sự có thể làm việc cùng.",
+    "linkedinLabel": "Khám phá hành trình của tôi (LinkedIn)"
+  },
+  "skills": {
+    "sectionTitle": "Kỹ năng",
+    "subtitle": "Năng lực kỹ thuật 🧠 trên nhiều lĩnh vực với thế mạnh MERN stack 🖥️",
+    "aboutMe": "Về tôi",
+    "columns": {
+      "frontend": {
+        "title": "Front End",
+        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+      },
+      "backend": {
+        "title": "Back End",
+        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+      },
+      "tools": {
+        "title": "Tools",
+        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      }
+    }
+  },
+  "footer": {
+    "copy": "© Hugo"
+  },
+  "contact": {
+    "return": "Quay lại",
+    "heading": "Liên hệ",
+    "email": "hihingo18@gmail.com",
+    "phone": "(+84) 944 548 222",
+    "emailPlaceholder": "Email của bạn",
+    "namePlaceholder": "Họ và tên",
+    "messagePlaceholder": "Tôi có thể giúp gì cho bạn?",
+    "send": "Gửi"
+  }
+}

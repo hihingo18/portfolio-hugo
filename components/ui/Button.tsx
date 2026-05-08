@@ -1,40 +1,48 @@
-"use client";
-
+import { type ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-interface ButtonProps {
-  children: React.ReactNode;
-  variant?: "primary" | "dark" | "outline";
-  onClick?: () => void;
-  className?: string;
-  type?: "button" | "submit" | "reset";
+type ButtonSize = "sm" | "md" | "lg";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  size?: ButtonSize;
+  isLoading?: boolean;
 }
 
-export default function Button({
-  children,
-  variant = "primary",
-  onClick,
+const sizeClasses: Record<ButtonSize, string> = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3 text-base",
+  lg: "px-8 py-4 text-xl",
+};
+
+export function Button({
+  size = "md",
+  isLoading = false,
+  disabled,
   className,
-  type = "button",
+  children,
+  ...props
 }: ButtonProps) {
-  const base =
-    "inline-flex items-center justify-center font-semibold cursor-pointer transition-all duration-200 select-none";
-
-  const variants: Record<string, string> = {
-    primary:
-      "bg-[#FF6B35] text-white rounded-full px-7 py-3 text-sm shadow-[0_4px_20px_rgba(255,107,53,0.30)] hover:bg-[#e55a24] hover:shadow-[0_6px_24px_rgba(255,107,53,0.40)]",
-    dark: "bg-[#020073] text-white rounded-[5px] px-7 py-3 text-sm hover:bg-black",
-    outline:
-      "border border-[#020073] text-[#020073] rounded-[10px] px-7 py-3 text-sm hover:bg-[#020073] hover:text-white",
-  };
-
   return (
     <button
-      type={type}
-      onClick={onClick}
-      className={cn(base, variants[variant], className)}
+      disabled={disabled || isLoading}
+      className={cn(
+        "inline-flex items-center justify-center gap-2",
+        "rounded font-medium transition-colors duration-200",
+        "bg-[#020073] text-white hover:bg-[rgb(0,0,54)]",
+        "dark:bg-[#6b9fff] dark:text-[#0f0f0f] dark:hover:bg-[#5585ef]",
+        "focus:outline-none focus:ring-2 focus:ring-[#020073]/30 dark:focus:ring-[#6b9fff]/30",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
+        sizeClasses[size],
+        className
+      )}
+      {...props}
     >
+      {isLoading && (
+        <span className="inline-block animate-spin text-sm">⚡</span>
+      )}
       {children}
     </button>
   );
 }
+
+export type { ButtonProps };

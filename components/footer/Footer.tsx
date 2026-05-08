@@ -1,21 +1,13 @@
+"use client";
+
+import { useLocale } from "@/context/LocaleContext";
+
 export default function Footer() {
+  const { dict } = useLocale();
   return (
-    <footer className="w-full bg-white border-t border-[#f1f1f1] py-[40px]">
-      <div className="flex items-center justify-center gap-2 text-[16px] font-light text-black flex-wrap">
-        <span>© Hugo</span>
-        <a
-          href="/privacy"
-          className="underline decoration-solid hover:text-[#020073] transition-colors duration-200"
-        >
-          Privacy Policy
-        </a>
-        <span>|</span>
-        <a
-          href="/legal"
-          className="underline decoration-solid hover:text-[#020073] transition-colors duration-200"
-        >
-          Legal Notice
-        </a>
+    <footer className="w-full bg-white dark:bg-[#0f0f0f] border-[#f1f1f1] dark:border-[#2a2a2a] py-10">
+      <div className="flex items-center justify-center gap-2 text-base font-light text-black dark:text-gray-300 flex-wrap">
+        <span>{dict.footer.copy}</span>
       </div>
     </footer>
   );
