@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDownIcon } from "@/components/icons/UIIcons";
+import { Badge } from "@/components/ui/badge";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
 
@@ -74,6 +75,7 @@ export default function SkillsSection() {
         className="absolute inset-x-0 top-0 h-20 pointer-events-none z-10"
         style={{ background: `linear-gradient(to bottom, ${fadeColor}, transparent)` }}
       />
+
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -16 }}
@@ -82,7 +84,6 @@ export default function SkillsSection() {
         transition={{ duration: 0.5 }}
         className="flex flex-col items-center gap-4 mb-14"
       >
-        {/* Title with decorative lines */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
             <span className="block h-px w-12" style={{ backgroundColor: accentColor }} />
@@ -100,7 +101,6 @@ export default function SkillsSection() {
           </div>
         </div>
 
-        {/* Subtitle */}
         <p className="text-sm md:text-base text-center max-w-xl" style={{ color: colors.textMuted }}>
           {s.subtitle}
         </p>
@@ -123,12 +123,10 @@ export default function SkillsSection() {
                   borderLeft: colIdx > 0 ? `1px solid ${dividerColor}` : undefined,
                 }}
               >
-                {/* Icon */}
                 <div className="mb-6">
                   <Icon color={accentColor} />
                 </div>
 
-                {/* Column title */}
                 <h3
                   className="text-xl font-light mb-6 tracking-wide"
                   style={{ color: colors.textBase }}
@@ -136,8 +134,8 @@ export default function SkillsSection() {
                   {col.title}
                 </h3>
 
-                {/* Skill list */}
-                <ul className="flex flex-col items-center gap-3 w-full">
+                {/* Skill badges */}
+                <ul className="flex flex-wrap justify-center gap-2 w-full">
                   {col.items.map((skill, skillIdx) => (
                     <motion.li
                       key={skill}
@@ -145,10 +143,10 @@ export default function SkillsSection() {
                       whileInView={{ opacity: 1 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.3, delay: colIdx * 0.1 + skillIdx * 0.06 }}
-                      className="text-sm text-center"
-                      style={{ color: colors.textMuted }}
                     >
-                      {skill}
+                      <Badge variant="outline" className="text-xs font-normal px-2.5 h-6">
+                        {skill}
+                      </Badge>
                     </motion.li>
                   ))}
                 </ul>
@@ -166,8 +164,9 @@ export default function SkillsSection() {
         transition={{ duration: 0.5, delay: 0.3 }}
         className="flex justify-center mt-14"
       >
-        <a
-          href="#about"
+        <button
+          type="button"
+          onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           className="flex items-center gap-3 cursor-pointer"
@@ -190,7 +189,7 @@ export default function SkillsSection() {
           >
             <ArrowDownIcon />
           </motion.div>
-        </a>
+        </button>
       </motion.div>
     </section>
   );

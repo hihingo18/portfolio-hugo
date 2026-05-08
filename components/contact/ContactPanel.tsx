@@ -2,10 +2,14 @@
 
 import { useState, FormEvent } from "react";
 import { ArrowLeftIcon } from "@/components/icons/UIIcons";
-import { Button, Input, Textarea } from "@/components/ui";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/Textarea";
+import { Label } from "@/components/ui/label";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
 import { FORM_CONSTRAINTS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 interface ContactPanelProps {
   isOpen: boolean;
@@ -166,45 +170,57 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
             </div>
           )}
 
-          <div className="w-full max-w-152">
+          <div className="flex flex-col gap-2 w-full max-w-152">
+            <Label htmlFor="contact-email" style={{ color: colors.textBase }}>{c.emailPlaceholder}</Label>
             <Input
+              id="contact-email"
               type="email"
-              label={c.emailPlaceholder}
               placeholder={c.emailPlaceholder}
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
+              className="h-12 text-[18px] font-fira font-thin rounded-[10px] px-4"
             />
           </div>
 
-          <div className="w-full max-w-152">
+          <div className="flex flex-col gap-2 w-full max-w-152">
+            <Label htmlFor="contact-name" style={{ color: colors.textBase }}>{c.namePlaceholder}</Label>
             <Input
+              id="contact-name"
               type="text"
-              label={c.namePlaceholder}
               placeholder={c.namePlaceholder}
               value={name}
               onChange={(e) => { setName(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
+              className="h-12 text-[18px] font-fira font-thin rounded-[10px] px-4"
             />
           </div>
 
-          <div className="w-full max-w-152">
+          <div className="flex flex-col gap-2 w-full max-w-152">
+            <Label htmlFor="contact-message" style={{ color: colors.textBase }}>{c.messagePlaceholder}</Label>
             <Textarea
-              label={c.messagePlaceholder}
+              id="contact-message"
               placeholder={c.messagePlaceholder}
               value={message}
               onChange={(e) => { setMessage(e.target.value); setError(null); }}
               disabled={status === "loading"}
               required
               rows={5}
-              className="h-33"
+              className={cn("h-33 text-[18px] font-fira font-thin rounded-[10px] px-4 resize-none")}
             />
           </div>
 
           <div className="flex justify-end max-w-152">
-            <Button type="submit" size="lg" isLoading={status === "loading"}>
+            <Button
+              type="submit"
+              disabled={status === "loading"}
+              className="px-8 py-3 h-auto text-base rounded"
+            >
+              {status === "loading" && (
+                <span className="inline-block animate-spin text-sm mr-1">⚡</span>
+              )}
               {status === "loading" ? "Sending..." : c.send}
             </Button>
           </div>

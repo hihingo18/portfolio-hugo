@@ -21,7 +21,8 @@
     "items": {
       "centerbase": {
         "name": ".Centerbase",
-        "image": "/images/centerbase.jpg",
+        "image": "/images/centerbase.webp",
+        "imageDark": "/images/dark-centerbase.webp",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
         "type": "Enterprise Legal Operations SaaS",
         "role": "Technical Lead • Full-stack Developer",
@@ -30,7 +31,8 @@
       },
       "toshiba": {
         "name": ".Toshiba",
-        "image": "/images/toshiba.jpg",
+        "image": "/images/toshiba.webp",
+        "imageDark": "/images/dark-toshiba.webp",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, #fbffde 50%, rgb(255,255,255) 100%)",
         "type": "Enterprise CMS-based Web Platform",
         "role": "Technical Project Management",
@@ -39,7 +41,8 @@
       },
       "aspire": {
         "name": ".Aspire",
-        "image": "/images/aspire.jpg",
+        "image": "/images/aspire.webp",
+        "imageDark": "/images/dark-aspire.webp",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgb(255,255,255) 0%, #ffe6c5 50%, rgb(255,255,255) 100%)",
         "type": "Platform / SaaS Platform",
         "role": "Technical Lead",

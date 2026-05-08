@@ -80,7 +80,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       {/* Avatar */}
       <div className="w-full flex items-center justify-center">
         <div className="relative overflow-hidden rounded-full w-[50%] aspect-square">
-          <Image src="/images/avatar.png" alt="Hugo" fill priority />
+          <Image src="/images/avatar.webp" alt="Hugo" fill priority />
         </div>
       </div>
 
@@ -183,7 +183,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       {/* Theme toggle */}
       <button
         onClick={toggle}
-        className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-3"
+        className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-20"
         style={{ color: colors.textBase }}
         aria-label={colors.isDark ? "Switch to light mode" : "Switch to dark mode"}
       >
