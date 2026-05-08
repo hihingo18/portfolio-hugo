@@ -86,7 +86,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
 
       {/* Navigation */}
       <nav
-        className="flex flex-col flex-1 w-full items-center px-10 lg:px-10"
+        className="flex flex-col flex-1 w-full items-center px-1 lg:px-10"
         style={{ gap: SIDEBAR_MEASUREMENTS.navGap, marginTop: SIDEBAR_MEASUREMENTS.navMarginTop }}
       >
         {NAV_ORDER.map((id) => {
