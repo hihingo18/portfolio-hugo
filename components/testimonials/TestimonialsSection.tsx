@@ -47,12 +47,19 @@ export default function TestimonialsSection() {
     ? { background: "linear-gradient(to bottom, transparent, #0f0f0f)" }
     : { background: "linear-gradient(to bottom, transparent, white)" };
 
+  const fadeColor = isDark ? "#0f0f0f" : "#ffffff";
+
   return (
     <section
       id="trust"
-      className="relative w-full overflow-hidden pt-10 pb-15"
+      className="relative w-full overflow-hidden pt-24 pb-15"
       style={sectionStyle}
     >
+      {/* top fade */}
+      <div
+        className="absolute inset-x-0 top-0 h-20 pointer-events-none z-10"
+        style={{ background: `linear-gradient(to bottom, ${fadeColor}, transparent)` }}
+      />
       {/* Section heading */}
       <div className="px-20 mb-7.5 flex flex-col items-center gap-2">
         <motion.div
@@ -110,7 +117,7 @@ export default function TestimonialsSection() {
       </div>
 
       <div
-        className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
         style={bottomFadeStyle}
       />
     </section>

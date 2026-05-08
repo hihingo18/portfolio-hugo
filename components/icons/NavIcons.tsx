@@ -36,6 +36,15 @@ export const ProjectsIcon = ({ active, activeColor = "#020073", defaultColor = "
   </svg>
 );
 
+export const SkillsIcon = ({ active, activeColor = "#020073", defaultColor = "black" }: NavIconProps) => (
+  <svg fill="none" height="40" viewBox="0 0 40 40" width="40">
+    <path
+      d="M20 4C11.163 4 4 11.163 4 20s7.163 16 16 16 16-7.163 16-16S28.837 4 20 4zm0 3c7.18 0 13 5.82 13 13s-5.82 13-13 13S7 27.18 7 20 12.82 7 20 7zm-1.5 4v5.086l-3.707-3.707-2.121 2.121 3.707 3.707H11v3h5.379l-3.707 3.707 2.121 2.121L18.5 24.328V29h3v-4.672l3.707 3.707 2.121-2.121L23.621 22H29v-3h-5.379l3.707-3.707-2.121-2.121L21.5 16.914V12h-3z"
+      fill={active ? activeColor : defaultColor}
+    />
+  </svg>
+);
+
 export const AboutIcon = ({ active, activeColor = "#020073", defaultColor = "black" }: NavIconProps) => (
   <svg fill="none" height="40" viewBox="0 0 30.1887 40" width="30.1887">
     <path

@@ -24,5 +24,5 @@ export interface Testimonial {
   quote: string;
 }
 
-export type SectionId = "home" | "projects" | "trust" | "about";
-export type NavId = "home" | "projects" | "about";
+export type SectionId = "home" | "projects" | "skills" | "trust" | "about";
+export type NavId = "home" | "projects" | "skills" | "about";

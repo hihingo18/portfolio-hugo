@@ -5,10 +5,12 @@ import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import { StarIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
+import { useColors } from "@/context/ThemeContext";
 import type { Project } from "@/types";
 
 export default function ProjectsSection() {
   const { dict } = useLocale();
+  const colors = useColors();
   const p = dict.projects;
 
   const projects: Project[] = useMemo(
@@ -19,7 +21,8 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="w-full h-screen bg-white dark:bg-[#0f0f0f] pt-0 pb-0 relative z-10 shadow-[0_8px_32px_rgba(0,0,0,0.12)]"
+      className="w-full pt-0 pb-0 relative"
+      style={{ backgroundColor: colors.bgBase }}
     >
       {/* Section heading */}
       <div className="px-20 pt-2.5 pb-0 bg-white dark:bg-[#0f0f0f]">

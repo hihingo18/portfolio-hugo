@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { memo, useState } from "react";
 import { useColors } from "@/context/ThemeContext";
 import type { Project } from "@/types";
@@ -63,7 +64,7 @@ function ProjectCard({ project }: ProjectCardProps) {
       </div>
 
       {/* Project info */}
-      <div className="flex-1 px-6 pt-4 pb-5 mt-4">
+      <div className="flex-1 flex flex-col px-6 pt-4 pb-5 mt-4">
         <p className="font-light text-2xl text-black dark:text-white leading-tight">
           {project.name}
         </p>
@@ -83,6 +84,16 @@ function ProjectCard({ project }: ProjectCardProps) {
         <p className="font-light text-sm text-black dark:text-gray-300 opacity-70 mt-5">
           {project.description}
         </p>
+
+        <div className="mt-auto pt-6">
+          <Link
+            href={`/projects/${project.id}`}
+            onClick={(e) => e.stopPropagation()}
+            className="inline-block px-4 py-2 text-sm font-light border border-black dark:border-white text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200"
+          >
+            View Case Study →
+          </Link>
+        </div>
       </div>
     </div>
   );

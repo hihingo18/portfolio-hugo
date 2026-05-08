@@ -2,6 +2,7 @@
   "nav": {
     "home": "Trang chủ",
     "projects": "Dự án",
+    "skills": "Kỹ năng",
     "about": "Về tôi"
   },
   "hero": {
@@ -11,7 +12,7 @@
     "role": "Technical Lead",
     "roleConnector": "và",
     "roleSuffix": "Full-stack developer.",
-    "tagline": "Xây dựng sản phẩm chất lượng cao, có khả năng mở rộng với năng lực lãnh đạo kỹ thuật vững chắc.",
+    "tagline": "Xây dựng các hệ thống doanh nghiệp có khả năng mở rộng, được sử dụng trong lĩnh vực tài chính, SaaS và hoạt động toàn cầu.",
     "learnMore": "Khám phá thêm",
     "workWithMe": ["Hợp tác", "cùng tôi"]
   },
@@ -83,14 +84,41 @@
   "about": {
     "nameNote": "(tên thật: Hiếu Ngô)",
     "location": "Hà Nội, Việt Nam",
-    "block1Title": "Dẫn đầu từ thực chiến.",
-    "block1Body": "Với hơn 10 năm kinh nghiệm thực tế với tư cách là Technical Lead và Full-stack Developer, tôi chủ động từ đầu—giải quyết các thách thức phức tạp, thúc đẩy giải pháp và định hướng kỹ thuật rõ ràng để xây dựng các hệ thống chất lượng cao, có khả năng mở rộng.",
-    "block2Title": "Xây dựng hệ thống mở rộng và bền vững.",
-    "block2Body": "Chuyên về .NET, microservices và kiến trúc cloud, tôi thiết kế và dẫn dắt các giải pháp end-to-end trên nhiều lĩnh vực, đảm bảo hiệu suất, độ tin cậy và cộng tác hiệu quả cho các nhóm toàn cầu và tăng trưởng kinh doanh dài hạn.",
-    "linkedinLabel": "Khám phá hành trình của tôi (LinkedIn)",
-    "skills": {
-      "backend": ".Backend & Hạ tầng",
-      "frontend": ".Frontend"
+    "domains": "Tài chính · SaaS · Enterprise",
+    "aesthetic": "Vintage · Tối giản · Du lịch",
+    "title": "Technical Lead · Lập trình viên Full-stack",
+    "tagline": "Xây dựng hệ thống mở rộng, ổn định sự phức tạp và giúp đội nhóm thực thi rõ ràng.",
+    "howIWorkTitle": "Cách tôi làm việc",
+    "card1Title": "Làm việc qua cấu trúc",
+    "card1Body": "Khi dự án trở nên hỗn loạn, bản năng đầu tiên của tôi là xác định blocker thực sự, đánh giá mức độ rủi ro và tổ chức vấn đề thành các phần có thể xử lý trước khi thực thi.",
+    "card2Title": "Độc lập nhưng phối hợp tốt",
+    "card2Body": "Tôi ưu tiên nghiên cứu kỹ trước khi nhờ trợ giúp, thông báo vấn đề sớm và giúp đội nhóm duy trì sự đồng thuận về ưu tiên, phạm vi và thực thi.",
+    "card3Title": "Phong cách mentoring",
+    "card3Body": "Tôi hướng dẫn mọi người đến giải pháp thay vì cầm tay từng bước. Tôi đề cao ownership, sáng kiến và những kỹ sư chủ động suy nghĩ trước khi escalate vấn đề.",
+    "principles": ["Cấu trúc hơn hỗn loạn", "Thông báo sớm", "Thực thi thực tế", "Làm chủ rõ ràng"],
+    "beyondTitle": "Ngoài công việc",
+    "beyondParagraph": "Ngoài kỹ thuật, tôi thích những sở thích yên tĩnh và tỉ mỉ phản ánh cách tôi suy nghĩ — bình tĩnh, quan sát và tự nhiên hướng đến cấu trúc, thẩm mỹ và sự thủ công lâu dài.",
+    "interestChips": ["Fantasy & manga", "Tâm lý học", "Sưu tầm manga", "Bể cá & Terrarium", "Thẩm mỹ vintage", "Du lịch một mình", "Nhật · Hàn · Đài Loan"],
+    "closingLine": "Tôi thích biến những tình huống phức tạp và hỗn độn thành các hệ thống mà mọi người thực sự có thể làm việc cùng.",
+    "linkedinLabel": "Khám phá hành trình của tôi (LinkedIn)"
+  },
+  "skills": {
+    "sectionTitle": "Kỹ năng",
+    "subtitle": "Năng lực kỹ thuật 🧠 trên nhiều lĩnh vực với thế mạnh MERN stack 🖥️",
+    "aboutMe": "Về tôi",
+    "columns": {
+      "frontend": {
+        "title": "Front End",
+        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+      },
+      "backend": {
+        "title": "Back End",
+        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+      },
+      "tools": {
+        "title": "Tools",
+        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      }
     }
   },
   "footer": {

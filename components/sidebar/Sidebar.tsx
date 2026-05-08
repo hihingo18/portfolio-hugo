@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
-import { HomeIcon, ProjectsIcon, AboutIcon } from "@/components/icons/NavIcons";
+import { HomeIcon, ProjectsIcon, SkillsIcon, AboutIcon } from "@/components/icons/NavIcons";
 import { LinkedInIcon, InstagramIcon, TikTokIcon, BehanceIcon } from "@/components/icons/SocialIcons";
 import { SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
@@ -33,6 +33,7 @@ const SIDEBAR_MEASUREMENTS = {
 const NAV_ICONS: Record<NavId, typeof HomeIcon> = {
   home: HomeIcon,
   projects: ProjectsIcon,
+  skills: SkillsIcon,
   about: AboutIcon,
 };
 
@@ -43,7 +44,7 @@ const SOCIAL_ICONS: Record<string, typeof InstagramIcon> = {
   behance: BehanceIcon,
 };
 
-const NAV_ORDER: NavId[] = ["home", "projects", "about"];
+const NAV_ORDER: NavId[] = ["home", "projects", "skills", "about"];
 
 function buildLocalizedPath(pathname: string, locale: Locale): string {
   if (!pathname || pathname === "/") return `/${locale}`;
@@ -78,7 +79,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
     >
       {/* Avatar */}
       <div className="w-full flex items-center justify-center">
-        <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
+        <div className="relative overflow-hidden rounded-full w-[50%] aspect-square">
           <Image src="/images/avatar.png" alt="Hugo" fill priority />
         </div>
       </div>

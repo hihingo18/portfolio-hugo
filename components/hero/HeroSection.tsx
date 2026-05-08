@@ -139,7 +139,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
-          className="font-semibold text-sm italic mb-12 max-w-150 leading-relaxed"
+          className="font-semibold text-sm italic mb-12 max-w-170 leading-relaxed"
           style={{ color: colors.textBase }}
         >
           {h.tagline}

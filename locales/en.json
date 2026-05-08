@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "projects": "Projects",
+    "skills": "Skills",
     "about": "About Me"
   },
   "hero": {
@@ -11,7 +12,7 @@
     "role": "Technical Lead",
     "roleConnector": "and a",
     "roleSuffix": "Full-stack developer.",
-    "tagline": "Building scalable, high-quality products with strong engineering leadership.",
+    "tagline": "Building scalable enterprise systems used across finance, SaaS, and global operations.",
     "learnMore": "Learn more",
     "workWithMe": ["Work", "with me"]
   },
@@ -22,10 +23,10 @@
         "name": ".Centerbase",
         "image": "/images/centerbase.jpg",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
-        "type": "Law Firm Management Platform",
-        "role": "Technical Lead, Full-stack Developer",
-        "stack": ".NET 9 microservices, Next.js, SQL Server, Redis, Azure, GraphQL & Kafka.",
-        "description": "Centerbase is a web-based law firm management system for handling clients, matters, billing, payments, accounting, and reporting. It streamlines legal operations with a centralized platform, improving workflow efficiency, financial tracking, and data-driven decision-making."
+        "type": "Enterprise Legal Operations SaaS",
+        "role": "Technical Lead • Full-stack Developer",
+        "stack": ".NET 9 • Next.js • SQL Server • Redis • Azure • GraphQL • Kafka • Microservices",
+        "description": "Large-scale multi-tenant SaaS platform supporting legal operations, accounting and billing workflows for hundreds of US law firms. Led backend and accounting initiatives across microservices migration, reporting architecture redesign and distributed system workflows, improving accounting report performance by over 300%."
       },
       "toshiba": {
         "name": ".Toshiba",
@@ -83,14 +84,41 @@
   "about": {
     "nameNote": "(formerly Hieu Ngo)",
     "location": "Hanoi, Vietnam",
-    "block1Title": "Lead from the front.",
-    "block1Body": "With 10+ years of hands-on experience as a Technical Lead and Full-stack Developer, I take ownership from the ground up—tackling complex challenges, driving solutions, and setting clear technical direction to deliver scalable, high-quality systems.",
-    "block2Title": "Build systems that scale and last.",
-    "block2Body": "Specializing in .NET, microservices, and cloud architecture, I design and lead end-to-end solutions across diverse domains, ensuring performance, reliability, and seamless collaboration for global teams and long-term business growth.",
-    "linkedinLabel": "Discover my journey (LinkedIn)",
-    "skills": {
-      "backend": ".Backend & Infrastructure",
-      "frontend": ".Frontend"
+    "domains": "Finance · SaaS · Enterprise",
+    "aesthetic": "Vintage · Minimalism · Travel",
+    "title": "Technical Lead · Full-stack Developer",
+    "tagline": "Building scalable systems, stabilizing complexity and helping teams execute with clarity.",
+    "howIWorkTitle": "How I Work",
+    "card1Title": "I Work Through Structure",
+    "card1Body": "When projects become messy, my first instinct is to identify the real blocker, assess the risk level and organize the problem into manageable parts before execution.",
+    "card2Title": "Independent But Collaborative",
+    "card2Body": "I prefer researching deeply before asking for help, communicating issues early and helping teams stay aligned on priorities, scope and execution.",
+    "card3Title": "Mentoring Style",
+    "card3Body": "I guide people toward solutions rather than hand-holding every step. I value ownership, initiative and engineers who think proactively before escalating issues.",
+    "principles": ["Structure over chaos", "Early communication", "Practical execution", "Clean ownership"],
+    "beyondTitle": "Beyond Work",
+    "beyondParagraph": "Outside of engineering, I enjoy quiet and detail-oriented hobbies that reflect how I think — calm, observant and naturally drawn toward structure, aesthetics and long-term craftsmanship.",
+    "interestChips": ["Fantasy stories", "Psychology", "Manga collecting", "Aquarium & Terrarium", "Vintage aesthetics", "Solo travel", "Japan · Korea · Taiwan"],
+    "closingLine": "I enjoy turning complex and messy situations into systems people can actually work with.",
+    "linkedinLabel": "Discover my journey (LinkedIn)"
+  },
+  "skills": {
+    "sectionTitle": "My Skills",
+    "subtitle": "Technical competencies 🧠 in many areas with a key proficiency in the MERN stack 🖥️",
+    "aboutMe": "About Me",
+    "columns": {
+      "frontend": {
+        "title": "Front End",
+        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+      },
+      "backend": {
+        "title": "Back End",
+        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+      },
+      "tools": {
+        "title": "Tools",
+        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      }
     }
   },
   "footer": {

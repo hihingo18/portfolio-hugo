@@ -6,12 +6,13 @@ import HeroSection from "@/components/hero/HeroSection";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
 import AboutSection from "@/components/about/AboutSection";
+import SkillsSection from "@/components/skills/SkillsSection";
 import Footer from "@/components/footer/Footer";
 import ContactPanel from "@/components/contact/ContactPanel";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import type { NavId, SectionId } from "@/types";
 
-const SECTION_IDS: SectionId[] = ["home", "projects", "trust", "about"];
+const SECTION_IDS: SectionId[] = ["home", "projects", "skills", "trust", "about"];
 
 export default function PageContent() {
   const [showContact, setShowContact] = useState(false);
@@ -41,6 +42,9 @@ export default function PageContent() {
         </div>
         <div id="trust">
           <TestimonialsSection />
+        </div>
+        <div id="skills">
+          <SkillsSection />
         </div>
         <div id="about">
           <AboutSection />
