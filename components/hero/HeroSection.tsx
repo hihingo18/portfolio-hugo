@@ -105,8 +105,8 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
 
           <motion.div variants={HERO_VARIANTS.container} initial="hidden" animate="show" className="flex flex-col gap-2">
             <motion.div variants={HERO_VARIANTS.line} className="overflow-hidden">
-              <div style={{ color: colors.textBase }} className="text-6xl">
-                <span className="text-gray-500 dark:text-gray-400 text-2xl align-middle">01</span>
+              <div style={{ color: colors.textBase }} className="text-xl md:text-6xl">
+                <span className="text-gray-500 dark:text-gray-400 text-sm md:text-2xl align-middle">01</span>
                 <span className="text-gray-500 dark:text-gray-400 pl-5">&lt;</span>
                 {h.greeting}{" "}
                 <span className="leading-normal" style={{ color: colors.brandPrimary }}>{h.name}</span>
@@ -115,8 +115,8 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
             </motion.div>
 
             <motion.div variants={HERO_VARIANTS.line} className="overflow-hidden">
-              <p style={{ color: colors.textBase }} className="text-6xl">
-                <span className="text-gray-500 dark:text-gray-400 text-2xl align-middle">02</span>
+              <p style={{ color: colors.textBase }} className="text-xl md:text-6xl">
+                <span className="text-gray-500 dark:text-gray-400 text-sm md:text-2xl align-middle">02</span>
                 <span className="text-gray-500 dark:text-gray-400 pl-5">&lt;</span>
                 {h.rolePrefix}{" "}
                 <span className="leading-normal" style={{ color: colors.brandPrimary }}>{h.role}</span>
@@ -124,11 +124,13 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
             </motion.div>
 
             <motion.div variants={HERO_VARIANTS.line} className="overflow-hidden">
-              <p style={{ color: colors.textBase }} className="leading-snug text-6xl">
-                <span className="text-gray-500 dark:text-gray-400 text-2xl align-middle">03</span>
-                <span className="pl-15">{h.roleConnector}{" "}</span>
-                <span style={{ color: colors.brandPrimary }}>{h.roleSuffix}</span>
-                <span className="text-gray-500 dark:text-gray-400">&gt;</span>
+              <p style={{ color: colors.textBase }} className="leading-snug text-xl md:text-6xl flex items-baseline">
+                <span className="text-gray-500 dark:text-gray-400 text-sm md:text-2xl shrink-0">03</span>
+                <span className="pl-8 md:pl-15">
+                  {h.roleConnector}{" "}
+                  <span style={{ color: colors.brandPrimary }}>{h.roleSuffix}</span>
+                  <span className="text-gray-500 dark:text-gray-400">&gt;</span>
+                </span>
               </p>
             </motion.div>
           </motion.div>
@@ -139,7 +141,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
-          className="font-semibold text-sm italic mb-12 max-w-170 leading-relaxed"
+          className="font-semibold text-xs md:text-sm italic mb-12 max-w-xs md:max-w-170 leading-relaxed"
           style={{ color: colors.textBase }}
         >
           {h.tagline}
