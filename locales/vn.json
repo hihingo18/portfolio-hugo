@@ -106,22 +106,34 @@
     "linkedinLabel": "Khám phá hành trình của tôi (LinkedIn)"
   },
   "skills": {
-    "sectionTitle": "Kỹ năng",
-    "subtitle": "Năng lực kỹ thuật 🧠 trên nhiều lĩnh vực với thế mạnh MERN stack 🖥️",
+    "sectionTitle": "Năng lực cốt lõi",
+    "subtitle": "Thực thi kỹ thuật toàn diện — full-stack, hạ tầng đám mây và dẫn dắt kỹ thuật.",
     "aboutMe": "Về tôi",
     "columns": {
       "frontend": {
-        "title": "Front End",
-        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+        "title": "Frontend",
+        "statement": "Xây dựng UI hiệu suất cao và các hệ thống client-side theo component.",
+        "items": ["React", "TypeScript", "Redux", "GraphQL", "Blazor"]
       },
       "backend": {
-        "title": "Back End",
-        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+        "title": "Backend & Hệ thống",
+        "statement": "Thiết kế dịch vụ mở rộng, data pipeline và các API vận hành.",
+        "items": [".NET Core", "Microservices", "gRPC", "Kafka", "EF Core"]
       },
-      "tools": {
-        "title": "Tools",
-        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      "infrastructure": {
+        "title": "Cloud & Hạ tầng",
+        "statement": "Triển khai và duy trì nền tảng cloud-native đáng tin cậy.",
+        "items": ["Azure", "Docker", "Kubernetes", "Redis", "CI/CD"]
+      },
+      "leadership": {
+        "title": "Thực thi & Lãnh đạo",
+        "statement": "Đồng bộ đội nhóm, ưu tiên và giao hàng trong môi trường kỹ thuật phức tạp.",
+        "items": ["Technical Lead", "Mentoring đội nhóm", "Agile / Scrum", "Thiết kế kiến trúc", "Lập kế hoạch giao hàng"]
       }
+    },
+    "themes": {
+      "label": "Lĩnh vực vận hành",
+      "items": ["Hệ thống tài chính", "Multi-tenant SaaS", "Enterprise CMS", "Hiện đại hóa nền tảng", "Hệ thống báo cáo", "Luồng thanh toán", "Ổn định giao hàng"]
     }
   },
   "footer": {

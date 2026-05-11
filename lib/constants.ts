@@ -2,24 +2,14 @@ export const LOCALE_PREFIX_PATTERN = /^\/(en|vn)(?=\/|$)/ as RegExp;
 
 export const SOCIAL_LINKS = [
   {
-    id: "instagram",
-    label: "Instagram",
-    href: "https://instagram.com",
-  },
-  {
     id: "linkedin",
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/hieu-ngo-75b4b1301/",
   },
   {
-    id: "tiktok",
-    label: "TikTok",
-    href: "https://tiktok.com",
-  },
-  {
-    id: "behance",
-    label: "Behance",
-    href: "https://behance.net",
+    id: "github",
+    label: "GitHub",
+    href: "https://github.com/hihingo18",
   },
 ] as const;
 

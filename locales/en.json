@@ -10,8 +10,8 @@
     "name": "Hugo!",
     "rolePrefix": "I'm a",
     "role": "Technical Lead",
-    "roleConnector": "and a",
-    "roleSuffix": "Full-stack developer.",
+    "roleConnector": "and",
+    "roleSuffix": "Senior Full-Stack Engineer.",
     "tagline": "Building scalable enterprise systems used across finance, SaaS, and global operations.",
     "learnMore": "Learn more",
     "workWithMe": ["Work", "with me"]
@@ -106,22 +106,34 @@
     "linkedinLabel": "Discover my journey (LinkedIn)"
   },
   "skills": {
-    "sectionTitle": "My Skills",
-    "subtitle": "Technical competencies 🧠 in many areas with a key proficiency in the MERN stack 🖥️",
+    "sectionTitle": "Core Capabilities",
+    "subtitle": "Technical execution across full-stack systems, cloud infrastructure and engineering leadership.",
     "aboutMe": "About Me",
     "columns": {
       "frontend": {
-        "title": "Front End",
-        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+        "title": "Frontend",
+        "statement": "Building performant, component-driven UIs and client-side systems.",
+        "items": ["React", "TypeScript", "Redux", "GraphQL", "Blazor"]
       },
       "backend": {
-        "title": "Back End",
-        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+        "title": "Backend & Systems",
+        "statement": "Designing scalable services, data pipelines and operational APIs.",
+        "items": [".NET Core", "Microservices", "gRPC", "Kafka", "EF Core"]
       },
-      "tools": {
-        "title": "Tools",
-        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      "infrastructure": {
+        "title": "Cloud & Infrastructure",
+        "statement": "Deploying and maintaining reliable cloud-native platforms.",
+        "items": ["Azure", "Docker", "Kubernetes", "Redis", "CI/CD"]
+      },
+      "leadership": {
+        "title": "Execution & Leadership",
+        "statement": "Aligning teams, priorities and delivery across complex engineering environments.",
+        "items": ["Technical Lead", "Team Mentoring", "Agile / Scrum", "Architecture Design", "Delivery Planning"]
       }
+    },
+    "themes": {
+      "label": "Operational Focus",
+      "items": ["Financial Systems", "Multi-tenant SaaS", "Enterprise CMS", "Platform Modernization", "Reporting Systems", "Payment Workflows", "Delivery Stabilization"]
     }
   },
   "footer": {

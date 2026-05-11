@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { HomeIcon, ProjectsIcon, SkillsIcon, AboutIcon } from "@/components/icons/NavIcons";
-import { LinkedInIcon, InstagramIcon, TikTokIcon, BehanceIcon } from "@/components/icons/SocialIcons";
+import { LinkedInIcon, GitHubIcon } from "@/components/icons/SocialIcons";
 import { CloseIcon, SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useTheme, useColors } from "@/context/ThemeContext";
@@ -19,11 +19,9 @@ const NAV_ICONS: Record<NavId, typeof HomeIcon> = {
   about: AboutIcon,
 };
 
-const SOCIAL_ICONS: Record<string, typeof InstagramIcon> = {
-  instagram: InstagramIcon,
+const SOCIAL_ICONS: Record<string, typeof LinkedInIcon> = {
   linkedin: LinkedInIcon,
-  tiktok: TikTokIcon,
-  behance: BehanceIcon,
+  github: GitHubIcon,
 };
 
 const NAV_ORDER: NavId[] = ["home", "projects", "skills", "about"];
