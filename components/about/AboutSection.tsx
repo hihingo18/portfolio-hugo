@@ -16,10 +16,10 @@ const fadeUp = (delay = 0) => ({
 });
 
 const COLLAGE_TILES = [
-  { labelKey: 1, gradient: "135deg, rgba(255,160,80,0.2) 0%, rgba(255,160,80,0.06) 100%", dot: "rgba(255,160,80,0.7)" },
-  { labelKey: 3, gradient: "135deg, rgba(64,196,160,0.2) 0%, rgba(64,196,160,0.06) 100%", dot: "rgba(64,196,160,0.7)" },
-  { labelKey: 4, gradient: "135deg, rgba(180,140,100,0.2) 0%, rgba(180,140,100,0.06) 100%", dot: "rgba(180,140,100,0.7)" },
-  { labelKey: 0, gradient: "135deg, rgba(147,112,219,0.2) 0%, rgba(147,112,219,0.06) 100%", dot: "rgba(147,112,219,0.7)" },
+  { labelKey: 0, gradient: "135deg, rgba(147,112,219,0.2) 0%, rgba(147,112,219,0.06) 100%", dot: "rgba(147,112,219,0.7)", image: "/images/coffee.webp" },
+  { labelKey: 3, gradient: "135deg, rgba(64,196,160,0.2) 0%, rgba(64,196,160,0.06) 100%", dot: "rgba(64,196,160,0.7)", image: "/images/aquarium.webp" },
+  { labelKey: 5, gradient: "135deg, rgba(180,140,100,0.2) 0%, rgba(180,140,100,0.06) 100%", dot: "rgba(180,140,100,0.7)", image: "/images/halongbay.webp" },
+  { labelKey: 1, gradient: "135deg, rgba(255,160,80,0.2) 0%, rgba(255,160,80,0.06) 100%", dot: "rgba(255,160,80,0.7)", image: "/images/psychology.webp" }, 
 ];
 
 function StructureIcon({ color }: { color: string }) {
@@ -84,6 +84,8 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
   const cardBg = colors.isDark ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.7)";
   const cardBorder = colors.isDark ? colors.borderBase : "rgba(0,0,0,0.07)";
   const iconColor = colors.isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.25)";
+  const bodyText = colors.isDark ? colors.textMuted : "#333";
+  const chipAccent = colors.isDark ? "rgba(91,164,207,0.9)" : "#1a6fa8";
 
   return (
     <section id="about" className="relative w-full" style={sectionStyle}>
@@ -152,22 +154,22 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                 <StructureIcon color={iconColor} />
                 <p className="font-semibold text-[15px]" style={{ color: colors.textBase }}>{a.card1Title}</p>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: colors.textMuted }}>{a.card1Body}</p>
+              <p className="text-sm leading-relaxed" style={{ color: bodyText }}>{a.card1Body}</p>
               <div className="flex items-center flex-wrap gap-1.5 mt-1">
                 {(a.processSteps as string[]).map((step, i, arr) => (
                   <div key={step} className="flex items-center gap-1.5">
                     <span
                       className="text-xs px-2.5 py-1 rounded-full"
                       style={{
-                        border: `1px solid rgba(91,164,207,0.35)`,
-                        color: "rgba(91,164,207,0.9)",
+                        border: `1px solid ${chipAccent}`,
+                        color: chipAccent,
                         backgroundColor: "rgba(91,164,207,0.05)",
                       }}
                     >
                       {step}
                     </span>
                     {i < arr.length - 1 && (
-                      <span className="text-xs" style={{ color: accentColor, opacity: 0.4 }}>→</span>
+                      <span className="text-xs" style={{ color: chipAccent, opacity: 0.6 }}>→</span>
                     )}
                   </div>
                 ))}
@@ -187,7 +189,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                 <CollabIcon color={iconColor} />
                 <p className="font-semibold text-[15px]" style={{ color: colors.textBase }}>{a.card2Title}</p>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: colors.textMuted }}>{a.card2Body}</p>
+              <p className="text-sm leading-relaxed" style={{ color: bodyText }}>{a.card2Body}</p>
             </motion.div>
 
             {/* Card 3: Calm Under Pressure */}
@@ -203,7 +205,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                 <CalmIcon color={iconColor} />
                 <p className="font-semibold text-[15px]" style={{ color: colors.textBase }}>{a.card3Title}</p>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: colors.textMuted }}>{a.card3Body}</p>
+              <p className="text-sm leading-relaxed" style={{ color: bodyText }}>{a.card3Body}</p>
             </motion.div>
 
             {/* Card 4: What I Value */}
@@ -222,7 +224,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                 {(a.principles as string[]).map((p, i) => (
                   <span
                     key={i}
-                    className="text-sm px-3 py-1.5 rounded-full"
+                    className="text-xs px-2.5 py-1 rounded-full"
                     style={{ border: `1px solid ${colors.brandPrimary}`, color: colors.brandPrimary }}
                   >
                     {p}
@@ -253,16 +255,24 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                 transition={{ duration: 0.4, delay: i * 0.07 }}
                 className="relative rounded-xl overflow-hidden flex items-end p-4"
                 style={{
-                  height: 140,
+                  height: 300,
                   background: `linear-gradient(${tile.gradient})`,
                   border: `1px solid ${cardBorder}`,
                 }}
               >
+                {tile.image && (
+                  <img
+                    src={tile.image}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ opacity: 0.9 }}
+                  />
+                )}
                 <div
                   className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full"
                   style={{ backgroundColor: tile.dot }}
                 />
-                <span className="text-xs font-medium leading-tight" style={{ color: colors.textBase, opacity: 0.75 }}>
+                <span className="relative text-xs font-medium leading-tight" style={{ color: "#1a1a1a", opacity: 0.95, textShadow: "0 0 4px rgba(255,255,255,1), 0 0 10px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.8), 0 0 32px rgba(255,255,255,0.5)" }}>
                   {a.interestChips[tile.labelKey]}
                 </span>
               </motion.div>
@@ -272,7 +282,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
           {/* Remaining chips — plain text, no borders */}
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {(a.interestChips as string[])
-              .filter((_: string, i: number) => ![0, 1, 3, 4].includes(i))
+              .filter((_: string, i: number) => ![0, 3, 5, 1].includes(i))
               .map((chip: string, i: number) => (
                 <span key={i} className="text-sm" style={{ color: colors.textMuted }}>
                   {chip}
@@ -291,7 +301,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
             }}
           >
             <p className="text-xl font-light" style={{ color: colors.textBase, lineHeight: 1.85 }}>
-              <span style={{ color: accentColor, fontWeight: 500 }}>“</span>
+              <span style={{ color: chipAccent, fontWeight: 500 }}>“</span>
               {(() => {
                 const highlight: string = a.closingLineHighlight ?? "";
                 const line: string = a.closingLine ?? "";
@@ -304,7 +314,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                       type="button"
                       onClick={onWorkWithMeClick}
                       className="underline decoration-dotted underline-offset-4 cursor-pointer transition-colors duration-200"
-                      style={{ color: accentColor, fontWeight: 400 }}
+                      style={{ color: chipAccent, fontWeight: 400 }}
                     >
                       {highlight}
                     </button>
@@ -312,7 +322,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                   </>
                 );
               })()}
-              <span style={{ color: accentColor, fontWeight: 500 }}>”</span>
+              <span style={{ color: chipAccent, fontWeight: 500 }}>”</span>
             </p>
           </div>
           <a

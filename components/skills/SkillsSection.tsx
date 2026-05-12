@@ -80,6 +80,8 @@ export default function SkillsSection() {
   ];
 
   const iconColor = colors.isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.28)";
+  const bodyText = colors.isDark ? colors.textMuted : "#333";
+  const displayAccent = colors.isDark ? accentColor : "#1a6fa8";
   const [titleFirst, ...titleRest] = s.sectionTitle.split(" ");
 
   return (
@@ -118,7 +120,7 @@ export default function SkillsSection() {
           <span className="block h-px w-16 opacity-40" style={{ backgroundColor: accentColor }} />
         </div>
 
-        <p className="text-sm md:text-base text-center max-w-xl mt-1" style={{ color: colors.textMuted }}>
+        <p className="text-sm md:text-base text-center max-w-xl mt-1" style={{ color: bodyText }}>
           {s.subtitle}
         </p>
       </motion.div>
@@ -151,26 +153,26 @@ export default function SkillsSection() {
                 )}
 
                 {/* Icon */}
-                <Icon color={col.isHighlighted ? accentColor : iconColor} />
+                <Icon color={col.isHighlighted ? displayAccent : iconColor} />
 
                 {/* Title */}
                 <div className="mt-5 mb-0.5">
                   <h3
                     className="font-semibold text-sm leading-tight"
-                    style={{ color: col.isHighlighted ? accentColor : colors.textBase }}
+                    style={{ color: col.isHighlighted ? displayAccent : colors.textBase }}
                   >
                     {col.title}
                   </h3>
                   {col.isHighlighted && (
                     <span
                       className="block w-6 h-0.5 mt-2 rounded-full"
-                      style={{ backgroundColor: accentColor, opacity: 0.5 }}
+                      style={{ backgroundColor: displayAccent, opacity: 0.5 }}
                     />
                   )}
                 </div>
 
                 {/* Statement */}
-                <p className="text-xs leading-relaxed mt-2 mb-5" style={{ color: colors.textMuted }}>
+                <p className="text-xs leading-relaxed mt-2 mb-5" style={{ color: bodyText }}>
                   {col.statement}
                 </p>
 
@@ -186,7 +188,7 @@ export default function SkillsSection() {
                       className="text-xs px-2.5 py-1 rounded-full"
                       style={{
                         border: `1px solid ${col.isHighlighted ? "rgba(91,164,207,0.35)" : colors.borderBase}`,
-                        color: col.isHighlighted ? "rgba(91,164,207,0.9)" : colors.textMuted,
+                        color: col.isHighlighted ? displayAccent : bodyText,
                         backgroundColor: col.isHighlighted
                           ? "rgba(91,164,207,0.06)"
                           : (colors.isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)"),
@@ -212,7 +214,7 @@ export default function SkillsSection() {
         >
           <span
             className="text-xs font-semibold tracking-widest uppercase shrink-0 pt-0.5"
-            style={{ color: accentColor, opacity: 0.8 }}
+            style={{ color: displayAccent, opacity: 0.8 }}
           >
             {s.themes.label}
           </span>
@@ -225,7 +227,7 @@ export default function SkillsSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.25, delay: i * 0.05 }}
                 className="text-sm"
-                style={{ color: colors.textMuted }}
+                style={{ color: bodyText }}
               >
                 {theme}
               </motion.span>
