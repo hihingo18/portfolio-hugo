@@ -5,7 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { HomeIcon, ProjectsIcon, SkillsIcon, AboutIcon } from "@/components/icons/NavIcons";
-import { LinkedInIcon, InstagramIcon, TikTokIcon, BehanceIcon } from "@/components/icons/SocialIcons";
+import { LinkedInIcon, GitHubIcon } from "@/components/icons/SocialIcons";
 import { SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useTheme, useColors } from "@/context/ThemeContext";
@@ -37,11 +37,9 @@ const NAV_ICONS: Record<NavId, typeof HomeIcon> = {
   about: AboutIcon,
 };
 
-const SOCIAL_ICONS: Record<string, typeof InstagramIcon> = {
-  instagram: InstagramIcon,
+const SOCIAL_ICONS: Record<string, typeof LinkedInIcon> = {
   linkedin: LinkedInIcon,
-  tiktok: TikTokIcon,
-  behance: BehanceIcon,
+  github: GitHubIcon,
 };
 
 const NAV_ORDER: NavId[] = ["home", "projects", "skills", "about"];
@@ -78,8 +76,8 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       style={{ backgroundColor: colors.bgBase }}
     >
       {/* Avatar — hidden on tablet, visible on desktop */}
-      <div className="hidden lg:flex w-full items-center justify-center">
-        <div className="relative overflow-hidden rounded-full w-[50%] aspect-square">
+      <div className="hidden lg:flex w-full items-center justify-center mt-6">
+        <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
           <Image src="/images/avatar.webp" alt="Hugo" fill priority />
         </div>
       </div>
@@ -143,77 +141,85 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
         })}
       </nav>
 
-      {/* Language switcher */}
+      {/* Language switcher + Theme toggle */}
       <div
-        className="flex items-center h-full mt-5"
-        style={{ gap: SIDEBAR_MEASUREMENTS.langGap, marginBottom: SIDEBAR_MEASUREMENTS.langMarginBottom }}
+        className="w-full px-1 lg:px-10 mt-5"
+        style={{ marginBottom: SIDEBAR_MEASUREMENTS.langMarginBottom }}
       >
-        <button
-          onClick={() => switchLocale("en")}
-          className="cursor-pointer leading-none transition-all duration-200"
-          style={{
-            fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-            color: locale === "en" ? colors.brandPrimary : colors.textBase,
-            fontWeight: locale === "en" ? 700 : 300,
-          }}
+        <div
+          className="flex items-center"
+          style={{ gap: SIDEBAR_MEASUREMENTS.langGap, paddingLeft: SIDEBAR_MEASUREMENTS.navPadding }}
         >
-          EN
-        </button>
-        <span
-          className="font-light leading-none"
-          style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: colors.textBase }}
-        >
-          /
-        </span>
-        <button
-          onClick={() => switchLocale("vn")}
-          className="cursor-pointer leading-none transition-all duration-200"
-          style={{
-            fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-            color: locale === "vn" ? colors.brandPrimary : colors.textBase,
-            fontWeight: locale === "vn" ? 700 : 300,
-          }}
-        >
-          VN
-        </button>
+          <button
+            onClick={() => switchLocale("en")}
+            className="cursor-pointer leading-none transition-all duration-200"
+            style={{
+              fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
+              color: locale === "en" ? colors.brandPrimary : colors.textBase,
+              fontWeight: locale === "en" ? 700 : 300,
+            }}
+          >
+            EN
+          </button>
+          <span
+            className="font-light leading-none"
+            style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: colors.textBase }}
+          >
+            /
+          </span>
+          <button
+            onClick={() => switchLocale("vn")}
+            className="cursor-pointer leading-none transition-all duration-200"
+            style={{
+              fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
+              color: locale === "vn" ? colors.brandPrimary : colors.textBase,
+              fontWeight: locale === "vn" ? 700 : 300,
+            }}
+          >
+            VN
+          </button>
+          <button
+            onClick={toggle}
+            className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60"
+            style={{ color: colors.textBase, marginLeft: SIDEBAR_MEASUREMENTS.langGap }}
+            aria-label={colors.isDark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {colors.isDark ? <SunIcon /> : <MoonIcon />}
+          </button>
+        </div>
       </div>
 
-      {/* Theme toggle */}
-      <button
-        onClick={toggle}
-        className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-20"
-        style={{ color: colors.textBase }}
-        aria-label={colors.isDark ? "Switch to light mode" : "Switch to dark mode"}
-      >
-        {colors.isDark ? <SunIcon /> : <MoonIcon />}
-      </button>
-
       {/* Social icons — hidden on tablet, visible on desktop */}
-      <div
-        className="hidden lg:grid grid-cols-2 items-center justify-items-center"
-        style={{ gap: SIDEBAR_MEASUREMENTS.socialGridGap }}
-      >
-        {SOCIAL_LINKS.map(({ id, href, label }) => {
-          const Icon = SOCIAL_ICONS[id];
-          return (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center hover:opacity-60 transition-opacity duration-200"
-              style={{
-                width: SIDEBAR_MEASUREMENTS.socialSize,
-                height: SIDEBAR_MEASUREMENTS.socialSize,
-                padding: SIDEBAR_MEASUREMENTS.socialPadding,
-                color: colors.textBase,
-              }}
-              aria-label={label}
-            >
-              <Icon />
-            </a>
-          );
-        })}
+      <div className="hidden lg:block w-full px-1 lg:px-10">
+        <div
+          className="flex items-center"
+          style={{ gap: SIDEBAR_MEASUREMENTS.socialGridGap, marginLeft: SIDEBAR_MEASUREMENTS.navPadding }}
+        >
+          {SOCIAL_LINKS.map(({ id, href, label }) => {
+            const Icon = SOCIAL_ICONS[id];
+            return (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center hover:opacity-60 transition-opacity duration-200"
+                style={{
+                  width: SIDEBAR_MEASUREMENTS.socialSize,
+                  height: SIDEBAR_MEASUREMENTS.socialSize,
+                  paddingTop: SIDEBAR_MEASUREMENTS.socialPadding,
+                  paddingBottom: SIDEBAR_MEASUREMENTS.socialPadding,
+                  paddingRight: SIDEBAR_MEASUREMENTS.socialPadding,
+                  paddingLeft: 0,
+                  color: colors.textBase,
+                }}
+                aria-label={label}
+              >
+                <Icon />
+              </a>
+            );
+          })}
+        </div>
       </div>
     </aside>
   );

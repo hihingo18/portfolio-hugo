@@ -11,7 +11,7 @@
     "rolePrefix": "Tôi là",
     "role": "Technical Lead",
     "roleConnector": "và",
-    "roleSuffix": "Full-stack developer.",
+    "roleSuffix": "Senior Full-Stack Engineer.",
     "tagline": "Xây dựng các hệ thống doanh nghiệp có khả năng mở rộng, được sử dụng trong lĩnh vực tài chính, SaaS và hoạt động toàn cầu.",
     "learnMore": "Khám phá thêm",
     "workWithMe": ["Hợp tác", "cùng tôi"]
@@ -25,7 +25,7 @@
         "imageDark": "/images/dark-centerbase.webp",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
         "type": "Nền tảng quản lý công ty luật",
-        "role": "Technical Lead, Full-stack Developer",
+        "role": "Technical Lead • Senior Full-Stack Engineer",
         "stack": ".NET 9 microservices, Next.js, SQL Server, Redis, Azure, GraphQL & Kafka.",
         "description": "Centerbase là hệ thống quản lý công ty luật trực tuyến, xử lý khách hàng, vụ việc, thanh toán, kế toán và báo cáo. Nền tảng giúp tối ưu hóa quy trình pháp lý, cải thiện hiệu quả làm việc và hỗ trợ ra quyết định dựa trên dữ liệu."
       },
@@ -91,8 +91,13 @@
     "aesthetic": "Vintage · Tối giản · Du lịch",
     "title": "Technical Lead · Lập trình viên Full-stack",
     "tagline": "Xây dựng hệ thống mở rộng, ổn định sự phức tạp và giúp đội nhóm thực thi rõ ràng.",
+    "workingMindsetTitle": "Phong cách tư duy",
+    "whatIValueLabel": "Điều tôi trân trọng",
+    "howIThinkTitle": "Cách tôi suy nghĩ",
     "howIWorkTitle": "Cách tôi làm việc",
-    "card1Title": "Làm việc qua cấu trúc",
+    "personalityTraits": ["Trầm tĩnh & chú trọng chi tiết", "Du lịch solo", "Thẩm mỹ vintage & tối giản", "Truyện fantasy & tâm lý học", "Nuôi bể thủy sinh & terrarium"],
+    "processSteps": ["Vấn đề", "Phân tích", "Rủi ro", "Đồng bộ", "Thực thi"],
+    "card1Title":"Làm việc qua cấu trúc",
     "card1Body": "Khi dự án trở nên hỗn loạn, bản năng đầu tiên của tôi là xác định blocker thực sự, đánh giá mức độ rủi ro và tổ chức vấn đề thành các phần có thể xử lý trước khi thực thi.",
     "card2Title": "Độc lập nhưng phối hợp tốt",
     "card2Body": "Tôi ưu tiên nghiên cứu kỹ trước khi nhờ trợ giúp, thông báo vấn đề sớm và giúp đội nhóm duy trì sự đồng thuận về ưu tiên, phạm vi và thực thi.",
@@ -103,25 +108,37 @@
     "beyondParagraph": "Ngoài kỹ thuật, tôi thích những sở thích yên tĩnh và tỉ mỉ phản ánh cách tôi suy nghĩ — bình tĩnh, quan sát và tự nhiên hướng đến cấu trúc, thẩm mỹ và sự thủ công lâu dài.",
     "interestChips": ["Fantasy & manga", "Tâm lý học", "Sưu tầm manga", "Bể cá & Terrarium", "Thẩm mỹ vintage", "Du lịch một mình", "Nhật · Hàn · Đài Loan"],
     "closingLine": "Tôi thích biến những tình huống phức tạp và hỗn độn thành các hệ thống mà mọi người thực sự có thể làm việc cùng.",
+    "closingLineHighlight": "làm việc cùng",
     "linkedinLabel": "Khám phá hành trình của tôi (LinkedIn)"
   },
   "skills": {
-    "sectionTitle": "Kỹ năng",
-    "subtitle": "Năng lực kỹ thuật 🧠 trên nhiều lĩnh vực với thế mạnh MERN stack 🖥️",
-    "aboutMe": "Về tôi",
+    "sectionTitle": "Năng lực cốt lõi",
+    "subtitle": "Kỹ thuật full-stack, kiến trúc hệ thống và độ phức tạp vận hành định nghĩa cấp senior.",
     "columns": {
       "frontend": {
-        "title": "Front End",
-        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+        "title": "Frontend & UI",
+        "statement": "Xây dựng UI hiệu suất cao và kiến trúc component-driven hiện đại.",
+        "items": ["React", "Next.js", "TypeScript", "Redux", "TailwindCSS", "GraphQL", "Blazor"]
       },
       "backend": {
-        "title": "Back End",
-        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+        "title": "Backend & Kiến trúc",
+        "statement": "Thiết kế dịch vụ mở rộng, API và hệ thống dữ liệu lớn ở quy mô production.",
+        "items": [".NET Core", "Microservices", "REST APIs", "gRPC", "Kafka", "SQL Server", "Redis", "System Design", "Performance Optimization"]
       },
-      "tools": {
-        "title": "Tools",
-        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      "operational": {
+        "title": "Tư duy Vận hành",
+        "statement": "Cách tôi phân tích phức tạp, quản lý rủi ro và ổn định delivery dưới áp lực.",
+        "items": ["Systems Thinking", "Risk Assessment", "Root Cause Analysis", "Problem Solving", "Stakeholder Communication"]
+      },
+      "domain": {
+        "title": "Kinh nghiệm Domain",
+        "statement": "Độ phức tạp vận hành thực tế trong hệ thống enterprise, tài chính và nền tảng.",
+        "items": ["Hệ thống tài chính", "Multi-tenant SaaS", "Enterprise CMS", "Luồng thanh toán", "Hệ thống báo cáo", "Hiện đại hóa nền tảng", "Ổn định giao hàng"]
       }
+    },
+    "themes": {
+      "label": "Phương pháp kỹ thuật",
+      "items": ["Clean Architecture", "Domain-Driven Design", "Event-Driven Architecture", "CQRS", "Observability", "Continuous Delivery"]
     }
   },
   "footer": {

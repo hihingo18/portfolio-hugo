@@ -10,8 +10,8 @@
     "name": "Hugo!",
     "rolePrefix": "I'm a",
     "role": "Technical Lead",
-    "roleConnector": "and a",
-    "roleSuffix": "Full-stack developer.",
+    "roleConnector": "and",
+    "roleSuffix": "Senior Full-Stack Engineer.",
     "tagline": "Building scalable enterprise systems used across finance, SaaS, and global operations.",
     "learnMore": "Learn more",
     "workWithMe": ["Work", "with me"]
@@ -25,7 +25,7 @@
         "imageDark": "/images/dark-centerbase.webp",
         "cardBg": "linear-gradient(rgb(255,255,255) 0%, rgba(168,224,224,0.55) 33.333%, rgba(255,236,139,0.494) 66.667%, rgb(255,255,255) 100%), linear-gradient(90deg, rgb(245,255,248) 0%, rgb(245,255,248) 100%)",
         "type": "Enterprise Legal Operations SaaS",
-        "role": "Technical Lead • Full-stack Developer",
+        "role": "Technical Lead • Senior Full-Stack Engineer",
         "stack": ".NET 9 • Next.js • SQL Server • Redis • Azure • GraphQL • Kafka • Microservices",
         "description": "Large-scale multi-tenant SaaS platform supporting legal operations, accounting and billing workflows for hundreds of US law firms. Led backend and accounting initiatives across microservices migration, reporting architecture redesign and distributed system workflows, improving accounting report performance by over 300%."
       },
@@ -89,11 +89,16 @@
     "location": "Hanoi, Vietnam",
     "domains": "Finance · SaaS · Enterprise",
     "aesthetic": "Vintage · Minimalism · Travel",
-    "title": "Technical Lead · Full-stack Developer",
+    "title": "Technical Lead · Senior Full-Stack Engineer",
     "tagline": "Building scalable systems, stabilizing complexity and helping teams execute with clarity.",
+    "workingMindsetTitle": "Working Mindset",
+    "whatIValueLabel": "What I Value",
+    "howIThinkTitle": "How I Think",
     "howIWorkTitle": "How I Work",
+    "personalityTraits": ["Quiet & detail-oriented", "Independent traveler", "Vintage & minimalist aesthetics", "Fantasy stories & psychology", "Aquarium & terrarium hobbyist"],
     "card1Title": "I Work Through Structure",
     "card1Body": "When projects become messy, my first instinct is to identify the real blocker, assess the risk level and organize the problem into manageable parts before execution.",
+    "processSteps": ["Issue", "Analyze", "Risk", "Align", "Execute"],
     "card2Title": "Independent But Collaborative",
     "card2Body": "I prefer researching deeply before asking for help, communicating issues early and helping teams stay aligned on priorities, scope and execution.",
     "card3Title": "Mentoring Style",
@@ -103,25 +108,37 @@
     "beyondParagraph": "Outside of engineering, I enjoy quiet and detail-oriented hobbies that reflect how I think — calm, observant and naturally drawn toward structure, aesthetics and long-term craftsmanship.",
     "interestChips": ["Fantasy stories", "Psychology", "Manga collecting", "Aquarium & Terrarium", "Vintage aesthetics", "Solo travel", "Japan · Korea · Taiwan"],
     "closingLine": "I enjoy turning complex and messy situations into systems people can actually work with.",
+    "closingLineHighlight": "work with",
     "linkedinLabel": "Discover my journey (LinkedIn)"
   },
   "skills": {
-    "sectionTitle": "My Skills",
-    "subtitle": "Technical competencies 🧠 in many areas with a key proficiency in the MERN stack 🖥️",
-    "aboutMe": "About Me",
+    "sectionTitle": "Core Capabilities",
+    "subtitle": "Full-stack engineering, system architecture and the operational complexity that defines senior work.",
     "columns": {
       "frontend": {
-        "title": "Front End",
-        "items": ["HTML", "CSS & Sass", "JavaScript", "Bootstrap", "React & Redux"]
+        "title": "Frontend & UI",
+        "statement": "Delivering performant, accessible UIs with modern component-driven architecture.",
+        "items": ["React", "Next.js", "TypeScript", "Redux", "TailwindCSS", "GraphQL", "Blazor"]
       },
       "backend": {
-        "title": "Back End",
-        "items": ["Node", "Express", "MongoDB", "GraphQL", "Heroku"]
+        "title": "Backend & Architecture",
+        "statement": "Designing scalable services, APIs and data-intensive systems at production scale.",
+        "items": [".NET Core", "Microservices", "REST APIs", "gRPC", "Kafka", "SQL Server", "Redis", "System Design", "Performance Optimization"]
       },
-      "tools": {
-        "title": "Tools",
-        "items": ["VS Code", "Git & Github", "Yarn", "Jest", "TypeScript"]
+      "operational": {
+        "title": "Operational Thinking",
+        "statement": "How I analyze complexity, manage risk and stabilize delivery under pressure.",
+        "items": ["Systems Thinking", "Risk Assessment", "Root Cause Analysis", "Problem Solving", "Stakeholder Communication"]
+      },
+      "domain": {
+        "title": "Domain Experience",
+        "statement": "Real operational complexity across enterprise, financial and platform systems.",
+        "items": ["Financial Systems", "Multi-tenant SaaS", "Enterprise CMS", "Payment Workflows", "Reporting Systems", "Platform Modernization", "Delivery Stabilization"]
       }
+    },
+    "themes": {
+      "label": "Engineering Approach",
+      "items": ["Clean Architecture", "Domain-Driven Design", "Event-Driven Architecture", "CQRS", "Observability", "Continuous Delivery"]
     }
   },
   "footer": {

@@ -9,6 +9,7 @@ import ProjectsSection from "@/components/projects/ProjectsSection";
 import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
 import AboutSection from "@/components/about/AboutSection";
 import SkillsSection from "@/components/skills/SkillsSection";
+import SectionConnector from "@/components/skills/SectionConnector";
 import Footer from "@/components/footer/Footer";
 import ContactPanel from "@/components/contact/ContactPanel";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
@@ -60,8 +61,9 @@ export default function PageContent() {
         <div id="skills">
           <SkillsSection />
         </div>
+        <SectionConnector />
         <div id="about">
-          <AboutSection />
+          <AboutSection onWorkWithMeClick={() => setShowContact(true)} />
         </div>
         <Footer />
       </main>
