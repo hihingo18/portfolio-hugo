@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPinIcon, LayersIcon, ShieldIcon, UsersIcon } from "@/components/icons/UIIcons";
+import { MapPinIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
+
+const accentColor = "#5ba4cf";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -13,17 +15,57 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.6, delay },
 });
 
-function SectionLabel({ index, label, color }: { index: string; label: string; color: string }) {
+const COLLAGE_TILES = [
+  { labelKey: 1, gradient: "135deg, rgba(255,160,80,0.2) 0%, rgba(255,160,80,0.06) 100%", dot: "rgba(255,160,80,0.7)" },
+  { labelKey: 3, gradient: "135deg, rgba(64,196,160,0.2) 0%, rgba(64,196,160,0.06) 100%", dot: "rgba(64,196,160,0.7)" },
+  { labelKey: 4, gradient: "135deg, rgba(180,140,100,0.2) 0%, rgba(180,140,100,0.06) 100%", dot: "rgba(180,140,100,0.7)" },
+  { labelKey: 0, gradient: "135deg, rgba(147,112,219,0.2) 0%, rgba(147,112,219,0.06) 100%", dot: "rgba(147,112,219,0.7)" },
+];
+
+function StructureIcon({ color }: { color: string }) {
   return (
-    <div className="flex items-center gap-3 mb-7">
-      <span className="font-mono text-xs" style={{ color }}>{index}</span>
-      <div className="h-px w-6" style={{ backgroundColor: color, opacity: 0.35 }} />
-      <span className="text-xs font-semibold uppercase tracking-widest" style={{ color }}>{label}</span>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="2" y="3" width="20" height="4" rx="1" />
+      <rect x="2" y="10" width="14" height="4" rx="1" />
+      <rect x="2" y="17" width="9" height="4" rx="1" />
+    </svg>
+  );
+}
+
+function CollabIcon({ color }: { color: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="9" cy="7" r="3" />
+      <circle cx="17" cy="9" r="2.5" />
+      <path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" />
+      <path d="M17 13c2.2.5 4 2.3 4 4.5" />
+    </svg>
+  );
+}
+
+function CalmIcon({ color }: { color: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 3" />
+    </svg>
+  );
+}
+
+function EditorialLabel({ index, label }: { index: string; label: string }) {
+  const colors = useColors();
+  return (
+    <div className="flex items-center gap-4 mb-10">
+      <span className="font-mono text-xs" style={{ color: accentColor }}>{index}</span>
+      <div className="h-px w-8" style={{ backgroundColor: colors.textFaint, opacity: 0.6 }} />
+      <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: colors.textMuted }}>
+        {label}
+      </span>
     </div>
   );
 }
 
-export default function AboutSection() {
+export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?: () => void }) {
   const { dict } = useLocale();
   const colors = useColors();
   const a = dict.about;
@@ -32,211 +74,258 @@ export default function AboutSection() {
   const gradientOverlay =
     "linear-gradient(137deg, rgb(255,255,255) 0%, rgb(255,255,255) 33.333%, rgb(203,220,255) 66.667%, rgb(255,255,255) 100%)";
 
-  const cardStyle = colors.isDark
-    ? { border: `1px solid ${colors.borderBase}`, backgroundColor: colors.bgPanel }
-    : {
-        background: "rgba(255,255,255,0.72)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
-        border: "1px solid rgba(255,255,255,0.85)",
-      };
-
-  const chipStyle = colors.isDark
-    ? { border: `1px solid ${colors.borderBase}`, color: colors.textBase, backgroundColor: colors.bgPanel }
-    : {
-        background: "rgba(255,255,255,0.7)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
-        border: "1px solid rgba(255,255,255,0.9)",
-        color: colors.textBase,
-      };
-
   const fadeColor = colors.isDark ? "#0f0f0f" : "#ffffff";
 
+  const sectionStyle = {
+    overflowX: "clip" as const,
+    ...(colors.isDark ? { backgroundColor: colors.bgBase } : { background: gradientOverlay }),
+  };
+
+  const cardBg = colors.isDark ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.7)";
+  const cardBorder = colors.isDark ? colors.borderBase : "rgba(0,0,0,0.07)";
+  const iconColor = colors.isDark ? "rgba(255,255,255,0.35)" : "rgba(0,0,0,0.25)";
+
   return (
-    <section
-      id="about"
-      className="relative w-full overflow-hidden"
-      style={!colors.isDark ? { background: gradientOverlay } : { backgroundColor: colors.bgBase }}
-    >
-      {/* top fade */}
+    <section id="about" className="relative w-full" style={sectionStyle}>
       <div
         className="absolute inset-x-0 top-0 h-20 pointer-events-none z-10"
         style={{ background: `linear-gradient(to bottom, ${fadeColor}, transparent)` }}
       />
-      {/* bottom fade */}
       <div
         className="absolute inset-x-0 bottom-0 h-20 pointer-events-none z-10"
         style={{ background: `linear-gradient(to top, ${fadeColor}, transparent)` }}
       />
-      <div className="px-20 pt-14 pb-24 space-y-18">
 
-        {/* ── IDENTITY ──────────────────────────────────────── */}
-        <motion.div {...fadeUp(0)}>
-          <div className="flex flex-col gap-5">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-              <div>
-                <h2
-                  className="font-bold leading-none tracking-tight"
-                  style={{ fontSize: 52, color: colors.textBase }}
-                >
-                  HUGO
-                </h2>
-                <span className="text-sm font-light" style={{ color: colors.textMuted }}>
-                  {a.nameNote}
-                </span>
-              </div>
-              <div className="flex flex-col gap-1 sm:text-right">
-                <p className="font-medium text-base" style={{ color: colors.textBase }}>
-                  {a.title}
-                </p>
-                <p
-                  className="font-normal text-[13px] leading-relaxed max-w-sm sm:ml-auto"
-                  style={{ color: colors.textMuted }}
-                >
-                  {a.tagline}
-                </p>
-              </div>
-            </div>
+      <div className="px-6 md:px-16 lg:px-24 pt-14 pb-28">
 
-            <div className="h-px w-full" style={{ backgroundColor: colors.borderBase }} />
-
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
-              <span
-                className="flex items-center gap-1.5 text-xs"
-                style={{ color: colors.textMuted }}
+        {/* ── IDENTITY ────────────────────────────────────── */}
+        <motion.div {...fadeUp(0)} className="flex flex-col gap-6 mb-24">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <div>
+              <h2
+                className="font-bold leading-none tracking-tight"
+                style={{ fontSize: 56, color: colors.textBase }}
               >
-                <MapPinIcon /> {a.location}
+                HUGO
+              </h2>
+              <span className="text-sm font-light" style={{ color: colors.textMuted }}>
+                {a.nameNote}
               </span>
-              <span className="text-xs" style={{ color: colors.textFaint }}>·</span>
-              <span className="text-xs" style={{ color: colors.textMuted }}>{a.domains}</span>
-              <span className="text-xs" style={{ color: colors.textFaint }}>·</span>
-              <span className="text-xs" style={{ color: colors.textMuted }}>{a.aesthetic}</span>
             </div>
+            <div className="flex flex-col gap-1 sm:text-right">
+              <p className="font-medium text-base" style={{ color: colors.textBase }}>{a.title}</p>
+              <p className="font-normal text-sm leading-relaxed max-w-sm sm:ml-auto" style={{ color: colors.textMuted }}>
+                {a.tagline}
+              </p>
+            </div>
+          </div>
+
+          <div className="h-px w-full" style={{ backgroundColor: colors.borderBase }} />
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
+            <span className="flex items-center gap-1.5 text-sm" style={{ color: colors.textMuted }}>
+              <MapPinIcon /> {a.location}
+            </span>
+            <span className="text-sm" style={{ color: colors.textFaint }}>·</span>
+            <span className="text-sm" style={{ color: colors.textMuted }}>{a.domains}</span>
+            <span className="text-sm" style={{ color: colors.textFaint }}>·</span>
+            <span className="text-sm" style={{ color: colors.textMuted }}>{a.aesthetic}</span>
           </div>
         </motion.div>
 
-        {/* ── HOW I WORK ────────────────────────────────────── */}
-        <motion.div {...fadeUp(0.05)}>
-          <SectionLabel index="01" label={a.howIWorkTitle} color={colors.textMuted} />
+        {/* ── 01 HOW I WORK ───────────────────────────────── */}
+        <motion.div {...fadeUp(0.05)} className="mb-24">
+          <EditorialLabel index="01" label={a.howIWorkTitle} />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-            {/* Row 1: two equal cards */}
-            {[
-              { icon: <LayersIcon />, title: a.card1Title, body: a.card1Body },
-              { icon: <ShieldIcon />, title: a.card2Title, body: a.card2Body },
-            ].map((card, i) => (
-              <div
-                key={i}
-                className="p-6 rounded-xl flex flex-col gap-3"
-                style={cardStyle}
-              >
-                <div className="flex items-center gap-2.5">
-                  <span style={{ color: colors.brandPrimary }}>{card.icon}</span>
-                  <h4 className="font-semibold text-[15px]" style={{ color: colors.textBase }}>
-                    {card.title}
-                  </h4>
-                </div>
-                <p className="font-normal text-[15px] leading-relaxed" style={{ color: colors.textBase }}>
-                  {card.body}
-                </p>
-              </div>
-            ))}
-
-            {/* Row 2: mentoring card + principles panel */}
-            <div
-              className="p-6 rounded-xl flex flex-col gap-3"
-              style={cardStyle}
+            {/* Card 1: I Work Through Structure */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0 }}
+              className="flex flex-col gap-3 p-6 rounded-2xl"
+              style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
             >
-              <div className="flex items-center gap-2.5">
-                <span style={{ color: colors.brandPrimary }}><UsersIcon /></span>
-                <h4 className="font-semibold text-[15px]" style={{ color: colors.textBase }}>
-                  {a.card3Title}
-                </h4>
+              <div className="flex items-center gap-2">
+                <StructureIcon color={iconColor} />
+                <p className="font-semibold text-[15px]" style={{ color: colors.textBase }}>{a.card1Title}</p>
               </div>
-              <p className="font-normal text-[15px] leading-relaxed" style={{ color: colors.textBase }}>
-                {a.card3Body}
-              </p>
-            </div>
+              <p className="text-sm leading-relaxed" style={{ color: colors.textMuted }}>{a.card1Body}</p>
+              <div className="flex items-center flex-wrap gap-1.5 mt-1">
+                {(a.processSteps as string[]).map((step, i, arr) => (
+                  <div key={step} className="flex items-center gap-1.5">
+                    <span
+                      className="text-xs px-2.5 py-1 rounded-full"
+                      style={{
+                        border: `1px solid rgba(91,164,207,0.35)`,
+                        color: "rgba(91,164,207,0.9)",
+                        backgroundColor: "rgba(91,164,207,0.05)",
+                      }}
+                    >
+                      {step}
+                    </span>
+                    {i < arr.length - 1 && (
+                      <span className="text-xs" style={{ color: accentColor, opacity: 0.4 }}>→</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
 
-            <div
-              className="p-6 rounded-xl flex flex-col justify-between gap-4"
-              style={cardStyle}
+            {/* Card 2: Independent But Collaborative */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.07 }}
+              className="flex flex-col gap-3 p-6 rounded-2xl"
+              style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
             >
-              <span
-                className="text-[11px] font-semibold uppercase tracking-widest"
-                style={{ color: colors.textMuted }}
-              >
-                What I value
+              <div className="flex items-center gap-2">
+                <CollabIcon color={iconColor} />
+                <p className="font-semibold text-[15px]" style={{ color: colors.textBase }}>{a.card2Title}</p>
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: colors.textMuted }}>{a.card2Body}</p>
+            </motion.div>
+
+            {/* Card 3: Calm Under Pressure */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.14 }}
+              className="flex flex-col gap-3 p-6 rounded-2xl"
+              style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
+            >
+              <div className="flex items-center gap-2">
+                <CalmIcon color={iconColor} />
+                <p className="font-semibold text-[15px]" style={{ color: colors.textBase }}>{a.card3Title}</p>
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: colors.textMuted }}>{a.card3Body}</p>
+            </motion.div>
+
+            {/* Card 4: What I Value */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: 0.21 }}
+              className="flex flex-col gap-4 p-6 rounded-2xl"
+              style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
+            >
+              <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: colors.textMuted }}>
+                {a.whatIValueLabel}
               </span>
               <div className="flex flex-wrap gap-2">
-                {a.principles.map((p, i) => (
+                {(a.principles as string[]).map((p, i) => (
                   <span
                     key={i}
-                    className="text-[13px] px-2.5 py-1 rounded-full"
-                    style={{
-                      border: `1px solid ${colors.brandPrimary}`,
-                      color: colors.brandPrimary,
-                    }}
+                    className="text-sm px-3 py-1.5 rounded-full"
+                    style={{ border: `1px solid ${colors.brandPrimary}`, color: colors.brandPrimary }}
                   >
                     {p}
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </motion.div>
 
-        {/* ── BEYOND WORK ───────────────────────────────────── */}
-        <motion.div {...fadeUp(0.05)}>
-          <SectionLabel index="02" label={a.beyondTitle} color={colors.textMuted} />
-          <div className="flex flex-col gap-5">
-            <p
-              className="font-normal text-[15px] leading-loose max-w-xl"
-              style={{ color: colors.textBase }}
-            >
-              {a.beyondParagraph}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {a.interestChips.map((chip, i) => (
-                <span
-                  key={i}
-                  className="text-[13px] px-3 py-1 rounded-full"
-                  style={chipStyle}
-                >
+        {/* ── 02 BEYOND WORK ──────────────────────────────── */}
+        <motion.div {...fadeUp(0.05)} className="mb-24">
+          <EditorialLabel index="02" label={a.beyondTitle} />
+          <p className="text-base leading-relaxed mb-10" style={{ color: colors.textBase }}>
+            {a.beyondParagraph}
+          </p>
+
+          {/* Collage tiles — full width, 4 columns */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            {COLLAGE_TILES.map((tile, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="relative rounded-xl overflow-hidden flex items-end p-4"
+                style={{
+                  height: 140,
+                  background: `linear-gradient(${tile.gradient})`,
+                  border: `1px solid ${cardBorder}`,
+                }}
+              >
+                <div
+                  className="absolute top-3 right-3 w-1.5 h-1.5 rounded-full"
+                  style={{ backgroundColor: tile.dot }}
+                />
+                <span className="text-xs font-medium leading-tight" style={{ color: colors.textBase, opacity: 0.75 }}>
+                  {a.interestChips[tile.labelKey]}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Remaining chips — plain text, no borders */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            {(a.interestChips as string[])
+              .filter((_: string, i: number) => ![0, 1, 3, 4].includes(i))
+              .map((chip: string, i: number) => (
+                <span key={i} className="text-sm" style={{ color: colors.textMuted }}>
                   {chip}
                 </span>
               ))}
-            </div>
           </div>
         </motion.div>
 
-        {/* ── CLOSING LINE + CTA ────────────────────────────── */}
-        <motion.div {...fadeUp(0.05)} className="flex flex-col gap-5">
-          <p
-            className="font-normal text-[14px] italic"
-            style={{ color: colors.textMuted }}
+        {/* ── CLOSING QUOTE + LINKEDIN ─────────────────────── */}
+        <motion.div {...fadeUp(0.05)} className="flex flex-col gap-6">
+          <div
+            className="p-8 rounded-2xl"
+            style={{
+              border: `1px solid ${colors.isDark ? "rgba(91,164,207,0.2)" : "rgba(91,164,207,0.15)"}`,
+              backgroundColor: colors.isDark ? "rgba(91,164,207,0.04)" : "rgba(91,164,207,0.03)",
+            }}
           >
-            — {a.closingLine}
-          </p>
-
+            <p className="text-xl font-light" style={{ color: colors.textBase, lineHeight: 1.85 }}>
+              <span style={{ color: accentColor, fontWeight: 500 }}>“</span>
+              {(() => {
+                const highlight: string = a.closingLineHighlight ?? "";
+                const line: string = a.closingLine ?? "";
+                const idx = highlight ? line.indexOf(highlight) : -1;
+                if (idx === -1) return line;
+                return (
+                  <>
+                    {line.slice(0, idx)}
+                    <button
+                      type="button"
+                      onClick={onWorkWithMeClick}
+                      className="underline decoration-dotted underline-offset-4 cursor-pointer transition-colors duration-200"
+                      style={{ color: accentColor, fontWeight: 400 }}
+                    >
+                      {highlight}
+                    </button>
+                    {line.slice(idx + highlight.length)}
+                  </>
+                );
+              })()}
+              <span style={{ color: accentColor, fontWeight: 500 }}>”</span>
+            </p>
+          </div>
           <a
             href="https://www.linkedin.com/in/hieu-ngo-75b4b1301/"
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => setLinkedinHovered(true)}
             onMouseLeave={() => setLinkedinHovered(false)}
-            className="inline-flex items-center gap-2 text-[14px] font-normal underline decoration-solid transition-colors duration-200"
+            className="inline-flex items-center gap-2 text-sm font-normal underline decoration-solid transition-colors duration-200"
             style={{ color: linkedinHovered ? colors.brandPrimary : colors.textBase }}
           >
             {a.linkedinLabel}
-            <svg
-              width="11" height="11" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-              aria-hidden
-            >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
             </svg>
           </a>

@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowDownIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
 
@@ -10,7 +8,7 @@ const accentColor = "#5ba4cf";
 
 function FrontEndIcon({ color }: { color: string }) {
   return (
-    <svg width="40" height="40" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+    <svg width="36" height="36" viewBox="0 0 72 72" fill="none" aria-hidden="true">
       <rect x="8" y="12" width="56" height="36" rx="3" stroke={color} strokeWidth="3" fill="none" />
       <line x1="8" y1="42" x2="64" y2="42" stroke={color} strokeWidth="3" />
       <rect x="26" y="48" width="20" height="5" rx="1" stroke={color} strokeWidth="2.5" fill="none" />
@@ -23,7 +21,7 @@ function FrontEndIcon({ color }: { color: string }) {
 
 function BackEndIcon({ color }: { color: string }) {
   return (
-    <svg width="40" height="40" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+    <svg width="36" height="36" viewBox="0 0 72 72" fill="none" aria-hidden="true">
       <polyline points="12,26 26,36 12,46" stroke={color} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
       <line x1="32" y1="46" x2="60" y2="46" stroke={color} strokeWidth="4" strokeLinecap="round" />
       <line x1="8" y1="58" x2="64" y2="58" stroke={color} strokeWidth="3" strokeLinecap="round" />
@@ -31,34 +29,29 @@ function BackEndIcon({ color }: { color: string }) {
   );
 }
 
-function InfrastructureIcon({ color }: { color: string }) {
+function OperationalIcon({ color }: { color: string }) {
   return (
-    <svg width="40" height="40" viewBox="0 0 72 72" fill="none" aria-hidden="true">
-      <rect x="10" y="18" width="52" height="12" rx="3" stroke={color} strokeWidth="3" fill="none" />
-      <rect x="10" y="36" width="52" height="12" rx="3" stroke={color} strokeWidth="3" fill="none" />
-      <circle cx="55" cy="24" r="2.5" fill={color} />
-      <circle cx="55" cy="42" r="2.5" fill={color} />
-      <line x1="18" y1="24" x2="44" y2="24" stroke={color} strokeWidth="2" strokeLinecap="round" />
-      <line x1="18" y1="42" x2="44" y2="42" stroke={color} strokeWidth="2" strokeLinecap="round" />
-      <line x1="24" y1="30" x2="24" y2="36" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="36" y1="30" x2="36" y2="36" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="48" y1="30" x2="48" y2="36" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+    <svg width="36" height="36" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+      <circle cx="30" cy="30" r="18" stroke={color} strokeWidth="3" />
+      <line x1="43" y1="43" x2="62" y2="62" stroke={color} strokeWidth="4" strokeLinecap="round" />
+      <line x1="23" y1="30" x2="37" y2="30" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="30" y1="23" x2="30" y2="37" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }
 
-function LeadershipIcon({ color }: { color: string }) {
+function DomainIcon({ color }: { color: string }) {
   return (
-    <svg width="40" height="40" viewBox="0 0 72 72" fill="none" aria-hidden="true">
-      <circle cx="36" cy="14" r="7" stroke={color} strokeWidth="3" fill="none" />
-      <line x1="36" y1="21" x2="36" y2="30" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="18" y1="30" x2="54" y2="30" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="18" y1="30" x2="18" y2="38" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="36" y1="30" x2="36" y2="38" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="54" y1="30" x2="54" y2="38" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="18" cy="44" r="6" stroke={color} strokeWidth="3" fill="none" />
-      <circle cx="36" cy="44" r="6" stroke={color} strokeWidth="3" fill="none" />
-      <circle cx="54" cy="44" r="6" stroke={color} strokeWidth="3" fill="none" />
+    <svg width="36" height="36" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+      <rect x="14" y="10" width="44" height="52" rx="2" stroke={color} strokeWidth="3" />
+      <line x1="14" y1="26" x2="58" y2="26" stroke={color} strokeWidth="2.5" />
+      <line x1="14" y1="42" x2="58" y2="42" stroke={color} strokeWidth="2.5" />
+      <rect x="28" y="46" width="16" height="16" rx="1" stroke={color} strokeWidth="2.5" />
+      <circle cx="24" cy="18" r="3" fill={color} />
+      <circle cx="36" cy="18" r="3" fill={color} />
+      <circle cx="48" cy="18" r="3" fill={color} />
+      <circle cx="24" cy="34" r="3" fill={color} />
+      <circle cx="48" cy="34" r="3" fill={color} />
     </svg>
   );
 }
@@ -66,29 +59,27 @@ function LeadershipIcon({ color }: { color: string }) {
 const ICONS = {
   frontend: FrontEndIcon,
   backend: BackEndIcon,
-  infrastructure: InfrastructureIcon,
-  leadership: LeadershipIcon,
+  operational: OperationalIcon,
+  domain: DomainIcon,
 } as const;
 
 export default function SkillsSection() {
-  const [hovered, setHovered] = useState(false);
   const { dict } = useLocale();
   const colors = useColors();
   const s = dict.skills;
 
   const fadeColor = colors.isDark ? "#0f0f0f" : "#ffffff";
-  const borderColor = colors.borderStrong;
-  const leadershipBg = colors.isDark ? "rgba(91,164,207,0.07)" : "rgba(91,164,207,0.05)";
+  const highlightBg = colors.isDark ? "rgba(91,164,207,0.07)" : "rgba(91,164,207,0.04)";
+  const defaultCardBg = colors.isDark ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.015)";
 
   const columns = [
-    { key: "frontend" as const, isLeadership: false, ...s.columns.frontend },
-    { key: "backend" as const, isLeadership: false, ...s.columns.backend },
-    { key: "infrastructure" as const, isLeadership: false, ...s.columns.infrastructure },
-    { key: "leadership" as const, isLeadership: true, ...s.columns.leadership },
+    { key: "frontend" as const, isHighlighted: false, ...s.columns.frontend },
+    { key: "backend" as const, isHighlighted: false, ...s.columns.backend },
+    { key: "operational" as const, isHighlighted: false, ...s.columns.operational },
+    { key: "domain" as const, isHighlighted: true, ...s.columns.domain },
   ];
 
-  const iconColor = colors.isDark ? "rgba(255,255,255,0.45)" : "rgba(0,0,0,0.35)";
-
+  const iconColor = colors.isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.28)";
   const [titleFirst, ...titleRest] = s.sectionTitle.split(" ");
 
   return (
@@ -132,77 +123,85 @@ export default function SkillsSection() {
         </p>
       </motion.div>
 
-      {/* 4-column capability grid */}
-      <div className="mx-auto max-w-5xl">
-        <div className="grid grid-cols-2 lg:grid-cols-4">
+      {/* Card grid */}
+      <div className="mx-auto max-w-6xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {columns.map((col, colIdx) => {
             const Icon = ICONS[col.key];
-            const colSep = "rgba(150,150,150,0.12)";
-            const itemSep = "rgba(150,150,150,0.08)";
             return (
               <motion.div
                 key={col.key}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: colIdx * 0.1 }}
-                className="flex flex-col px-6 py-8"
+                className="relative flex flex-col p-6 rounded-2xl overflow-hidden"
                 style={{
-                  backgroundColor: col.isLeadership ? leadershipBg : "transparent",
-                  borderRight: colIdx < 3 ? `1px solid ${colSep}` : undefined,
+                  backgroundColor: col.isHighlighted ? highlightBg : defaultCardBg,
+                  border: `1px solid ${col.isHighlighted ? "rgba(91,164,207,0.28)" : colors.borderBase}`,
                 }}
               >
+                {/* Subtle radial glow on highlighted card */}
+                {col.isHighlighted && (
+                  <div
+                    className="absolute -top-12 -right-12 w-40 h-40 rounded-full pointer-events-none"
+                    style={{ background: "radial-gradient(circle, rgba(91,164,207,0.12) 0%, transparent 70%)" }}
+                  />
+                )}
+
                 {/* Icon */}
-                <Icon color={col.isLeadership ? accentColor : iconColor} />
+                <Icon color={col.isHighlighted ? accentColor : iconColor} />
 
                 {/* Title */}
-                <div className="mt-6 mb-1">
+                <div className="mt-5 mb-0.5">
                   <h3
                     className="font-semibold text-sm leading-tight"
-                    style={{ color: col.isLeadership ? accentColor : colors.textBase }}
+                    style={{ color: col.isHighlighted ? accentColor : colors.textBase }}
                   >
                     {col.title}
                   </h3>
-                  {col.isLeadership && (
+                  {col.isHighlighted && (
                     <span
                       className="block w-6 h-0.5 mt-2 rounded-full"
-                      style={{ backgroundColor: accentColor, opacity: 0.6 }}
+                      style={{ backgroundColor: accentColor, opacity: 0.5 }}
                     />
                   )}
                 </div>
 
                 {/* Statement */}
-                <p className="text-xs leading-relaxed mt-2 mb-6" style={{ color: colors.textMuted }}>
+                <p className="text-xs leading-relaxed mt-2 mb-5" style={{ color: colors.textMuted }}>
                   {col.statement}
                 </p>
 
-                {/* Plain text skill list */}
-                <ul>
+                {/* Pill tags */}
+                <div className="flex flex-wrap gap-1.5 mt-auto">
                   {col.items.map((skill, skillIdx) => (
-                    <motion.li
+                    <motion.span
                       key={skill}
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: colIdx * 0.06 + skillIdx * 0.05 }}
-                      className="py-2.5 text-sm"
+                      transition={{ duration: 0.25, delay: colIdx * 0.06 + skillIdx * 0.04 }}
+                      className="text-xs px-2.5 py-1 rounded-full"
                       style={{
-                        borderBottom: `1px solid ${itemSep}`,
-                        color: col.isLeadership
-                          ? `rgba(91,164,207,0.8)`
-                          : colors.textMuted,
+                        border: `1px solid ${col.isHighlighted ? "rgba(91,164,207,0.35)" : colors.borderBase}`,
+                        color: col.isHighlighted ? "rgba(91,164,207,0.9)" : colors.textMuted,
+                        backgroundColor: col.isHighlighted
+                          ? "rgba(91,164,207,0.06)"
+                          : (colors.isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.03)"),
                       }}
                     >
                       {skill}
-                    </motion.li>
+                    </motion.span>
                   ))}
-                </ul>
+                </div>
               </motion.div>
             );
           })}
         </div>
 
-        {/* Operational Themes */}
+        {/* Engineering Approach footer row */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -235,41 +234,6 @@ export default function SkillsSection() {
         </motion.div>
       </div>
 
-      {/* About Me CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="flex justify-center mt-14"
-      >
-        <button
-          type="button"
-          onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          className="flex items-center gap-3 cursor-pointer"
-        >
-          <span
-            className="font-normal text-base transition-colors duration-300"
-            style={{ color: hovered ? colors.brandPrimary : colors.textBase }}
-          >
-            {s.aboutMe}
-          </span>
-          <motion.div
-            animate={{ y: hovered ? 5 : 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="flex items-center justify-center size-9.5 rounded-full border transition-all duration-300"
-            style={{
-              backgroundColor: hovered ? colors.brandPrimary : "transparent",
-              borderColor: hovered ? colors.brandPrimary : colors.textBase,
-              color: hovered ? colors.white : colors.textBase,
-            }}
-          >
-            <ArrowDownIcon />
-          </motion.div>
-        </button>
-      </motion.div>
     </section>
   );
 }
