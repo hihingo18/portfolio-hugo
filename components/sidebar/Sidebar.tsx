@@ -2,15 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/cn";
-import { HomeIcon, ProjectsIcon, SkillsIcon, AboutIcon } from "@/components/icons/NavIcons";
-import { LinkedInIcon, GitHubIcon } from "@/components/icons/SocialIcons";
+import { cn } from "@/lib/utils";
 import { SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useTheme, useColors } from "@/context/ThemeContext";
-import { LOCALE_PREFIX_PATTERN, SOCIAL_LINKS } from "@/lib/constants";
-import type { Locale } from "@/lib/i18n";
+import { SOCIAL_LINKS } from "@/lib/constants";
+import { NAV_ORDER, NAV_ICONS, SOCIAL_ICONS, useSwitchLocale } from "@/components/sidebar/navigation";
 import type { NavId, SectionId } from "@/types";
 
 const SIDEBAR_MEASUREMENTS = {
@@ -30,28 +27,6 @@ const SIDEBAR_MEASUREMENTS = {
   socialPadding: "clamp(6px, 0.5vw, 10px)",
 } as const;
 
-const NAV_ICONS: Record<NavId, typeof HomeIcon> = {
-  home: HomeIcon,
-  projects: ProjectsIcon,
-  skills: SkillsIcon,
-  about: AboutIcon,
-};
-
-const SOCIAL_ICONS: Record<string, typeof LinkedInIcon> = {
-  linkedin: LinkedInIcon,
-  github: GitHubIcon,
-};
-
-const NAV_ORDER: NavId[] = ["home", "projects", "skills", "about"];
-
-function buildLocalizedPath(pathname: string, locale: Locale): string {
-  if (!pathname || pathname === "/") return `/${locale}`;
-  if (LOCALE_PREFIX_PATTERN.test(pathname)) {
-    return pathname.replace(LOCALE_PREFIX_PATTERN, `/${locale}`);
-  }
-  return `/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
-}
-
 interface SidebarProps {
   activeSection: SectionId;
   onNavClick: (id: NavId) => void;
@@ -62,13 +37,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
   const { dict, locale } = useLocale();
   const { toggle } = useTheme();
   const colors = useColors();
-  const pathname = usePathname();
-
-  const switchLocale = (newLocale: Locale) => {
-    if (newLocale === locale) return;
-    document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
-    window.location.href = buildLocalizedPath(pathname, newLocale);
-  };
+  const switchLocale = useSwitchLocale();
 
   return (
     <aside

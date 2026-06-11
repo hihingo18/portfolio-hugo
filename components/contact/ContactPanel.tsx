@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
 import { FORM_CONSTRAINTS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 
 interface ContactPanelProps {
   isOpen: boolean;
@@ -208,7 +207,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
               disabled={status === "loading"}
               required
               rows={5}
-              className={cn("h-28 lg:h-33 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4 resize-none")}
+              className="h-28 lg:h-33 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4 resize-none"
             />
           </div>
 
