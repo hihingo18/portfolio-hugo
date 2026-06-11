@@ -1,93 +1,124 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import TestimonialCard from "./TestimonialCard";
 import type { Testimonial } from "@/types";
-
-const TESTIMONIALS: Testimonial[] = [
-  {
-    id: "pierre",
-    name: "Pierre",
-    role: "CEO",
-    company: "Bykaomes",
-    quote:
-      "I gave free rein to create my entire platform. Very professional and above all very responsive. I am really more than satisfied with the result. I highly recommend! I look forward to continuing the evolution of the platform with your feedback and relevant advice.",
-  },
-  {
-    id: "xenia",
-    name: "Xénia",
-    role: "Partner",
-    company: "Noje be",
-    quote:
-      "Very nice professional encounter. Even separated by a few kilometers, always been very responsive and proactive. Always attentive to ideas, he perfectly creates a beautiful visual identity. I highly recommend his services for creating websites, business cards, flyers, etc.",
-  },
-  {
-    id: "riaz",
-    name: "Riaz",
-    role: "CEO",
-    company: "Dealrun",
-    quote:
-      "Brice is a person who was attentive and delivered a result on time, the result was top-notch. His work brought a fresh look to my website's design. I recommend.",
-  },
-];
-
-// Star icon matching Figma
-const ReviewStar = () => (
-  <svg fill="none" height="24.038" viewBox="0 0 25 24.0385" width="25">
-    <g clipPath="url(#rstar-clip)">
-      <path d="M12.5 0L15.3 8.65H24.5L17.6 14L20.4 22.65L12.5 17.3L4.6 22.65L7.4 14L0.5 8.65H9.7L12.5 0Z" fill="black" />
-    </g>
-    <defs>
-      <clipPath id="rstar-clip">
-        <rect fill="white" height="24.0385" width="25" />
-      </clipPath>
-    </defs>
-  </svg>
-);
+import { useLocale } from "@/context/LocaleContext";
+import { useColors } from "@/context/ThemeContext";
 
 export default function TestimonialsSection() {
+  const { dict } = useLocale();
+  const { isDark } = useColors();
+  const t = dict.testimonials;
+
+  const TESTIMONIALS: Testimonial[] = useMemo(
+    () => [
+      { id: "jordan", ...t.items.jordan },
+      { id: "mckeen", ...t.items.mckeen },
+      { id: "john", ...t.items.john },
+    ],
+    [t.items]
+  );
+
+  const sectionStyle = isDark
+    ? { background: "#0f0f0f" }
+    : {
+        background:
+          "linear-gradient(137deg, rgb(255,255,255) 0%, rgb(255,255,255) 33.333%, rgb(203,220,255) 66.667%, rgb(255,255,255) 100%)",
+      };
+
+  const highlightStyle = isDark
+    ? {
+        background: "rgba(25,25,40,0.9)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+      }
+    : {
+        background:
+          "linear-gradient(135deg, rgba(238,242,255,0.85), rgba(245,246,255,0.9))",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+      };
+
+  const bottomFadeStyle = isDark
+    ? { background: "linear-gradient(to bottom, transparent, #0f0f0f)" }
+    : { background: "linear-gradient(to bottom, transparent, white)" };
+
+  const fadeColor = isDark ? "#0f0f0f" : "#ffffff";
+
   return (
     <section
       id="trust"
-      className="relative w-full overflow-hidden pt-[40px] pb-[40px]"
-      style={{
-        background:
-          "linear-gradient(137deg, rgb(255,255,255) 0%, rgb(255,255,255) 33.333%, rgb(203,220,255) 66.667%, rgb(255,255,255) 100%)",
-      }}
+      className="relative w-full overflow-hidden pt-24 pb-15"
+      style={sectionStyle}
     >
+      {/* top fade */}
+      <div
+        className="absolute inset-x-0 top-0 h-20 pointer-events-none z-10"
+        style={{ background: `linear-gradient(to bottom, ${fadeColor}, transparent)` }}
+      />
       {/* Section heading */}
-      <div className="px-[80px] mb-[30px] flex items-center gap-2">
+      <div className="px-20 mb-7.5 flex flex-col items-center gap-2">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex items-center gap-2"
+          className="flex flex-col items-center gap-2 text-center"
         >
-          <h2 className="font-bold text-[32px] text-black">They trusted me</h2>
-          <ReviewStar />
+          <h2 className="font-bold text-[32px] text-black dark:text-white">{t.sectionTitle}</h2>
+          <p className="text-[#777] dark:text-[#888] text-[16px]">{t.subtitle}</p>
         </motion.div>
       </div>
 
-      {/* Cards */}
-      <div className="px-[80px] flex flex-wrap gap-5 justify-center items-stretch min-h-[368px] py-[30px]">
-        {TESTIMONIALS.map((t, i) => (
+      {/* Highlight block */}
+      <div className="px-20 mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="max-w-200 mx-auto"
+        >
+          <div
+            className="relative rounded-2xl overflow-hidden p-7.5 text-center"
+            style={highlightStyle}
+          >
+            {t.highlight.quotes.map((quote, i) => (
+              <p key={i} className="text-xl italic text-[#333] dark:text-gray-200 leading-relaxed">
+                &ldquo;{quote}&rdquo;
+              </p>
+            ))}
+            <p className="mt-4 font-bold text-black dark:text-white">— {t.highlight.author}</p>
+            <p className="text-gray-400 dark:text-gray-500 text-xs">
+              {t.highlight.role} @ {t.highlight.company}
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Cards grid */}
+      <div className="px-20 flex flex-wrap gap-5 justify-center items-stretch">
+        {TESTIMONIALS.map((item, i) => (
           <motion.div
-            key={t.id}
+            key={item.id}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.15 }}
-            className="flex-1 min-w-[280px] max-w-[370px] flex"
+            className="flex min-w-65 max-w-80 flex-1"
           >
-            <TestimonialCard testimonial={t} />
+            <TestimonialCard testimonial={item} />
           </motion.div>
         ))}
       </div>
 
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-[80px] pointer-events-none"
-        style={{ background: "linear-gradient(to bottom, transparent, white)" }}
+      <div
+        className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
+        style={bottomFadeStyle}
       />
     </section>
   );

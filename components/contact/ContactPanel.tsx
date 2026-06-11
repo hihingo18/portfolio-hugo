@@ -2,25 +2,86 @@
 
 import { useState, FormEvent } from "react";
 import { ArrowLeftIcon } from "@/components/icons/UIIcons";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { useLocale } from "@/context/LocaleContext";
+import { useColors } from "@/context/ThemeContext";
+import { FORM_CONSTRAINTS } from "@/lib/constants";
 
 interface ContactPanelProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+type FormStatus = "idle" | "loading" | "success" | "error";
+
 export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
+  const { dict } = useLocale();
+  const colors = useColors();
+  const c = dict.contact;
+
+  const [returnHovered, setReturnHovered] = useState(false);
+  const [emailLinkHovered, setEmailLinkHovered] = useState(false);
+  const [phoneLinkHovered, setPhoneLinkHovered] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: FormEvent) => {
+  const validateForm = (): boolean => {
+    if (!email || !FORM_CONSTRAINTS.email.pattern.test(email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+    if (!name || name.length < FORM_CONSTRAINTS.name.minLength) {
+      setError("Name must be at least 2 characters");
+      return false;
+    }
+    if (!message || message.length < FORM_CONSTRAINTS.message.minLength) {
+      setError("Message must be at least 10 characters");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: wire up to email API when backend is ready
-    console.log("Contact form submitted:", { email, name, message });
-    setEmail("");
-    setName("");
-    setMessage("");
-    onClose();
+    setError(null);
+    setSuccessMessage(null);
+
+    if (!validateForm()) return;
+    setStatus("loading");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name, message }),
+      });
+
+      if (!response.ok) throw new Error(`Server error: ${response.status}`);
+
+      const data = await response.json();
+      setStatus("success");
+      setSuccessMessage(data.message || "Message sent successfully! I'll get back to you soon.");
+      setEmail("");
+      setName("");
+      setMessage("");
+
+      setTimeout(() => {
+        onClose();
+        setStatus("idle");
+        setSuccessMessage(null);
+      }, 2000);
+    } catch (err) {
+      setStatus("error");
+      setError(err instanceof Error ? err.message : "Failed to send message. Please try again.");
+      console.error("[ContactPanel] Error:", err);
+    }
   };
 
   return (
@@ -35,86 +96,132 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
       {/* Slide-in panel */}
       <div
-        className="fixed top-0 h-screen w-182 bg-[#f6f9f7] z-50 flex flex-col gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
+        className="fixed top-0 h-screen w-full md:w-[min(520px,100vw)] lg:w-182 z-50 flex flex-col gap-8 lg:gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
         style={{
-          right: isOpen ? "0px" : "-760px",
+          right: isOpen ? "0px" : "-110%",
+          backgroundColor: colors.bgPanel,
           boxShadow: "-4px 0 40px rgba(0,0,0,0.10)",
         }}
       >
         {/* Return button */}
         <button
           onClick={onClose}
-          className="flex items-center gap-2 px-5 cursor-pointer group self-start"
+          onMouseEnter={() => setReturnHovered(true)}
+          onMouseLeave={() => setReturnHovered(false)}
+          className="flex items-center gap-2 px-5 cursor-pointer self-start"
         >
-            <span className="flex items-center justify-center size-8.5 rounded-full bg-black group-hover:bg-[#020073] transition-colors duration-200 text-white">
-              <ArrowLeftIcon />
-            </span>
-          <span className="font-light text-base text-black">Return</span>
+          <span
+            className="flex items-center justify-center size-8.5 rounded-full text-white transition-colors duration-200"
+            style={{
+              backgroundColor: returnHovered ? colors.brandPrimary : colors.bgIconDefault,
+            }}
+          >
+            <ArrowLeftIcon />
+          </span>
+          <span className="font-light text-base transition-colors duration-200" style={{ color: colors.textBase }}>
+            {c.return}
+          </span>
         </button>
 
         {/* Contact info */}
-        <div className="px-5 w-full border-b border-[#808080] pb-6 flex flex-col gap-5">
-          <p className="font-bold text-[18px] text-[#808080]">Contact</p>
+        <div
+          className="px-5 w-full pb-6 flex flex-col gap-4"
+          style={{ borderBottom: `1px solid ${colors.borderStrong}` }}
+        >
+          <p className="font-bold text-base lg:text-[18px]" style={{ color: colors.textMuted }}>{c.heading}</p>
           <a
-            href="mailto:hihingo18@gmail.com"
-            className="font-normal text-[22px] text-black hover:text-[#020073] transition-colors duration-200"
+            href={`mailto:${c.email}`}
+            onMouseEnter={() => setEmailLinkHovered(true)}
+            onMouseLeave={() => setEmailLinkHovered(false)}
+            className="font-normal text-base lg:text-[22px] transition-colors duration-200"
+            style={{ color: emailLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
-            hihingo18@gmail.com
+            {c.email}
           </a>
           <a
-            href="tel:+84944548222"
-            className="font-normal text-[22px] text-black hover:text-[#020073] transition-colors duration-200"
+            href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}
+            onMouseEnter={() => setPhoneLinkHovered(true)}
+            onMouseLeave={() => setPhoneLinkHovered(false)}
+            className="font-normal text-base lg:text-[22px] transition-colors duration-200"
+            style={{ color: phoneLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
-            (+84) 944 548 222
+            {c.phone}
           </a>
         </div>
 
         {/* Contact form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 px-15">
-          {/* Email input */}
-          <div className="w-full max-w-152">
-            <input
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5 px-5 md:px-8 lg:px-15">
+          {error && (
+            <div
+              className="w-full max-w-152 p-4 rounded-lg border-l-4"
+              style={{ borderColor: colors.statusError, backgroundColor: `${colors.statusError}15` }}
+            >
+              <p style={{ color: colors.statusError }} className="text-sm font-medium">{error}</p>
+            </div>
+          )}
+
+          {successMessage && (
+            <div
+              className="w-full max-w-152 p-4 rounded-lg border-l-4"
+              style={{ borderColor: colors.statusSuccess, backgroundColor: `${colors.statusSuccess}15` }}
+            >
+              <p style={{ color: colors.statusSuccess }} className="text-sm font-medium">{successMessage}</p>
+            </div>
+          )}
+
+          <div className="flex flex-col gap-2 w-full">
+            <Label htmlFor="contact-email" style={{ color: colors.textBase }}>{c.emailPlaceholder}</Label>
+            <Input
+              id="contact-email"
               type="email"
-              placeholder="Your email"
+              placeholder={c.emailPlaceholder}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => { setEmail(e.target.value); setError(null); }}
+              disabled={status === "loading"}
               required
-              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
+              className="h-10 lg:h-12 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4"
             />
           </div>
 
-          {/* Full name input */}
-          <div className="w-full max-w-152">
-            <input
+          <div className="flex flex-col gap-2 w-full">
+            <Label htmlFor="contact-name" style={{ color: colors.textBase }}>{c.namePlaceholder}</Label>
+            <Input
+              id="contact-name"
               type="text"
-              placeholder="Your full name"
+              placeholder={c.namePlaceholder}
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => { setName(e.target.value); setError(null); }}
+              disabled={status === "loading"}
               required
-              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200"
+              className="h-10 lg:h-12 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4"
             />
           </div>
 
-          {/* Message textarea */}
-          <div className="w-full max-w-152">
-            <textarea
-              placeholder="How can I help you?"
+          <div className="flex flex-col gap-2 w-full">
+            <Label htmlFor="contact-message" style={{ color: colors.textBase }}>{c.messagePlaceholder}</Label>
+            <Textarea
+              id="contact-message"
+              placeholder={c.messagePlaceholder}
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => { setMessage(e.target.value); setError(null); }}
+              disabled={status === "loading"}
               required
               rows={5}
-              className="w-full bg-white rounded-[10px] border border-[#020073] p-4 text-[18px] font-fira font-thin text-black placeholder:text-[#757575] outline-none focus:border-[#020073] focus:ring-2 focus:ring-[#020073]/20 transition-all duration-200 resize-none h-33"
+              className="h-28 lg:h-33 text-sm lg:text-[18px] font-fira font-thin rounded-[10px] px-4 resize-none"
             />
           </div>
 
-          {/* Send button */}
-          <div className="flex justify-end max-w-152">
-            <button
+          <div className="flex justify-end">
+            <Button
               type="submit"
-              className="bg-[#020073] text-[#f6f9f7] text-xl px-8 py-4 rounded cursor-pointer hover:bg-black transition-colors duration-200 font-normal"
+              disabled={status === "loading"}
+              className="px-8 py-3 h-auto text-base rounded"
             >
-              Send
-            </button>
+              {status === "loading" && (
+                <span className="inline-block animate-spin text-sm mr-1">⚡</span>
+              )}
+              {status === "loading" ? "Sending..." : c.send}
+            </Button>
           </div>
         </form>
       </div>
