@@ -1,38 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/cn";
-import { HomeIcon, ProjectsIcon, SkillsIcon, AboutIcon } from "@/components/icons/NavIcons";
-import { LinkedInIcon, GitHubIcon } from "@/components/icons/SocialIcons";
+import { cn } from "@/lib/utils";
 import { CloseIcon, SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useTheme, useColors } from "@/context/ThemeContext";
-import { LOCALE_PREFIX_PATTERN, SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS } from "@/lib/constants";
+import { NAV_ORDER, NAV_ICONS, SOCIAL_ICONS, useSwitchLocale } from "@/components/sidebar/navigation";
 import type { Locale } from "@/lib/i18n";
 import type { NavId, SectionId } from "@/types";
-
-const NAV_ICONS: Record<NavId, typeof HomeIcon> = {
-  home: HomeIcon,
-  projects: ProjectsIcon,
-  skills: SkillsIcon,
-  about: AboutIcon,
-};
-
-const SOCIAL_ICONS: Record<string, typeof LinkedInIcon> = {
-  linkedin: LinkedInIcon,
-  github: GitHubIcon,
-};
-
-const NAV_ORDER: NavId[] = ["home", "projects", "skills", "about"];
-
-function buildLocalizedPath(pathname: string, locale: Locale): string {
-  if (!pathname || pathname === "/") return `/${locale}`;
-  if (LOCALE_PREFIX_PATTERN.test(pathname)) {
-    return pathname.replace(LOCALE_PREFIX_PATTERN, `/${locale}`);
-  }
-  return `/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
-}
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -45,7 +21,7 @@ export default function MobileDrawer({ isOpen, onClose, activeSection, onNavClic
   const { dict, locale } = useLocale();
   const { toggle } = useTheme();
   const colors = useColors();
-  const pathname = usePathname();
+  const switchLocale = useSwitchLocale();
 
   useEffect(() => {
     if (isOpen) {
@@ -55,12 +31,6 @@ export default function MobileDrawer({ isOpen, onClose, activeSection, onNavClic
     }
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
-
-  const switchLocale = (newLocale: Locale) => {
-    if (newLocale === locale) return;
-    document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
-    window.location.href = buildLocalizedPath(pathname, newLocale);
-  };
 
   const handleNavClick = (id: NavId) => {
     onNavClick(id);

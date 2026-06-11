@@ -1,4 +1,4 @@
-export const LOCALE_PREFIX_PATTERN = /^\/(en|vn)(?=\/|$)/ as RegExp;
+export const LOCALE_PREFIX_PATTERN = /^\/(en|vn)(?=\/|$)/;
 
 export const SOCIAL_LINKS = [
   {

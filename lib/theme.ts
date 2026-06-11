@@ -104,39 +104,3 @@ export const DARK_TOKENS: ColorTokens = {
 export function getColors(isDark: boolean): ColorTokens {
   return isDark ? DARK_TOKENS : LIGHT_TOKENS;
 }
-
-// ─── Legacy aliases (kept so existing code keeps compiling) ──────────────────
-/** @deprecated Use `useColors()` from ThemeContext instead. */
-export const COLORS = {
-  primary: LIGHT_TOKENS.brandPrimary,
-  primaryDark: LIGHT_TOKENS.brandHover,
-  white: LIGHT_TOKENS.white,
-  black: "#000000",
-  background: LIGHT_TOKENS.bgPanel,
-  border: LIGHT_TOKENS.borderBase,
-  text: LIGHT_TOKENS.textBase,
-  textSecondary: LIGHT_TOKENS.textMuted,
-  textTertiary: LIGHT_TOKENS.textFaint,
-  success: LIGHT_TOKENS.statusSuccess,
-  error: LIGHT_TOKENS.statusError,
-} as const;
-
-/** @deprecated Use `useColors()` from ThemeContext instead. */
-export const DARK_COLORS = {
-  primary: DARK_TOKENS.brandPrimary,
-  primaryDark: DARK_TOKENS.brandHover,
-  white: DARK_TOKENS.white,
-  black: DARK_TOKENS.textBase,
-  background: DARK_TOKENS.bgHover,
-  border: DARK_TOKENS.borderBase,
-  text: DARK_TOKENS.textBase,
-  textSecondary: DARK_TOKENS.textMuted,
-  textTertiary: DARK_TOKENS.textFaint,
-  success: DARK_TOKENS.statusSuccess,
-  error: DARK_TOKENS.statusError,
-} as const;
-
-/** @deprecated Compute inline: `inset 2px 0 0 ${colors.brandPrimary}` */
-export const SHADOWS = { inset: `inset 2px 0 0 ${LIGHT_TOKENS.brandPrimary}` } as const;
-/** @deprecated Compute inline: `inset 2px 0 0 ${colors.brandPrimary}` */
-export const DARK_SHADOWS = { inset: `inset 2px 0 0 ${DARK_TOKENS.brandPrimary}` } as const;

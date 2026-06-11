@@ -2,15 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/cn";
-import { HomeIcon, ProjectsIcon, SkillsIcon, AboutIcon } from "@/components/icons/NavIcons";
-import { LinkedInIcon, GitHubIcon } from "@/components/icons/SocialIcons";
+import { cn } from "@/lib/utils";
 import { SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useTheme, useColors } from "@/context/ThemeContext";
-import { LOCALE_PREFIX_PATTERN, SOCIAL_LINKS } from "@/lib/constants";
-import type { Locale } from "@/lib/i18n";
+import { SOCIAL_LINKS } from "@/lib/constants";
+import { NAV_ORDER, NAV_ICONS, SOCIAL_ICONS, useSwitchLocale } from "@/components/sidebar/navigation";
 import type { NavId, SectionId } from "@/types";
 
 const SIDEBAR_MEASUREMENTS = {
@@ -30,28 +27,6 @@ const SIDEBAR_MEASUREMENTS = {
   socialPadding: "clamp(6px, 0.5vw, 10px)",
 } as const;
 
-const NAV_ICONS: Record<NavId, typeof HomeIcon> = {
-  home: HomeIcon,
-  projects: ProjectsIcon,
-  skills: SkillsIcon,
-  about: AboutIcon,
-};
-
-const SOCIAL_ICONS: Record<string, typeof LinkedInIcon> = {
-  linkedin: LinkedInIcon,
-  github: GitHubIcon,
-};
-
-const NAV_ORDER: NavId[] = ["home", "projects", "skills", "about"];
-
-function buildLocalizedPath(pathname: string, locale: Locale): string {
-  if (!pathname || pathname === "/") return `/${locale}`;
-  if (LOCALE_PREFIX_PATTERN.test(pathname)) {
-    return pathname.replace(LOCALE_PREFIX_PATTERN, `/${locale}`);
-  }
-  return `/${locale}${pathname.startsWith("/") ? pathname : `/${pathname}`}`;
-}
-
 interface SidebarProps {
   activeSection: SectionId;
   onNavClick: (id: NavId) => void;
@@ -62,13 +37,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
   const { dict, locale } = useLocale();
   const { toggle } = useTheme();
   const colors = useColors();
-  const pathname = usePathname();
-
-  const switchLocale = (newLocale: Locale) => {
-    if (newLocale === locale) return;
-    document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
-    window.location.href = buildLocalizedPath(pathname, newLocale);
-  };
+  const switchLocale = useSwitchLocale();
 
   return (
     <aside
@@ -141,51 +110,43 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
         })}
       </nav>
 
-      {/* Language switcher + Theme toggle */}
-      <div
-        className="w-full px-1 lg:px-10 mt-5"
-        style={{ marginBottom: SIDEBAR_MEASUREMENTS.langMarginBottom }}
-      >
-        <div
-          className="flex items-center"
-          style={{ gap: SIDEBAR_MEASUREMENTS.langGap, paddingLeft: SIDEBAR_MEASUREMENTS.navPadding }}
-        >
-          <button
-            onClick={() => switchLocale("en")}
-            className="cursor-pointer leading-none transition-all duration-200"
-            style={{
-              fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-              color: locale === "en" ? colors.brandPrimary : colors.textBase,
-              fontWeight: locale === "en" ? 700 : 300,
-            }}
-          >
-            EN
-          </button>
-          <span
-            className="font-light leading-none"
-            style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: colors.textBase }}
-          >
-            /
-          </span>
-          <button
-            onClick={() => switchLocale("vn")}
-            className="cursor-pointer leading-none transition-all duration-200"
-            style={{
-              fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-              color: locale === "vn" ? colors.brandPrimary : colors.textBase,
-              fontWeight: locale === "vn" ? 700 : 300,
-            }}
-          >
-            VN
-          </button>
+      {/* Theme toggle + Language switcher */}
+      <div className="w-full px-1 lg:px-10 mt-5 mb-[clamp(12px,1.5vw,24px)]">
+        <div className="flex flex-col items-center gap-[clamp(4px,0.4vw,8px)] lg:flex-row lg:pl-[clamp(10px,0.8vw,16px)]">
           <button
             onClick={toggle}
-            className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60"
-            style={{ color: colors.textBase, marginLeft: SIDEBAR_MEASUREMENTS.langGap }}
+            className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-2 lg:mb-0 lg:mr-[clamp(4px,0.4vw,8px)] text-[#1A1A1A] dark:text-[#e0e0e0]"
             aria-label={colors.isDark ? "Switch to light mode" : "Switch to dark mode"}
           >
             {colors.isDark ? <SunIcon /> : <MoonIcon />}
           </button>
+          <div className="flex items-center gap-[clamp(4px,0.4vw,8px)]">
+            <button
+              onClick={() => switchLocale("en")}
+              className={cn(
+                "cursor-pointer transition-all duration-200 text-[clamp(13px,1vw,18px)] leading-none",
+                locale === "en"
+                  ? "font-bold text-[#020073] dark:text-[#6b9fff]"
+                  : "font-light text-[#1A1A1A] dark:text-[#e0e0e0]"
+              )}
+            >
+              EN
+            </button>
+            <span className="font-light leading-none text-[clamp(13px,1vw,18px)] text-[#1A1A1A] dark:text-[#e0e0e0]">
+              /
+            </span>
+            <button
+              onClick={() => switchLocale("vn")}
+              className={cn(
+                "cursor-pointer transition-all duration-200 text-[clamp(13px,1vw,18px)] leading-none",
+                locale === "vn"
+                  ? "font-bold text-[#020073] dark:text-[#6b9fff]"
+                  : "font-light text-[#1A1A1A] dark:text-[#e0e0e0]"
+              )}
+            >
+              VN
+            </button>
+          </div>
         </div>
       </div>
 
