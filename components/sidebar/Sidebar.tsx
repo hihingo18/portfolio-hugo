@@ -141,51 +141,43 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
         })}
       </nav>
 
-      {/* Language switcher + Theme toggle */}
-      <div
-        className="w-full px-1 lg:px-10 mt-5"
-        style={{ marginBottom: SIDEBAR_MEASUREMENTS.langMarginBottom }}
-      >
-        <div
-          className="flex items-center"
-          style={{ gap: SIDEBAR_MEASUREMENTS.langGap, paddingLeft: SIDEBAR_MEASUREMENTS.navPadding }}
-        >
-          <button
-            onClick={() => switchLocale("en")}
-            className="cursor-pointer leading-none transition-all duration-200"
-            style={{
-              fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-              color: locale === "en" ? colors.brandPrimary : colors.textBase,
-              fontWeight: locale === "en" ? 700 : 300,
-            }}
-          >
-            EN
-          </button>
-          <span
-            className="font-light leading-none"
-            style={{ fontSize: SIDEBAR_MEASUREMENTS.langFontSize, color: colors.textBase }}
-          >
-            /
-          </span>
-          <button
-            onClick={() => switchLocale("vn")}
-            className="cursor-pointer leading-none transition-all duration-200"
-            style={{
-              fontSize: SIDEBAR_MEASUREMENTS.langFontSize,
-              color: locale === "vn" ? colors.brandPrimary : colors.textBase,
-              fontWeight: locale === "vn" ? 700 : 300,
-            }}
-          >
-            VN
-          </button>
+      {/* Theme toggle + Language switcher */}
+      <div className="w-full px-1 lg:px-10 mt-5 mb-[clamp(12px,1.5vw,24px)]">
+        <div className="flex flex-col items-center gap-[clamp(4px,0.4vw,8px)] lg:flex-row lg:pl-[clamp(10px,0.8vw,16px)]">
           <button
             onClick={toggle}
-            className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60"
-            style={{ color: colors.textBase, marginLeft: SIDEBAR_MEASUREMENTS.langGap }}
+            className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-2 lg:mb-0 lg:mr-[clamp(4px,0.4vw,8px)] text-[#1A1A1A] dark:text-[#e0e0e0]"
             aria-label={colors.isDark ? "Switch to light mode" : "Switch to dark mode"}
           >
             {colors.isDark ? <SunIcon /> : <MoonIcon />}
           </button>
+          <div className="flex items-center gap-[clamp(4px,0.4vw,8px)]">
+            <button
+              onClick={() => switchLocale("en")}
+              className={cn(
+                "cursor-pointer transition-all duration-200 text-[clamp(13px,1vw,18px)] leading-none",
+                locale === "en"
+                  ? "font-bold text-[#020073] dark:text-[#6b9fff]"
+                  : "font-light text-[#1A1A1A] dark:text-[#e0e0e0]"
+              )}
+            >
+              EN
+            </button>
+            <span className="font-light leading-none text-[clamp(13px,1vw,18px)] text-[#1A1A1A] dark:text-[#e0e0e0]">
+              /
+            </span>
+            <button
+              onClick={() => switchLocale("vn")}
+              className={cn(
+                "cursor-pointer transition-all duration-200 text-[clamp(13px,1vw,18px)] leading-none",
+                locale === "vn"
+                  ? "font-bold text-[#020073] dark:text-[#6b9fff]"
+                  : "font-light text-[#1A1A1A] dark:text-[#e0e0e0]"
+              )}
+            >
+              VN
+            </button>
+          </div>
         </div>
       </div>
 
