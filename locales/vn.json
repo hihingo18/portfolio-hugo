@@ -144,11 +144,12 @@
   "contact": {
     "return": "Quay lại",
     "heading": "Liên hệ",
-    "email": "hihingo18@gmail.com",
-    "phone": "(+84) 944 548 222",
-    "emailPlaceholder": "Email của bạn",
-    "namePlaceholder": "Họ và tên",
-    "messagePlaceholder": "Tôi có thể giúp gì cho bạn?",
+    "emailLabel": "Email của bạn",
+    "nameLabel": "Họ và tên",
+    "messageLabel": "Tôi có thể giúp gì cho bạn?",
+    "emailPlaceholder": "mr.doe@example.com",
+    "namePlaceholder": "Mr. Doe",
+    "messagePlaceholder": "Tôi quan tâm đến ...",
     "send": "Gửi"
   }
 }

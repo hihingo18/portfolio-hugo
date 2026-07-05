@@ -144,11 +144,12 @@
   "contact": {
     "return": "Return",
     "heading": "Contact",
-    "email": "hihingo18@gmail.com",
-    "phone": "(+84) 944 548 222",
-    "emailPlaceholder": "Your email",
-    "namePlaceholder": "Your full name",
-    "messagePlaceholder": "How can I help you?",
+    "emailLabel": "Your email",
+    "nameLabel": "Your full name",
+    "messageLabel": "How can I help you?",
+    "emailPlaceholder": "mr.doe@example.com",
+    "namePlaceholder": "Mr. Doe",
+    "messagePlaceholder": "I'm interested in ...",
     "send": "Send"
   }
 }

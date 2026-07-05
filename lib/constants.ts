@@ -13,6 +13,15 @@ export const SOCIAL_LINKS = [
   },
 ] as const;
 
+// Contact details — single source of truth for the contact panel and the /api/contact mailer.
+export const CONTACT = {
+  // Shown on the "Work with me" panel and used as the recipient for contact-form submissions.
+  email: "hugo.strong88@gmail.com",
+  phone: "(+84) 944 548 222",
+  // Sender for the outgoing notification email (Resend "from" header).
+  fromEmail: "Portfolio Contact <onboarding@resend.dev>",
+} as const;
+
 // Form constraints
 export const FORM_CONSTRAINTS = {
   email: {
