@@ -1,9 +1,8 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
+import { CONTACT } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
-
-const RECIPIENT_EMAIL = "hihingo18@gmail.com";
 
 export async function POST(req: Request) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -22,8 +21,8 @@ export async function POST(req: Request) {
     const resend = new Resend(apiKey);
 
     const { error } = await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>",
-      to: RECIPIENT_EMAIL,
+      from: CONTACT.fromEmail,
+      to: CONTACT.email,
       replyTo: email,
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,

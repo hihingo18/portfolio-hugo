@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
-import { FORM_CONSTRAINTS } from "@/lib/constants";
+import { CONTACT, FORM_CONSTRAINTS } from "@/lib/constants";
 
 interface ContactPanelProps {
   isOpen: boolean;
@@ -130,22 +130,22 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
         >
           <p className="font-bold text-base lg:text-[18px]" style={{ color: colors.textMuted }}>{c.heading}</p>
           <a
-            href={`mailto:${c.email}`}
+            href={`mailto:${CONTACT.email}`}
             onMouseEnter={() => setEmailLinkHovered(true)}
             onMouseLeave={() => setEmailLinkHovered(false)}
             className="font-normal text-base lg:text-[22px] transition-colors duration-200"
             style={{ color: emailLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
-            {c.email}
+            {CONTACT.email}
           </a>
           <a
-            href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}
+            href={`tel:${CONTACT.phone.replace(/[^\d+]/g, "")}`}
             onMouseEnter={() => setPhoneLinkHovered(true)}
             onMouseLeave={() => setPhoneLinkHovered(false)}
             className="font-normal text-base lg:text-[22px] transition-colors duration-200"
             style={{ color: phoneLinkHovered ? colors.brandPrimary : colors.textBase }}
           >
-            {c.phone}
+            {CONTACT.phone}
           </a>
         </div>
 
@@ -170,7 +170,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
           )}
 
           <div className="flex flex-col gap-2 w-full">
-            <Label htmlFor="contact-email" style={{ color: colors.textBase }}>{c.emailPlaceholder}</Label>
+            <Label htmlFor="contact-email" style={{ color: colors.textBase }}>{c.emailLabel}</Label>
             <Input
               id="contact-email"
               type="email"
@@ -184,7 +184,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <Label htmlFor="contact-name" style={{ color: colors.textBase }}>{c.namePlaceholder}</Label>
+            <Label htmlFor="contact-name" style={{ color: colors.textBase }}>{c.nameLabel}</Label>
             <Input
               id="contact-name"
               type="text"
@@ -198,7 +198,7 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <Label htmlFor="contact-message" style={{ color: colors.textBase }}>{c.messagePlaceholder}</Label>
+            <Label htmlFor="contact-message" style={{ color: colors.textBase }}>{c.messageLabel}</Label>
             <Textarea
               id="contact-message"
               placeholder={c.messagePlaceholder}
