@@ -54,6 +54,7 @@
   "testimonials": {
     "sectionTitle": "They trusted my work ⭐",
     "subtitle": "Real feedback from customers & team",
+    "proofLabel": "Original message",
     "highlight": {
       "quotes": [
         "Hieu who mapped pretty much the entire accounting ecosystem.",
@@ -68,7 +69,7 @@
         "name": "Jordan McGhee",
         "role": "CFO",
         "company": "KSA Attorneys",
-        "quote": "The backend redesign has made our system significantly more efficient. Reporting workflows are much faster."
+        "quote": "Please thank your backend team - the redesigned Chart of Accounts makes everything so much more efficient!"
       },
       "mckeen": {
         "name": "McKeen Smith LLC",

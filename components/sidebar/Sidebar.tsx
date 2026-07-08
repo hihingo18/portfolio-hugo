@@ -47,7 +47,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       {/* Avatar — hidden on tablet, visible on desktop */}
       <div className="hidden lg:flex w-full items-center justify-center mt-6">
         <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
-          <Image src="/images/avatar.webp" alt="Hugo" fill priority />
+          <Image src="/images/avatar-yasaka-shrine-kyoto.webp" alt="Hugo" fill priority />
         </div>
       </div>
 
@@ -111,11 +111,11 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       </nav>
 
       {/* Theme toggle + Language switcher */}
-      <div className="w-full px-1 lg:px-10 mt-5 mb-[clamp(12px,1.5vw,24px)]">
-        <div className="flex flex-col items-center gap-[clamp(4px,0.4vw,8px)] lg:flex-row lg:pl-[clamp(10px,0.8vw,16px)]">
+      <div className="w-full px-1 lg:px-10 mt-5 mb-[clamp(12px,1.5vw,10px)]">
+        <div className="flex flex-col items-center gap-[clamp(16px,0.4vw,8px)] lg:items-start lg:pl-[clamp(10px,0.8vw,16px)]">
           <button
             onClick={toggle}
-            className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-2 lg:mb-0 lg:mr-[clamp(4px,0.4vw,8px)] text-[#1A1A1A] dark:text-[#e0e0e0]"
+            className="flex items-center justify-center cursor-pointer transition-opacity duration-200 hover:opacity-60 mb-2 lg:mb-0 text-[#1A1A1A] dark:text-[#e0e0e0]"
             aria-label={colors.isDark ? "Switch to light mode" : "Switch to dark mode"}
           >
             {colors.isDark ? <SunIcon /> : <MoonIcon />}

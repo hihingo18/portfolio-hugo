@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import TestimonialCard from "./TestimonialCard";
 import type { Testimonial } from "@/types";
 import { useLocale } from "@/context/LocaleContext";
@@ -11,12 +11,19 @@ export default function TestimonialsSection() {
   const { dict } = useLocale();
   const { isDark } = useColors();
   const t = dict.testimonials;
+  const gridRef = useRef<HTMLDivElement>(null);
+  const gridInView = useInView(gridRef, { once: true, margin: "-120px" });
+  const [activeCount, setActiveCount] = useState(0);
+
+  useEffect(() => {
+    if (gridInView) setActiveCount((prev) => Math.max(prev, 1));
+  }, [gridInView]);
 
   const TESTIMONIALS: Testimonial[] = useMemo(
     () => [
-      { id: "jordan", ...t.items.jordan },
-      { id: "mckeen", ...t.items.mckeen },
-      { id: "john", ...t.items.john },
+      { id: "jordan", ...t.items.jordan, image: "/images/testimonials/shout-out-cb-mcghee.png" },
+      { id: "mckeen", ...t.items.mckeen, image: "/images/testimonials/shout-out-cb-mckeen.png" },
+      { id: "john", ...t.items.john, image: "/images/testimonials/shout-out-cb-jt.png" },
     ],
     [t.items]
   );
@@ -101,7 +108,7 @@ export default function TestimonialsSection() {
       </div>
 
       {/* Cards grid */}
-      <div className="px-20 flex flex-wrap gap-5 justify-center items-stretch">
+      <div ref={gridRef} className="px-20 flex flex-wrap gap-5 justify-center items-start">
         {TESTIMONIALS.map((item, i) => (
           <motion.div
             key={item.id}
@@ -111,7 +118,12 @@ export default function TestimonialsSection() {
             transition={{ duration: 0.5, delay: i * 0.15 }}
             className="flex min-w-65 max-w-80 flex-1"
           >
-            <TestimonialCard testimonial={item} />
+            <TestimonialCard
+              testimonial={item}
+              proofLabel={t.proofLabel}
+              reveal={i < activeCount}
+              onRevealComplete={() => setActiveCount((prev) => Math.max(prev, i + 2))}
+            />
           </motion.div>
         ))}
       </div>

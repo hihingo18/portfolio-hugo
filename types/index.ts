@@ -17,6 +17,7 @@ export interface Testimonial {
   role: string;
   company?: string;
   quote: string;
+  image?: string;
 }
 
 export type SectionId = "home" | "projects" | "skills" | "trust" | "about";

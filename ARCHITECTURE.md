@@ -1,15 +1,20 @@
 # Portfolio Hugo — Architecture Overview
 
+A single-page, bilingual (EN/VN) personal portfolio with light/dark theming, built on the Next.js App Router. Content is data-driven from locale JSON; there is no CMS or database.
+
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Framework | Next.js 15 (App Router) |
 | UI Library | React 19 |
-| Styling | Tailwind CSS v4 + inline `clamp()` for fluid sizing |
-| Animation | Framer Motion 12 |
 | Language | TypeScript 5.7 (strict) |
-| Utilities | `clsx` + `tailwind-merge` (via `lib/cn.ts`) |
+| Styling | Tailwind CSS v4 + inline `clamp()` for fluid sizing |
+| UI primitives | shadcn (`@base-ui/react`) + `class-variance-authority` |
+| Animation | Framer Motion 12 |
+| Email | Resend (contact form) |
+| Utilities | `clsx` + `tailwind-merge` (via `lib/utils.ts` → `cn()`) |
+| Fonts | `next/font/google` — Sora (UI) + Fira Sans (italic quotes) |
 
 ---
 
@@ -18,196 +23,205 @@
 ```
 portfolio-hugo/
 ├── app/
-│   ├── layout.tsx                  # Root layout — sets <html lang>, global font
-│   └── [locale]/
-│       ├── layout.tsx              # Locale layout (Server Component) — loads dict, wraps with LocaleProvider
-│       ├── page.tsx                # Page entry — renders PageContent
-│       └── error.tsx               # Error boundary for locale segment
+│   ├── layout.tsx                  # Root layout — reads `theme` cookie (server), sets <html class="dark">, mounts fonts + ThemeProvider
+│   ├── globals.css                 # Tailwind v4 entry, shadcn tokens, dark variant, scrollbar, gradient keyframes
+│   ├── [locale]/
+│   │   ├── layout.tsx              # Locale layout (Server Component) — generateMetadata, getDictionary, LocaleProvider
+│   │   ├── page.tsx                # Page entry — renders <PageContent />
+│   │   └── error.tsx               # Error boundary for the locale segment
+│   └── api/
+│       └── contact/route.ts        # POST handler — sends contact email via Resend
 ├── components/
-│   ├── page-layout/
-│   │   └── PageContent.tsx         # Main layout shell — sidebar + scrollable main
+│   ├── page-layout/PageContent.tsx # Layout shell — sidebar/topbar + scrollable main; owns scroll-spy + contact-panel state
 │   ├── sidebar/
-│   │   └── Sidebar.tsx             # Fixed left panel: nav, language switcher, social links
-│   ├── hero/
-│   │   └── HeroSection.tsx         # Landing hero with animated headline
+│   │   ├── Sidebar.tsx             # Full panel (desktop): avatar, nav, theme toggle, locale switch, socials
+│   │   ├── TopBar.tsx              # Mobile top bar with hamburger
+│   │   ├── MobileDrawer.tsx        # Slide-in nav drawer (mobile)
+│   │   └── navigation.ts           # NAV_ORDER, NAV_ICONS, SOCIAL_ICONS, useSwitchLocale()
+│   ├── hero/HeroSection.tsx        # Landing hero with animated headline + CTA
 │   ├── projects/
-│   │   ├── ProjectsSection.tsx     # Projects grid section
-│   │   └── ProjectCard.tsx         # Individual project card
+│   │   ├── ProjectsSection.tsx     # Projects grid from locale data
+│   │   └── ProjectCard.tsx         # Single project card (theme-aware image, hover lift)
+│   ├── skills/
+│   │   ├── SkillsSection.tsx       # Core-capabilities columns + method chips
+│   │   └── SectionConnector.tsx    # Decorative connector between sections
 │   ├── testimonials/
-│   │   ├── TestimonialsSection.tsx # Testimonials carousel/grid
-│   │   └── TestimonialCard.tsx     # Individual testimonial card
-│   ├── about/
-│   │   └── AboutSection.tsx        # About me section
-│   ├── contact/
-│   │   └── ContactPanel.tsx        # Slide-in contact form panel
-│   ├── footer/
-│   │   └── Footer.tsx              # Page footer
+│   │   ├── TestimonialsSection.tsx # Highlight quote + testimonial cards; drives chained proof-image reveal
+│   │   └── TestimonialCard.tsx     # Single testimonial + "Original message" proof toggle
+│   ├── about/AboutSection.tsx      # Bio, values, interests
+│   ├── contact/ContactPanel.tsx    # Slide-in overlay contact form (posts to /api/contact)
+│   ├── footer/Footer.tsx           # Page footer
 │   ├── icons/
-│   │   ├── NavIcons.tsx            # Home, Projects, About icons
-│   │   ├── SocialIcons.tsx         # Instagram, LinkedIn, TikTok, Behance icons
-│   │   └── UIIcons.tsx             # Star and other decorative icons
-│   └── ui/
-│       ├── Button.tsx              # Primary button component
-│       ├── Input.tsx               # Text input component
-│       ├── Textarea.tsx            # Textarea component
-│       └── index.ts                # Re-exports
+│   │   ├── NavIcons.tsx            # Home, Projects, Skills, About
+│   │   ├── SocialIcons.tsx         # LinkedIn, GitHub
+│   │   └── UIIcons.tsx             # Sun/Moon (theme), ArrowLeft, decorative icons
+│   └── ui/                         # shadcn primitives: button, card, input, label, textarea
 ├── context/
-│   └── LocaleContext.tsx           # React context + useLocale() hook
+│   ├── LocaleContext.tsx           # dict + locale context, useLocale()
+│   └── ThemeContext.tsx            # theme state + toggle(), useTheme(), useColors()
 ├── hooks/
-│   └── useScrollSpy.ts             # IntersectionObserver-based active section tracker
+│   └── useScrollSpy.ts             # IntersectionObserver-based active-section tracker
 ├── lib/
-│   ├── cn.ts                       # clsx + twMerge utility
-│   ├── constants.ts                # SOCIAL_LINKS, FORM_CONSTRAINTS, LOCALE_PREFIX_PATTERN
-│   ├── fonts.ts                    # Next.js font definitions
-│   ├── i18n.ts                     # Dictionary type, locale list, getDictionary()
-│   ├── theme.ts                    # COLORS and SHADOWS design tokens
-│   └── icons/
-│       └── tech-icons-registry.tsx # SVG tech stack icon components
+│   ├── utils.ts                    # cn() = clsx + tailwind-merge
+│   ├── constants.ts                # SOCIAL_LINKS, CONTACT, FORM_CONSTRAINTS, LOCALE_PREFIX_PATTERN
+│   ├── fonts.ts                    # Sora + Fira Sans definitions
+│   ├── i18n.ts                     # Dictionary type, locales, isValidLocale(), getDictionary()
+│   └── theme.ts                    # ColorTokens + LIGHT_TOKENS / DARK_TOKENS + getColors()
 ├── locales/
-│   ├── en.json                     # English copy — nav, hero, projects, testimonials, about, contact
-│   └── vn.json                     # Vietnamese copy (same schema as en.json)
-├── types/
-│   └── index.ts                    # Shared TypeScript types
-└── middleware.ts                   # Locale redirect middleware
+│   ├── en.json                     # nav, hero, projects, testimonials, about, skills, footer, contact
+│   └── vn.json                     # Vietnamese copy (identical schema — source of the Dictionary type)
+├── types/index.ts                  # Project, Testimonial, SectionId, NavId
+├── middleware.ts                   # Locale-prefix redirect
+└── next.config.ts                  # Next.js Image optimization enabled
 ```
 
 ---
 
 ## i18n Architecture
 
-The internationalisation flow is intentionally simple — no third-party i18n library.
+Intentionally library-free — locales are plain JSON loaded via dynamic `import()`.
 
 ```
 Request: /about
         │
         ▼
 middleware.ts
-  - Reads "locale" cookie (default: "en")
-  - Redirects → /en/about
+  - Skips paths already prefixed with a valid locale, plus _next/api/images/static assets (matcher)
+  - Reads "locale" cookie (default "en") → redirects to /en/about
         │
         ▼
 app/[locale]/layout.tsx   (Server Component)
-  - Awaits params.locale
-  - Calls getDictionary(locale) — dynamic import of locales/en.json or locales/vn.json
+  - await params.locale → validate via isValidLocale (fallback "en")
+  - getDictionary(locale) → dynamic import of locales/{locale}.json
   - Wraps children in <LocaleProvider dict={dict} locale={locale}>
         │
         ▼
-context/LocaleContext.tsx  (Client Component boundary)
-  - Holds dict + locale in React context
-  - Exposes useLocale() hook to any client component
+context/LocaleContext.tsx  (Client boundary)
+  - Holds dict + locale in React context, exposes useLocale()
         │
         ▼
-Any client component
-  const { dict, locale } = useLocale();
+Any client component:  const { dict, locale } = useLocale();
 ```
 
-**Language switching** (in `Sidebar.tsx`):
-1. Write `locale=xx` cookie via `document.cookie`
-2. Navigate with `window.location.href` — hard navigation ensures Server Component re-runs fresh (bypasses Next.js 15 Router Cache)
-
-**Type safety**: `Dictionary` type is inferred directly from `en.json` via `typeof en` — no manual type maintenance needed.
+- **Language switch** (`useSwitchLocale` in `navigation.ts`): writes `locale=xx` cookie, then `window.location.href` (hard navigation) so the Server Component re-runs fresh, bypassing the Next.js Router Cache.
+- **Type safety**: `Dictionary = typeof en` — the English JSON is the schema; `vn.json` must match it.
+- **Path rewriting**: `LOCALE_PREFIX_PATTERN` (`/^\/(en|vn)(?=\/|$)/`) swaps the locale prefix while preserving the rest of the path.
 
 ---
 
-## Page Layout
+## Theming (Light / Dark)
+
+Theme is resolved on the server (no flash) and toggled on the client.
 
 ```
-┌────────────────────────────────────────────────────┐
-│  Fixed Left Panel (22vw, min 280px, max 400px)      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │  Avatar image                                │  │
-│  │  Nav: Home | Projects | About                │  │
-│  │  Language: EN / VN                           │  │
-│  │  Social: Instagram LinkedIn TikTok Behance   │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-│  Scrollable Right Panel (flex-1)                   │
-│  ┌──────────────────────────────────────────────┐  │
-│  │  #home      — HeroSection                   │  │
-│  │  #projects  — ProjectsSection               │  │
-│  │  #trust     — TestimonialsSection           │  │
-│  │  #about     — AboutSection                  │  │
-│  │             — Footer                        │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                     │
-│  Overlay: ContactPanel (slide-in)                  │
-└────────────────────────────────────────────────────┘
+app/layout.tsx (Server)
+  - reads "theme" cookie (default "light")
+  - renders <html class={dark ? "dark" : ""}> + <ThemeProvider initialTheme={theme}>
+        │
+        ▼
+context/ThemeContext.tsx (Client)
+  - useState(initialTheme)
+  - toggle(): flips <html>.dark, writes "theme" cookie (1yr), updates state
+        │
+        ▼
+useColors() → getColors(isDark) from lib/theme.ts
+  - returns semantic tokens { bgBase, textBase, brandPrimary, border*, status*, … } + isDark
 ```
 
-`PageContent.tsx` is the top-level client component that composes the layout. It:
-- Tracks `activeSection` via `useScrollSpy`
-- Passes `activeSection` and `onNavClick` down to `Sidebar`
-- Manages `showContact` state to toggle `ContactPanel`
+Two token layers, kept in sync by convention:
+- **`lib/theme.ts`** — `LIGHT_TOKENS` / `DARK_TOKENS` consumed in TS via `useColors()` (inline `style={{ color: colors.textBase }}`).
+- **`globals.css`** — mirrored CSS variables under `:root` and `.dark` for shadcn/Tailwind utilities (`--background`, `--primary`, …). The Tailwind `dark:` variant is defined as `@custom-variant dark (&:where(.dark, .dark *))`.
+
+> **Rule:** components pick tokens by name (`useColors()`) or `dark:` utilities — avoid raw hex.
+
+---
+
+## Page Layout & Responsiveness
+
+`PageContent.tsx` is the top-level client component composing the whole page. It owns `activeSection` (via `useScrollSpy`) and `showContact` / `showDrawer` state.
+
+```
+mobile (< md)              tablet (md)                desktop (lg+)
+┌───────────────┐          ┌──┬──────────┐            ┌───────────┬──────────────┐
+│ TopBar (☰)    │          │IC│  main     │            │  Sidebar  │  main         │
+├───────────────┤          │ON│ (scroll)  │            │  (full)   │  (scroll)     │
+│  main         │          │  │           │            │  avatar   │  #home        │
+│  (scroll)     │          │  │           │            │  nav      │  #projects    │
+│               │          └──┴──────────┘            │  theme    │  #skills      │
+│  MobileDrawer │          icon-only rail             │  EN / VN  │  #trust       │
+│  (slide-in)   │          (md:w-16)                  │  socials  │  #about       │
+└───────────────┘                                     └───────────┴──────────────┘
+                                                       lg:w-[22vw] min 280 / max 360
+```
+
+- Sidebar container: `hidden md:block md:fixed md:w-16 lg:w-[22vw] lg:min-w-70 lg:max-w-90`, with a matching spacer so `main` isn't overlapped.
+- Section order in `main`: `#home` → `#projects` → `#skills` → `SectionConnector` → `#about` → `Footer`, with `#trust` (testimonials) between projects and skills. `ContactPanel` is a fixed slide-in overlay.
 
 ---
 
 ## Scroll Spy
 
-`useScrollSpy` uses the native `IntersectionObserver` API to detect which section is currently in view.
+`useScrollSpy(sectionIds)` uses `IntersectionObserver` to pick the section with the highest `intersectionRatio`.
 
 ```ts
-// hooks/useScrollSpy.ts
-new IntersectionObserver(callback, {
-  threshold: 0,                        // Fire as soon as any pixel enters viewport
-  rootMargin: "-120px 0px -70% 0px",  // Shrinks observation zone: 120px from top, 70% from bottom
-})
+new IntersectionObserver(cb, { threshold: 0, rootMargin: "-120px 0px -70% 0px" })
 ```
 
-The rootMargin creates a narrow horizontal "trigger band" near the top of the viewport. The section with the highest `intersectionRatio` within that band is the active one.
+The `rootMargin` shrinks the observation band to a strip near the top of the viewport (120px from top, 70% cut from bottom).
 
-**SectionId vs NavId**: Sections include `"trust"` (testimonials) which has no nav item. The sidebar only highlights `"home" | "projects" | "about"` — when `"trust"` is active, `"projects"` remains highlighted (intentional, no nav item for testimonials).
+- **`SectionId` vs `NavId`**: sections include `"trust"` (testimonials), which has **no** nav item. `NAV_ORDER = [home, projects, skills, about]`; when `"trust"` is active no nav item lights up (intentional).
 
 ---
 
-## Data Flow — Projects
+## Data Flow — Projects & Testimonials
 
-All project data lives in the locale JSON files. No separate data files.
+All display content lives in `locales/*.json`; no separate data files.
 
-```json
-// locales/en.json
-{
-  "projects": {
-    "sectionTitle": "My Projects",
-    "items": {
-      "project-1": {
-        "name": "...",
-        "type": "...",
-        "image": "/images/...",
-        "cardBg": "#f0f0f0",
-        "role": "...",
-        "stack": "...",
-        "description": "..."
-      }
-    }
-  }
-}
+```jsonc
+// locales/en.json → projects.items.<id>
+{ "name", "image", "imageDark", "cardBg", "type", "role", "stack", "description" }
+// projects.items may also carry an optional "link"
+
+// locales/en.json → testimonials.items.<id>
+{ "name", "role", "company", "quote" }   // + highlight { quotes[], author, role, company }
 ```
 
-`ProjectsSection` maps `Object.entries(p.items)` → `Project[]` and renders a card per project.
+- `ProjectsSection` maps the JSON items into `Project[]` and renders a `ProjectCard` each; the card swaps `image` / `imageDark` based on `useColors().isDark`.
+- `TestimonialsSection` composes `Testimonial[]` in code and attaches the proof-screenshot paths (`/images/testimonials/*.png`).
+
+### Testimonial proof reveal (chained on-scroll)
+
+Each card has an **"Original message"** toggle showing a screenshot of the real message.
+- Default **off**; images stay mounted (preloaded/decoded) so the reveal only animates a fixed numeric height (`0 → 230px`) + opacity — never `height: "auto"` (avoids layout jank).
+- `TestimonialsSection` uses `useInView` (once) on the grid; when in view it reveals card 0, and each card fires `onRevealComplete` when its slide-down finishes to trigger the next → a smooth 0 → 1 → 2 chain (no fixed timers).
+- Robust fallbacks: broken/missing images (`onError` / `naturalWidth === 0`) hide the box and advance the chain so it never stalls.
+
+---
+
+## Contact Form
+
+```
+ContactPanel (client)
+  - client-side validation via FORM_CONSTRAINTS
+  - POST /api/contact { name, email, message }
+        │
+        ▼
+app/api/contact/route.ts (force-dynamic)
+  - requires RESEND_API_KEY env var
+  - Resend.emails.send({ from: CONTACT.fromEmail, to: CONTACT.email, replyTo: email })
+  - returns JSON { message } | { error }
+```
+
+`CONTACT` (email/phone/fromEmail) in `lib/constants.ts` is the single source of truth for both the panel display and the mailer.
 
 ---
 
 ## Design Tokens
 
-All design values are centralised in `lib/theme.ts`:
-
-```ts
-COLORS = {
-  primary: "#020073",        // Navy blue — brand color
-  primaryDark: "rgb(0,0,54)",
-  background: "#f6f9f7",     // Light green-tinted off-white
-  text: "#1A1A1A",
-  textSecondary: "#757575",
-  error: "#CC2927",
-  ...
-}
-
-SHADOWS = {
-  inset: "inset 2px 0 0 #020073",   // Active nav indicator
-}
-```
-
-Fluid typography and spacing use CSS `clamp()` inline (e.g., `clamp(14px, 1.1vw, 20px)`) rather than Tailwind breakpoints, keeping responsive behaviour in one place per component.
+- **Semantic colors**: `lib/theme.ts` (`bg*`, `text*`, `brand*`, `border*`, `status*`, `white`) → `useColors()`.
+- **shadcn/Tailwind CSS vars**: `globals.css` `:root` / `.dark` mirror the same palette.
+- **Fluid sizing**: inline CSS `clamp()` (e.g. `clamp(14px, 1.1vw, 20px)`) keeps responsive behavior local to each component rather than spread across Tailwind breakpoints.
+- Brand accent: `#020073` (light) / `#6b9fff` (dark).
 
 ---
 
@@ -215,27 +229,24 @@ Fluid typography and spacing use CSS `clamp()` inline (e.g., `clamp(14px, 1.1vw,
 
 | Component | Responsibility |
 |---|---|
-| `PageContent` | Layout shell, scroll spy state, contact panel toggle |
-| `Sidebar` | Navigation, locale switch, social links |
-| `HeroSection` | Animated headline, CTA button |
-| `ProjectsSection` | Grid of project cards from locale data |
-| `ProjectCard` | Single project display with hover effects |
-| `TestimonialsSection` | Social proof section with quote cards |
-| `TestimonialCard` | Single testimonial — name, role, quote |
-| `AboutSection` | Bio, skills, tech stack |
-| `ContactPanel` | Slide-in overlay form with validation |
-| `Footer` | Copyright, links |
+| `PageContent` | Layout shell; scroll-spy, drawer + contact-panel state |
+| `Sidebar` / `TopBar` / `MobileDrawer` | Navigation, theme toggle, locale switch, socials (per breakpoint) |
+| `HeroSection` | Animated headline + "Work with me" CTA |
+| `ProjectsSection` / `ProjectCard` | Project grid from locale data (theme-aware images) |
+| `SkillsSection` / `SectionConnector` | Core capabilities + decorative connector |
+| `TestimonialsSection` / `TestimonialCard` | Social proof + chained proof-image reveal |
+| `AboutSection` | Bio, values, interests |
+| `ContactPanel` | Slide-in form → `/api/contact` |
+| `Footer` | Copyright |
 
 ---
 
 ## Key Design Decisions
 
-**1. No i18n library** — Locale loading is a simple dynamic `import()` of JSON. The dictionary shape is type-safe via `typeof en`. Zero runtime overhead compared to i18n libraries.
-
-**2. Server Component loads data, Client Context distributes it** — `app/[locale]/layout.tsx` is async (server), fetches the dictionary, passes it to `<LocaleProvider>` (client). Client components use `useLocale()` — no client-side fetching, no waterfalls.
-
-**3. Animation variants inline, not in separate files** — Each component defines its own `*_VARIANTS` constant at the top of the file. No `lib/animations/` abstraction because each variant is used by only one component.
-
-**4. Hard navigation for locale switch** — `window.location.href` instead of `router.push` ensures the Server Component always re-runs with the new locale, bypassing Next.js 15 Router Cache which can serve stale RSC payloads on soft navigation.
-
-**5. All project content in locale JSON** — `name`, `image`, `cardBg` and copy all live in `locales/*.json`. No separate data files to keep in sync.
+1. **No i18n library** — dictionaries are dynamic `import()`s of JSON; shape is type-safe via `typeof en`. Zero runtime overhead.
+2. **Server loads data/theme, client distributes** — `[locale]/layout.tsx` (async) loads the dictionary; root `layout.tsx` resolves the theme cookie before render (no theme flash). Providers push both into client context.
+3. **Hard navigation for locale switch** — `window.location.href` guarantees the Server Component re-runs with the new locale, avoiding stale RSC payloads from the Router Cache.
+4. **Two mirrored token systems** — TS tokens (`useColors()`) for inline styles + CSS vars for shadcn utilities; both edited together.
+5. **Reveal animations avoid `height: auto`** — proof images are preloaded and animate a fixed numeric height, chained by animation completion, to stay smooth.
+6. **All content in locale JSON** — copy, image paths and `cardBg` all live in `locales/*.json`; no separate data layer to keep in sync.
+```
