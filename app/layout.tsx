@@ -1,10 +1,17 @@
 import "./globals.css";
+import type { Metadata } from "next";
 import { sora, firaSans } from "@/lib/fonts";
 import { cookies } from "next/headers";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 
 type Theme = "light" | "dark";
+
+export const metadata: Metadata = {
+  icons: {
+    icon: "/images/favicon.png",
+  },
+};
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();

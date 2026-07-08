@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { memo, useState } from "react";
 import { useColors } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
@@ -77,13 +76,12 @@ function ProjectCard({ project }: ProjectCardProps) {
         </p>
 
         <div className="mt-auto pt-6">
-          <Link
-            href={`/projects/${project.id}`}
-            onClick={(e) => e.stopPropagation()}
-            className="inline-block px-4 py-2 text-sm font-light border border-black dark:border-white text-black dark:text-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200"
+          <span
+            aria-disabled="true"
+            className="inline-block px-4 py-2 text-sm font-light border border-black/40 dark:border-white/40 text-black/40 dark:text-white/40 cursor-not-allowed select-none"
           >
             View Case Study →
-          </Link>
+          </span>
         </div>
       </div>
     </div>
