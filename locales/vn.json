@@ -55,32 +55,33 @@
     "sectionTitle": "Họ tin tưởng công việc của tôi ⭐",
     "subtitle": "Phản hồi thực từ khách hàng & đồng nghiệp",
     "proofLabel": "Tin nhắn gốc",
+    "redactionNote": "Thông tin nhận dạng đã được ẩn để bảo mật.",
     "highlight": {
       "quotes": [
         "Hieu who mapped pretty much the entire accounting ecosystem.",
         "⭐ Special shout outs to Hieu Ngo for keeping the project on track amidst competing priorities."
       ],
-      "author": "Jacquie West",
-      "role": "Product Manager",
-      "company": "Centerbase"
+      "author": "Product Manager @ Centerbase",
+      "role": "",
+      "company": ""
     },
     "items": {
       "jordan": {
-        "name": "Jordan McGhee",
-        "role": "CFO",
-        "company": "KSA Attorneys",
+        "name": "CFO — Legal Industry Client",
+        "role": "",
+        "company": "",
         "quote": "Please thank your backend team - the redesigned Chart of Accounts makes everything so much more efficient!"
       },
       "mckeen": {
-        "name": "McKeen Smith LLC",
-        "role": "Accounting User",
+        "name": "Accounting User",
+        "role": "",
         "company": "",
         "quote": "Transactions now load very fast, even for large datasets. This is a big improvement to user experience."
       },
       "john": {
-        "name": "John Thacker",
-        "role": "Engineering Manager",
-        "company": "Centerbase",
+        "name": "Engineering Manager @ Centerbase",
+        "role": "",
+        "company": "",
         "quote": "I'm impressed with the solid patterns and refactoring in your latest merge requests."
       }
     }
