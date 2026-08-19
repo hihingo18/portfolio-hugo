@@ -100,9 +100,13 @@ export default function TestimonialsSection() {
               </p>
             ))}
             <p className="mt-4 font-bold text-black dark:text-white">— {t.highlight.author}</p>
-            <p className="text-gray-400 dark:text-gray-500 text-xs">
-              {t.highlight.role} @ {t.highlight.company}
-            </p>
+            {(t.highlight.role || t.highlight.company) && (
+              <p className="text-gray-400 dark:text-gray-500 text-xs">
+                {t.highlight.role}
+                {t.highlight.role && t.highlight.company ? " @ " : ""}
+                {t.highlight.company}
+              </p>
+            )}
           </div>
         </motion.div>
       </div>
@@ -127,6 +131,18 @@ export default function TestimonialsSection() {
           </motion.div>
         ))}
       </div>
+
+      {/* Confidentiality note */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative z-10 mt-8 px-20 flex items-center justify-center gap-1.5 text-center text-xs italic text-gray-400 dark:text-gray-500"
+      >
+        <span aria-hidden className="not-italic">🛡️</span>
+        {t.redactionNote}
+      </motion.p>
 
       <div
         className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"

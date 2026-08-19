@@ -43,18 +43,25 @@ function TestimonialCard({ testimonial, proofLabel, reveal, onRevealComplete }: 
     >
       <CardContent className="flex flex-col gap-3 h-full p-[25px] text-center">
         {/* Person info */}
-        <div className="flex flex-col items-center gap-0.5">
+        <div className="flex min-h-[3.5rem] flex-col items-center justify-center gap-1.5">
           <h3 className="font-bold text-[18px] text-black dark:text-white leading-tight">
             {testimonial.name}
           </h3>
-          <p className="text-xs text-gray-400 dark:text-gray-500 leading-tight">
-            {testimonial.role}
-            {testimonial.company ? ` @ ${testimonial.company}` : ""}
-          </p>
+          {testimonial.role || testimonial.company ? (
+            <p className="text-xs text-gray-400 dark:text-gray-500 leading-tight">
+              {testimonial.role}
+              {testimonial.company ? ` @ ${testimonial.company}` : ""}
+            </p>
+          ) : (
+            <span
+              aria-hidden
+              className="mt-0.5 block h-[3px] w-9 rounded-full bg-[#020073]/70 dark:bg-[#6b9fff]/80"
+            />
+          )}
         </div>
 
         {/* Quote */}
-        <p className="font-normal text-[14.5px] text-[#333] dark:text-gray-200 leading-relaxed min-h-[6.5em] flex items-center justify-center">
+        <p className="font-normal text-[14.5px] text-[#333] dark:text-gray-200 leading-relaxed min-h-[8.25em] flex items-center justify-center">
           &ldquo;{testimonial.quote}&rdquo;
         </p>
 
