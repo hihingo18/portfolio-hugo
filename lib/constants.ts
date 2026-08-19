@@ -4,7 +4,7 @@ export const SOCIAL_LINKS = [
   {
     id: "linkedin",
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/hieu-ngo-75b4b1301/",
+    href: "https://www.linkedin.com/in/hieungo-hugo/",
   },
   {
     id: "github",
