@@ -5,8 +5,11 @@ import { motion } from "framer-motion";
 import { MapPinIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
+import { SOCIAL_LINKS } from "@/lib/constants";
 
 const accentColor = "#5ba4cf";
+
+const linkedinHref = SOCIAL_LINKS.find((s) => s.id === "linkedin")?.href ?? "";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -326,7 +329,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
             </p>
           </div>
           <a
-            href="https://www.linkedin.com/in/hieu-ngo-75b4b1301/"
+            href={linkedinHref}
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => setLinkedinHovered(true)}
