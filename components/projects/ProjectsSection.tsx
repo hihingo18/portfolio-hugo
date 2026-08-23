@@ -9,13 +9,13 @@ import { useColors } from "@/context/ThemeContext";
 import type { Project } from "@/types";
 
 export default function ProjectsSection() {
-  const { dict } = useLocale();
+  const { dict, locale } = useLocale();
   const colors = useColors();
   const p = dict.projects;
 
   const projects: Project[] = useMemo(
-    () => Object.entries(p.items).map(([id, item]) => ({ id, ...item })),
-    [p.items]
+    () => Object.entries(p.items).map(([id, item]) => ({ id, ...item, link: `/${locale}/projects/${id}` })),
+    [locale, p.items]
   );
 
   return (
