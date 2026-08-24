@@ -27,6 +27,12 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
   const { dict } = useLocale();
   const colors = useColors();
   const h = dict.hero;
+  const heroBackground = colors.isDark
+    ? { backgroundColor: colors.bgBase }
+    : {
+        background:
+          "linear-gradient(to bottom, rgb(255,255,255) 0%, rgba(255,255,255,0) 24%, rgba(255,255,255,0) 76%, rgb(255,255,255) 100%), linear-gradient(137deg, rgb(255,255,255) 0%, rgb(255,255,255) 33.333%, rgb(203,220,255) 66.667%, rgb(255,255,255) 100%)",
+      };
 
   const handleLearnMore = () => {
     document.getElementById("projects")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -35,7 +41,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
   return (
     <section
       className="relative w-full h-screen flex flex-col overflow-hidden"
-      style={{ backgroundColor: colors.bgBase }}
+      style={heroBackground}
     >
       {/* Work with me button */}
       <div className="fixed top-[72px] md:top-10 right-4 md:right-10 z-50">
@@ -155,24 +161,6 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
           className="absolute bottom-0 left-0 right-0 flex items-center justify-center"
           style={{ padding: "40px 80px" }}
         >
-          {!colors.isDark ? (
-            <>
-              <div
-                className="animate-gradient-slow absolute inset-0"
-                style={{
-                  background: "linear-gradient(137deg, #f0f5ff 0%, #c8d9ff 25%, #aac5ff 50%, #c8d9ff 75%, #f0f5ff 100%)",
-                  backgroundSize: "400% 400%",
-                }}
-              />
-              <div
-                className="absolute inset-x-0 top-0 pointer-events-none"
-                style={{ height: "80%", background: `linear-gradient(to bottom, ${colors.bgBase} 0%, transparent 100%)` }}
-              />
-            </>
-          ) : (
-            <div className="absolute inset-0" style={{ background: colors.bgBase }} />
-          )}
-
           <button
             onClick={handleLearnMore}
             onMouseEnter={() => setLearnHovered(true)}

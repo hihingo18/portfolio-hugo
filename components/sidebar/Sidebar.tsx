@@ -47,7 +47,13 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
       {/* Avatar — hidden on tablet, visible on desktop */}
       <div className="hidden lg:flex w-full items-center justify-center mt-6">
         <div className="relative overflow-hidden rounded-full w-[65%] aspect-square">
-          <Image src="/images/avatar-yasaka-shrine-kyoto.webp" alt="Hugo" fill priority />
+          <Image
+            src="/images/avatar-yasaka-shrine-kyoto.jpg"
+            alt="Hugo"
+            fill
+            priority
+            className="rounded-full object-cover scale-170 translate-x-[8%] translate-y-[-15%]"
+          />
         </div>
       </div>
 
