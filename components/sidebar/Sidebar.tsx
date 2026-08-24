@@ -52,7 +52,7 @@ export default function Sidebar({ activeSection, onNavClick }: SidebarProps) {
             alt="Hugo"
             fill
             priority
-            className="rounded-full object-cover scale-170 translate-x-[8%] translate-y-[-15%]"
+            className="rounded-full object-cover scale-150 translate-x-[10%] translate-y-[-15%]"
           />
         </div>
       </div>
