@@ -54,7 +54,7 @@ export default function MobileDrawer({ isOpen, onClose, activeSection, onNavClic
       {/* Drawer panel */}
       <div
         className={cn(
-          "fixed top-0 left-0 h-full w-72 z-[60] md:hidden flex flex-col transition-transform duration-300 ease-out border-r",
+          "fixed top-0 left-0 h-full w-72 z-[60] md:hidden flex flex-col transition-transform duration-300 ease-out will-change-transform border-r",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
         style={{ backgroundColor: colors.bgBase, borderColor }}

@@ -70,19 +70,22 @@
         "name": "CFO — Legal Industry Client",
         "role": "",
         "company": "",
-        "quote": "Please thank your backend team - the redesigned Chart of Accounts makes everything so much more efficient!"
+        "quote": "Please thank your backend team - the redesigned Chart of Accounts makes everything so much more efficient!",
+        "image": "/images/testimonials/shout-out-cb-mcghee.png"
       },
       "mckeen": {
         "name": "Accounting User",
         "role": "",
         "company": "",
-        "quote": "Transactions now load very fast, even for large datasets. This is a big improvement to user experience."
+        "quote": "Transactions now load very fast, even for large datasets. This is a big improvement to user experience.",
+        "image": "/images/testimonials/shout-out-cb-mckeen.png"
       },
       "john": {
         "name": "Engineering Manager @ Centerbase",
         "role": "",
         "company": "",
-        "quote": "I'm impressed with the solid patterns and refactoring in your latest merge requests."
+        "quote": "I'm impressed with the solid patterns and refactoring in your latest merge requests.",
+        "image": "/images/testimonials/shout-out-cb-jt.png"
       }
     }
   },

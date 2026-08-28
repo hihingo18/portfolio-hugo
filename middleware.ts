@@ -6,12 +6,15 @@ const defaultLocale = "en";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip if pathname already starts with a valid locale
-  const pathnameHasLocale = locales.some(
+  const pathnameLocale = locales.find(
     (locale) =>
       pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
-  if (pathnameHasLocale) return NextResponse.next();
+  if (pathnameLocale) {
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-portfolio-locale", pathnameLocale);
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
 
   // Read preferred locale from cookie, fall back to default
   const cookieLocale = request.cookies.get("locale")?.value;

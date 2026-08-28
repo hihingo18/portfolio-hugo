@@ -23,7 +23,7 @@ A single-page, bilingual (EN/VN) personal portfolio with light/dark theming, bui
 ```
 portfolio-hugo/
 ├── app/
-│   ├── layout.tsx                  # Root layout — reads `theme` cookie (server), sets <html class="dark">, mounts fonts + ThemeProvider
+│   ├── layout.tsx                  # Root layout — reads theme cookie and locale header, sets theme + HTML language, mounts fonts + ThemeProvider
 │   ├── globals.css                 # Tailwind v4 entry, shadcn tokens, dark variant, scrollbar, gradient keyframes
 │   ├── [locale]/
 │   │   ├── layout.tsx              # Locale layout (Server Component) — generateMetadata, getDictionary, LocaleProvider
@@ -66,7 +66,8 @@ portfolio-hugo/
 │   ├── constants.ts                # SOCIAL_LINKS, CONTACT, FORM_CONSTRAINTS, LOCALE_PREFIX_PATTERN
 │   ├── fonts.ts                    # Sora + Fira Sans definitions
 │   ├── i18n.ts                     # Dictionary type, locales, isValidLocale(), getDictionary()
-│   └── theme.ts                    # ColorTokens + LIGHT_TOKENS / DARK_TOKENS + getColors()
+│   ├── motion.ts                   # Shared reveal timing and easing constants
+│   └── theme.ts                    # Semantic references to CSS color variables
 ├── locales/
 │   ├── en.json                     # nav, hero, projects, testimonials, about, skills, footer, contact
 │   └── vn.json                     # Vietnamese copy (identical schema — source of the Dictionary type)
@@ -115,8 +116,8 @@ Theme is resolved on the server (no flash) and toggled on the client.
 
 ```
 app/layout.tsx (Server)
-  - reads "theme" cookie (default "light")
-  - renders <html class={dark ? "dark" : ""}> + <ThemeProvider initialTheme={theme}>
+  - reads "theme" cookie (default "light") and locale from middleware
+  - renders <html lang="en" | "vi" class={dark ? "dark" : ""}> + <ThemeProvider initialTheme={theme}>
         │
         ▼
 context/ThemeContext.tsx (Client)
@@ -124,13 +125,11 @@ context/ThemeContext.tsx (Client)
   - toggle(): flips <html>.dark, writes "theme" cookie (1yr), updates state
         │
         ▼
-useColors() → getColors(isDark) from lib/theme.ts
-  - returns semantic tokens { bgBase, textBase, brandPrimary, border*, status*, … } + isDark
+useColors() → COLOR_TOKENS from lib/theme.ts
+  - returns semantic CSS-variable references plus `isDark`
 ```
 
-Two token layers, kept in sync by convention:
-- **`lib/theme.ts`** — `LIGHT_TOKENS` / `DARK_TOKENS` consumed in TS via `useColors()` (inline `style={{ color: colors.textBase }}`).
-- **`globals.css`** — mirrored CSS variables under `:root` and `.dark` for shadcn/Tailwind utilities (`--background`, `--primary`, …). The Tailwind `dark:` variant is defined as `@custom-variant dark (&:where(.dark, .dark *))`.
+`globals.css` is the single source of color values. `lib/theme.ts` maps semantic token names to those CSS variables for the few inline styles that need them. The Tailwind `dark:` variant is defined as `@custom-variant dark (&:where(.dark, .dark *))`.
 
 > **Rule:** components pick tokens by name (`useColors()`) or `dark:` utilities — avoid raw hex.
 
@@ -187,14 +186,15 @@ All display content lives in `locales/*.json`; no separate data files.
 ```
 
 - `ProjectsSection` maps the JSON items into `Project[]` and renders a `ProjectCard` each; the card swaps `image` / `imageDark` based on `useColors().isDark`.
-- `TestimonialsSection` composes `Testimonial[]` in code and attaches the proof-screenshot paths (`/images/testimonials/*.png`).
+- `TestimonialsSection` maps `testimonials.items` into `Testimonial[]`; quote copy and proof-screenshot paths live together in locale JSON.
 
-### Testimonial proof reveal (chained on-scroll)
+### Testimonial proof reveal
 
 Each card has an **"Original message"** toggle showing a screenshot of the real message.
-- Default **off**; images stay mounted (preloaded/decoded) so the reveal only animates a fixed numeric height (`0 → 230px`) + opacity — never `height: "auto"` (avoids layout jank).
-- `TestimonialsSection` uses `useInView` (once) on the grid; when in view it reveals card 0, and each card fires `onRevealComplete` when its slide-down finishes to trigger the next → a smooth 0 → 1 → 2 chain (no fixed timers).
-- Robust fallbacks: broken/missing images (`onError` / `naturalWidth === 0`) hide the box and advance the chain so it never stalls.
+- Proof images are hidden by default and can be shown or hidden by the toggle.
+- The three cards reveal together over one second. The three proof toggles then turn on automatically after 0.7, 1.5, and 2.3 seconds.
+- Proof images render directly from the controlled toggle state without a separate image animation.
+- A failed image is hidden by its `onError` handler.
 
 ---
 
@@ -218,8 +218,8 @@ app/api/contact/route.ts (force-dynamic)
 
 ## Design Tokens
 
-- **Semantic colors**: `lib/theme.ts` (`bg*`, `text*`, `brand*`, `border*`, `status*`, `white`) → `useColors()`.
-- **shadcn/Tailwind CSS vars**: `globals.css` `:root` / `.dark` mirror the same palette.
+- **Color values**: `globals.css` `:root` / `.dark` is the single source for Tailwind, shadcn, and inline styles.
+- **Semantic bridge**: `lib/theme.ts` maps names such as `bgBase` and `brandPrimary` to these CSS variables for `useColors()`.
 - **Fluid sizing**: inline CSS `clamp()` (e.g. `clamp(14px, 1.1vw, 20px)`) keeps responsive behavior local to each component rather than spread across Tailwind breakpoints.
 - Brand accent: `#020073` (light) / `#6b9fff` (dark).
 
@@ -246,7 +246,7 @@ app/api/contact/route.ts (force-dynamic)
 1. **No i18n library** — dictionaries are dynamic `import()`s of JSON; shape is type-safe via `typeof en`. Zero runtime overhead.
 2. **Server loads data/theme, client distributes** — `[locale]/layout.tsx` (async) loads the dictionary; root `layout.tsx` resolves the theme cookie before render (no theme flash). Providers push both into client context.
 3. **Hard navigation for locale switch** — `window.location.href` guarantees the Server Component re-runs with the new locale, avoiding stale RSC payloads from the Router Cache.
-4. **Two mirrored token systems** — TS tokens (`useColors()`) for inline styles + CSS vars for shadcn utilities; both edited together.
-5. **Reveal animations avoid `height: auto`** — proof images are preloaded and animate a fixed numeric height, chained by animation completion, to stay smooth.
+4. **One color-value source** — CSS variables define the palette; TypeScript only exposes semantic references to those variables.
+5. **Reveal animations avoid layout work** — cards and proof images use only `opacity` and `transform`; proof images run in a deliberate sequence without fixed-height animation.
 6. **All content in locale JSON** — copy, image paths and `cardBg` all live in `locales/*.json`; no separate data layer to keep in sync.
 ```

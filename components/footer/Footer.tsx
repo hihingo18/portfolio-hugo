@@ -1,8 +1,9 @@
 "use client";
 
+import { memo } from "react";
 import { useLocale } from "@/context/LocaleContext";
 
-export default function Footer() {
+function Footer() {
   const { dict } = useLocale();
   return (
     <footer className="w-full bg-white dark:bg-[#0f0f0f] py-10">
@@ -12,3 +13,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default memo(Footer);

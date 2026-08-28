@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import { memo, useState } from "react";
 import { motion } from "framer-motion";
 import { MapPinIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
 import { SOCIAL_LINKS } from "@/lib/constants";
+import { REVEAL_DURATION, REVEAL_EASE, REVEAL_STAGGER } from "@/lib/motion";
 
 const accentColor = "#5ba4cf";
 
@@ -15,7 +17,7 @@ const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { duration: 0.6, delay },
+  transition: { duration: REVEAL_DURATION, delay, ease: REVEAL_EASE },
 });
 
 const COLLAGE_TILES = [
@@ -68,7 +70,7 @@ function EditorialLabel({ index, label }: { index: string; label: string }) {
   );
 }
 
-export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?: () => void }) {
+function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?: () => void }) {
   const { dict } = useLocale();
   const colors = useColors();
   const a = dict.about;
@@ -139,7 +141,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
         </motion.div>
 
         {/* ── 01 HOW I WORK ───────────────────────────────── */}
-        <motion.div {...fadeUp(0.05)} className="mb-24">
+        <motion.div {...fadeUp(REVEAL_STAGGER)} className="mb-24">
           <EditorialLabel index="01" label={a.howIWorkTitle} />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -149,7 +151,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0 }}
+              transition={{ duration: REVEAL_DURATION, delay: 0, ease: REVEAL_EASE }}
               className="flex flex-col gap-3 p-6 rounded-2xl"
               style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
             >
@@ -184,7 +186,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.07 }}
+              transition={{ duration: REVEAL_DURATION, delay: REVEAL_STAGGER, ease: REVEAL_EASE }}
               className="flex flex-col gap-3 p-6 rounded-2xl"
               style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
             >
@@ -200,7 +202,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.14 }}
+              transition={{ duration: REVEAL_DURATION, delay: REVEAL_STAGGER * 2, ease: REVEAL_EASE }}
               className="flex flex-col gap-3 p-6 rounded-2xl"
               style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
             >
@@ -216,7 +218,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.21 }}
+              transition={{ duration: REVEAL_DURATION, delay: REVEAL_STAGGER * 3, ease: REVEAL_EASE }}
               className="flex flex-col gap-4 p-6 rounded-2xl"
               style={{ backgroundColor: cardBg, border: `1px solid ${cardBorder}` }}
             >
@@ -240,7 +242,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
         </motion.div>
 
         {/* ── 02 BEYOND WORK ──────────────────────────────── */}
-        <motion.div {...fadeUp(0.05)} className="mb-24">
+        <motion.div {...fadeUp(REVEAL_STAGGER)} className="mb-24">
           <EditorialLabel index="02" label={a.beyondTitle} />
           <p className="text-base leading-relaxed mb-10" style={{ color: colors.textBase }}>
             {a.beyondParagraph}
@@ -255,7 +257,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -3, transition: { duration: 0.2 } }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.07 }}
+                transition={{ duration: REVEAL_DURATION, delay: i * REVEAL_STAGGER, ease: REVEAL_EASE }}
                 className="relative rounded-xl overflow-hidden flex items-end p-4"
                 style={{
                   height: 300,
@@ -264,9 +266,12 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
                 }}
               >
                 {tile.image && (
-                  <img
+                  <Image
                     src={tile.image}
                     alt=""
+                    fill
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                    quality={70}
                     className="absolute inset-0 w-full h-full object-cover"
                     style={{ opacity: 0.9 }}
                   />
@@ -295,7 +300,7 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
         </motion.div>
 
         {/* ── CLOSING QUOTE + LINKEDIN ─────────────────────── */}
-        <motion.div {...fadeUp(0.05)} className="flex flex-col gap-6">
+        <motion.div {...fadeUp(REVEAL_STAGGER)} className="flex flex-col gap-6">
           <div
             className="p-8 rounded-2xl"
             style={{
@@ -348,3 +353,5 @@ export default function AboutSection({ onWorkWithMeClick }: { onWorkWithMeClick?
     </section>
   );
 }
+
+export default memo(AboutSection);

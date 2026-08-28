@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDownIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
@@ -21,7 +21,7 @@ interface HeroSectionProps {
   onWorkWithMeClick: () => void;
 }
 
-export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
+function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
   const [workHovered, setWorkHovered] = useState(false);
   const [learnHovered, setLearnHovered] = useState(false);
   const { dict } = useLocale();
@@ -101,7 +101,7 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="animate-gradient absolute z-10"
+            className="animate-gradient-once absolute z-10"
             style={{
               width: 80, height: 80, borderRadius: 5, top: -80, left: -20,
               background: "linear-gradient(137deg, #ffffff, #b8ceff, #004fff, #ffffff)",
@@ -191,3 +191,5 @@ export default function HeroSection({ onWorkWithMeClick }: HeroSectionProps) {
     </section>
   );
 }
+
+export default memo(HeroSection);
