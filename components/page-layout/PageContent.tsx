@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { MotionConfig } from "framer-motion";
 import Sidebar from "@/components/sidebar/Sidebar";
 import TopBar from "@/components/sidebar/TopBar";
 import MobileDrawer from "@/components/sidebar/MobileDrawer";
@@ -22,19 +23,24 @@ export default function PageContent() {
   const [showDrawer, setShowDrawer] = useState(false);
   const activeSection = useScrollSpy(SECTION_IDS);
 
+  const openContact = useCallback(() => setShowContact(true), []);
+  const closeContact = useCallback(() => setShowContact(false), []);
+  const openDrawer = useCallback(() => setShowDrawer(true), []);
+  const closeDrawer = useCallback(() => setShowDrawer(false), []);
+
   const handleNavClick = useCallback((id: NavId) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       {/* Mobile top bar — visible below md */}
-      <TopBar onMenuClick={() => setShowDrawer(true)} />
+      <TopBar onMenuClick={openDrawer} />
 
       {/* Mobile drawer */}
       <MobileDrawer
         isOpen={showDrawer}
-        onClose={() => setShowDrawer(false)}
+        onClose={closeDrawer}
         activeSection={activeSection}
         onNavClick={handleNavClick}
       />
@@ -50,12 +56,12 @@ export default function PageContent() {
       {/* Main content — top padding on mobile for the TopBar */}
       <main className="flex-1 min-h-screen pt-14 md:pt-0">
         <div id="home">
-          <HeroSection onWorkWithMeClick={() => setShowContact(true)} />
+          <HeroSection onWorkWithMeClick={openContact} />
         </div>
         <div id="projects">
           <ProjectsSection />
         </div>
-        <div id="trust">
+        <div>
           <TestimonialsSection />
         </div>
         <div id="skills">
@@ -63,12 +69,12 @@ export default function PageContent() {
         </div>
         <SectionConnector />
         <div id="about">
-          <AboutSection onWorkWithMeClick={() => setShowContact(true)} />
+          <AboutSection onWorkWithMeClick={openContact} />
         </div>
         <Footer />
       </main>
 
-      <ContactPanel isOpen={showContact} onClose={() => setShowContact(false)} />
-    </>
+      <ContactPanel isOpen={showContact} onClose={closeContact} />
+    </MotionConfig>
   );
 }

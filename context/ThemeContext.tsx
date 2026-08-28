@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { getColors, type ColorTokens } from "@/lib/theme";
+import { COLOR_TOKENS, type ColorTokens } from "@/lib/theme";
 
 type Theme = "light" | "dark";
 
@@ -54,5 +54,5 @@ export function useTheme(): ThemeContextValue {
 export function useColors(): ColorTokens & { isDark: boolean } {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  return { ...getColors(isDark), isDark };
+  return { ...COLOR_TOKENS, isDark };
 }

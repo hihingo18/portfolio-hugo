@@ -1,32 +1,48 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import TestimonialCard from "./TestimonialCard";
 import type { Testimonial } from "@/types";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
+import { REVEAL_DURATION, REVEAL_EASE, REVEAL_STAGGER, TESTIMONIAL_CARD_DURATION, TESTIMONIAL_PROOF_DELAY, TESTIMONIAL_PROOF_STAGGER } from "@/lib/motion";
 
-export default function TestimonialsSection() {
+function TestimonialsSection() {
   const { dict } = useLocale();
   const { isDark } = useColors();
   const t = dict.testimonials;
-  const gridRef = useRef<HTMLDivElement>(null);
-  const gridInView = useInView(gridRef, { once: true, margin: "-120px" });
-  const [activeCount, setActiveCount] = useState(0);
-
-  useEffect(() => {
-    if (gridInView) setActiveCount((prev) => Math.max(prev, 1));
-  }, [gridInView]);
-
   const TESTIMONIALS: Testimonial[] = useMemo(
-    () => [
-      { id: "jordan", ...t.items.jordan, image: "/images/testimonials/shout-out-cb-mcghee.png" },
-      { id: "mckeen", ...t.items.mckeen, image: "/images/testimonials/shout-out-cb-mckeen.png" },
-      { id: "john", ...t.items.john, image: "/images/testimonials/shout-out-cb-jt.png" },
-    ],
+    () => Object.entries(t.items).map(([id, item]) => ({ id, ...item })),
     [t.items]
   );
+  const proofGridRef = useRef<HTMLDivElement>(null);
+  const isProofGridInView = useInView(proofGridRef, { once: true, amount: 0.2 });
+  const [proofVisibility, setProofVisibility] = useState<boolean[]>(() =>
+    Array(TESTIMONIALS.length).fill(false)
+  );
+
+  useEffect(() => {
+    if (!isProofGridInView) return;
+
+    const timers = TESTIMONIALS.map((_, index) =>
+      window.setTimeout(() => {
+        setProofVisibility((visibility) =>
+          visibility.map((isVisible, currentIndex) => currentIndex === index ? true : isVisible)
+        );
+      }, (TESTIMONIAL_PROOF_DELAY + index * TESTIMONIAL_PROOF_STAGGER) * 1000)
+    );
+
+    return () => timers.forEach(window.clearTimeout);
+  }, [TESTIMONIALS, isProofGridInView]);
+
+  const handleProofVisibilityChange = useCallback((index: number, isVisible: boolean) => {
+    setProofVisibility((visibility) =>
+      visibility.map((currentVisibility, currentIndex) =>
+        currentIndex === index ? isVisible : currentVisibility
+      )
+    );
+  }, []);
 
   const sectionStyle = isDark
     ? { background: "#0f0f0f" }
@@ -37,16 +53,12 @@ export default function TestimonialsSection() {
 
   const highlightStyle = isDark
     ? {
-        background: "rgba(25,25,40,0.9)",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
+        background: "#191928",
         boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
       }
     : {
         background:
-          "linear-gradient(135deg, rgba(238,242,255,0.85), rgba(245,246,255,0.9))",
-        backdropFilter: "blur(8px)",
-        WebkitBackdropFilter: "blur(8px)",
+          "linear-gradient(135deg, rgba(238,242,255,0.96), rgba(245,246,255,0.98))",
         boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
       };
 
@@ -73,7 +85,7 @@ export default function TestimonialsSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: REVEAL_DURATION, ease: REVEAL_EASE }}
           className="flex flex-col items-center gap-2 text-center"
         >
           <h2 className="font-bold text-[32px] text-black dark:text-white">{t.sectionTitle}</h2>
@@ -87,7 +99,7 @@ export default function TestimonialsSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: REVEAL_DURATION, delay: REVEAL_STAGGER, ease: REVEAL_EASE }}
           className="max-w-200 mx-auto"
         >
           <div
@@ -112,21 +124,21 @@ export default function TestimonialsSection() {
       </div>
 
       {/* Cards grid */}
-      <div ref={gridRef} className="px-20 flex flex-wrap gap-5 justify-center items-start">
+      <div ref={proofGridRef} className="px-20 flex flex-wrap gap-5 justify-center items-start">
         {TESTIMONIALS.map((item, i) => (
           <motion.div
             key={item.id}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.15 }}
+            transition={{ duration: TESTIMONIAL_CARD_DURATION, ease: REVEAL_EASE }}
             className="flex min-w-65 max-w-80 flex-1"
           >
             <TestimonialCard
               testimonial={item}
               proofLabel={t.proofLabel}
-              reveal={i < activeCount}
-              onRevealComplete={() => setActiveCount((prev) => Math.max(prev, i + 2))}
+              showImage={proofVisibility[i] ?? false}
+              onShowImageChange={(isVisible) => handleProofVisibilityChange(i, isVisible)}
             />
           </motion.div>
         ))}
@@ -137,7 +149,7 @@ export default function TestimonialsSection() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        transition={{ duration: REVEAL_DURATION, delay: REVEAL_STAGGER * 2, ease: REVEAL_EASE }}
         className="relative z-10 mt-8 px-20 flex items-center justify-center gap-1.5 text-center text-xs italic text-gray-400 dark:text-gray-500"
       >
         <span aria-hidden className="not-italic">🛡️</span>
@@ -151,3 +163,5 @@ export default function TestimonialsSection() {
     </section>
   );
 }
+
+export default memo(TestimonialsSection);
