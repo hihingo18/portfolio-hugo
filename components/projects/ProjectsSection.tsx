@@ -1,14 +1,15 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import { StarIcon } from "@/components/icons/UIIcons";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
+import { REVEAL_DURATION, REVEAL_EASE, REVEAL_STAGGER } from "@/lib/motion";
 import type { Project } from "@/types";
 
-export default function ProjectsSection() {
+function ProjectsSection() {
   const { dict, locale } = useLocale();
   const colors = useColors();
   const p = dict.projects;
@@ -27,10 +28,10 @@ export default function ProjectsSection() {
       {/* Section heading */}
       <div className="px-20 pt-2.5 pb-0 bg-white dark:bg-[#0f0f0f]">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: REVEAL_DURATION, ease: REVEAL_EASE }}
           className="flex items-center gap-2 py-10"
         >
           <h2 className="font-bold text-[42px] text-black dark:text-white tracking-[-0.01em]">
@@ -47,10 +48,10 @@ export default function ProjectsSection() {
         {projects.map((project, i) => (
           <motion.div
             key={project.id}
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.55, delay: i * 0.13 }}
+            transition={{ duration: REVEAL_DURATION, delay: i * REVEAL_STAGGER, ease: REVEAL_EASE }}
             className="h-full"
           >
             <ProjectCard project={project} />
@@ -60,3 +61,5 @@ export default function ProjectsSection() {
     </section>
   );
 }
+
+export default memo(ProjectsSection);

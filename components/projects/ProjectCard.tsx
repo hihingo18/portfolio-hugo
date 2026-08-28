@@ -33,7 +33,7 @@ function ProjectCard({ project }: ProjectCardProps) {
           fill
           className={cn(
             "object-contain transition-transform duration-500 ease-out",
-            hovered ? "scale-95" : "scale-100"
+            hovered ? "scale-[1.02]" : "scale-100"
           )}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
@@ -61,8 +61,11 @@ function ProjectCard({ project }: ProjectCardProps) {
         </p>
 
         <div className="mt-auto pt-6">
-          <span className="inline-block px-4 py-2 text-sm font-light border border-black/40 dark:border-white/40 text-black dark:text-white">
-            View Case Study →
+          <span className="inline-flex items-center gap-1 px-4 py-2 text-sm font-light border border-black/40 dark:border-white/40 text-black dark:text-white">
+            View Case Study
+            <span className={cn("transition-transform duration-300 ease-out", hovered && "translate-x-1")} aria-hidden>
+              →
+            </span>
           </span>
         </div>
       </div>
@@ -75,8 +78,10 @@ function ProjectCard({ project }: ProjectCardProps) {
         href={href}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
         aria-label={`View ${project.name} case study`}
-        className={className}
+        className={cn(className, "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#020073] dark:focus-visible:outline-[#6b9fff]")}
         style={{ background: isDark ? "#1a1a1a" : project.cardBg }}
       >
         {content}

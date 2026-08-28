@@ -1,8 +1,10 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { useLocale } from "@/context/LocaleContext";
 import { useColors } from "@/context/ThemeContext";
+import { REVEAL_DURATION, REVEAL_EASE, REVEAL_STAGGER } from "@/lib/motion";
 
 const accentColor = "#5ba4cf";
 
@@ -63,7 +65,7 @@ const ICONS = {
   domain: DomainIcon,
 } as const;
 
-export default function SkillsSection() {
+function SkillsSection() {
   const { dict } = useLocale();
   const colors = useColors();
   const s = dict.skills;
@@ -100,7 +102,7 @@ export default function SkillsSection() {
         initial={{ opacity: 0, y: -16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: REVEAL_DURATION, ease: REVEAL_EASE }}
         className="flex flex-col items-center gap-5 mb-16"
       >
         <div className="flex items-center gap-3">
@@ -133,11 +135,11 @@ export default function SkillsSection() {
             return (
               <motion.div
                 key={col.key}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: colIdx * 0.1 }}
+                transition={{ duration: REVEAL_DURATION, delay: colIdx * REVEAL_STAGGER, ease: REVEAL_EASE }}
                 className="relative flex flex-col p-6 rounded-2xl overflow-hidden"
                 style={{
                   backgroundColor: col.isHighlighted ? highlightBg : defaultCardBg,
@@ -178,13 +180,9 @@ export default function SkillsSection() {
 
                 {/* Pill tags */}
                 <div className="flex flex-wrap gap-1.5 mt-auto">
-                  {col.items.map((skill, skillIdx) => (
-                    <motion.span
+                  {col.items.map((skill) => (
+                    <span
                       key={skill}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.25, delay: colIdx * 0.06 + skillIdx * 0.04 }}
                       className="text-xs px-2.5 py-1 rounded-full"
                       style={{
                         border: `1px solid ${col.isHighlighted ? "rgba(91,164,207,0.35)" : colors.borderBase}`,
@@ -195,7 +193,7 @@ export default function SkillsSection() {
                       }}
                     >
                       {skill}
-                    </motion.span>
+                    </span>
                   ))}
                 </div>
               </motion.div>
@@ -208,7 +206,7 @@ export default function SkillsSection() {
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: REVEAL_DURATION, delay: REVEAL_STAGGER, ease: REVEAL_EASE }}
           className="mt-8 pt-8 flex flex-col sm:flex-row gap-4 sm:gap-10"
           style={{ borderTop: "1px solid rgba(150,150,150,0.12)" }}
         >
@@ -219,18 +217,14 @@ export default function SkillsSection() {
             {s.themes.label}
           </span>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {s.themes.items.map((theme, i) => (
-              <motion.span
+            {s.themes.items.map((theme) => (
+              <span
                 key={theme}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.25, delay: i * 0.05 }}
                 className="text-sm"
                 style={{ color: bodyText }}
               >
                 {theme}
-              </motion.span>
+              </span>
             ))}
           </div>
         </motion.div>
@@ -239,3 +233,5 @@ export default function SkillsSection() {
     </section>
   );
 }
+
+export default memo(SkillsSection);

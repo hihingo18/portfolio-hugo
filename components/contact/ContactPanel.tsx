@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { memo, useState, FormEvent } from "react";
 import { ArrowLeftIcon } from "@/components/icons/UIIcons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ interface ContactPanelProps {
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
-export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
+function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
   const { dict } = useLocale();
   const colors = useColors();
   const c = dict.contact;
@@ -96,9 +96,8 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
 
       {/* Slide-in panel */}
       <div
-        className="fixed top-0 h-screen w-full md:w-[min(520px,100vw)] lg:w-182 z-50 flex flex-col gap-8 lg:gap-15 pt-5 pb-10 overflow-y-auto transition-[right] duration-500"
+        className={`fixed top-0 right-0 h-screen w-full md:w-[min(520px,100vw)] lg:w-182 z-50 flex flex-col gap-8 lg:gap-15 pt-5 pb-10 overflow-y-auto transition-transform duration-300 will-change-transform ${isOpen ? "translate-x-0" : "translate-x-[110%]"}`}
         style={{
-          right: isOpen ? "0px" : "-110%",
           backgroundColor: colors.bgPanel,
           boxShadow: "-4px 0 40px rgba(0,0,0,0.10)",
         }}
@@ -228,3 +227,5 @@ export default function ContactPanel({ isOpen, onClose }: ContactPanelProps) {
     </>
   );
 }
+
+export default memo(ContactPanel);

@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { MenuIcon, SunIcon, MoonIcon } from "@/components/icons/UIIcons";
 import { useTheme, useColors } from "@/context/ThemeContext";
 
@@ -7,7 +8,7 @@ interface TopBarProps {
   onMenuClick: () => void;
 }
 
-export default function TopBar({ onMenuClick }: TopBarProps) {
+function TopBar({ onMenuClick }: TopBarProps) {
   const { toggle } = useTheme();
   const colors = useColors();
 
@@ -43,3 +44,5 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
     </header>
   );
 }
+
+export default memo(TopBar);
